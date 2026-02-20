@@ -19,8 +19,8 @@ sudo apt upgrade -y
 ## Step 3: Install Node.js and npm
 
 ```bash
-# Install Node.js 18.x
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+# Install Node.js 20.x (LTS)
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt install -y nodejs
 
 # Verify installation
