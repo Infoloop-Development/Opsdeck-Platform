@@ -1,61 +1,44 @@
-# Opsdeck Platform
+# OpsDeck Landing Page
 
-A simple React.js application displaying server status.
+Landing page for OpsDeck - A complete all-in-one SaaS platform for task management, project tracking, and client relationship management. Streamline your workflow with powerful automation, real-time collaboration, and intuitive project visibility tools.
 
-## Installation
+## Live Website
 
-```bash
-npm install
-```
+https://opsdeck.app
 
-## Development
+## Key Features
 
-```bash
-npm run dev
-```
+### Task Management
+- Create tasks & sub-tasks
+- Assign owners & deadlines
+- Track status & completion
+- Set priorities in seconds
+- Get notified on updates
+- Collaborate in real-time
 
-## Build
+### Project Management
+- Project timelines & milestones
+- Role-based access visibility
+- Team coordination updates
+- Dependencies & workflow
+- Progress tracking & reporting
+- Delivery & deadline control
 
-```bash
-npm run build
-```
+### Client Management
+- Complete CRM capabilities integrated with task workflows
+- Client relationship tracking
+- Project visibility and updates
 
-## Preview
+## About
 
-```bash
-npm run preview
-```
+OpsDeck is a cloud-based task and workflow management platform that brings tasks, timelines, and notifications into one place, so your day glides smoothly.
 
-## Deployment to VPS
+Operated by Infoloop Technologies LLP
 
-### Quick Deploy (Automated)
+## Technology
 
-```bash
-./deploy-to-vps.sh user@your-vps-ip
-```
+This is a static landing page built with HTML, CSS, and JavaScript.
 
-### Manual Deploy
+---
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
-
-**For Ubuntu VPS:** See [UBUNTU-SETUP.md](./UBUNTU-SETUP.md) for step-by-step Ubuntu setup guide.
-
-**Quick steps:**
-1. Build: `npm run build`
-2. Copy `dist` folder to VPS
-3. Configure Nginx or use Node.js server
-
-### Node.js Server (Alternative)
-
-```bash
-npm install
-npm run build
-npm start
-```
-
-For production, use PM2:
-```bash
-pm2 start server.js --name opsdeck-platform
-pm2 save
-pm2 startup
-```
+Developed with Heat by Infoloop Technologies
