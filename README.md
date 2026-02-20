@@ -38,6 +38,8 @@ npm run preview
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
 
+**For Ubuntu VPS:** See [UBUNTU-SETUP.md](./UBUNTU-SETUP.md) for step-by-step Ubuntu setup guide.
+
 **Quick steps:**
 1. Build: `npm run build`
 2. Copy `dist` folder to VPS
