@@ -8,6 +8,7 @@ set -e
 PLATFORM_REPO="https://github.com/Infoloop-Development/Opsdeck-Platform.git"
 BASE_DIR="/var/www"
 DOMAIN="${1:-yourdomain.com}"
+ORIGINAL_DIR=$(pwd)
 
 echo "🚀 Starting VPS deployment..."
 
@@ -25,6 +26,9 @@ deploy_branch() {
     
     echo ""
     echo "📦 Deploying $BRANCH to $TARGET_DIR..."
+    
+    # Ensure we're in a safe directory
+    cd /tmp
     
     # Clone repo
     git clone "$PLATFORM_REPO" "$TEMP_DIR" --depth 1 --branch "$BRANCH"
@@ -109,7 +113,8 @@ deploy_branch() {
     sudo chown -R www-data:www-data "$TARGET_DIR"
     sudo chmod -R 755 "$TARGET_DIR"
     
-    # Cleanup
+    # Cleanup - go back to safe directory first
+    cd /tmp
     rm -rf "$TEMP_DIR"
     
     echo "   ✅ $BRANCH deployed successfully!"
