@@ -9,7 +9,7 @@ export default function HomePage() {
       fontWeight: "bold",
       backgroundColor: "#f0f0f0"
     }}>
-      Admin
+      User
     </div>
   )
 }
