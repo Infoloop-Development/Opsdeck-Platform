@@ -13,13 +13,19 @@ sudo apt update && sudo apt upgrade -y
 
 # Install required packages
 echo "📦 Installing required packages..."
-sudo apt install -y nginx git nodejs npm curl
+sudo apt install -y nginx git curl build-essential
 
-# Install Node.js 18+ if needed
-if ! command -v node &> /dev/null || [ "$(node -v | cut -d'v' -f2 | cut -d'.' -f1)" -lt 18 ]; then
-    echo "📦 Installing Node.js 18..."
-    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+# Install Node.js 20 (required for Next.js 14 and React 19)
+if ! command -v node &> /dev/null || [ "$(node -v | cut -d'v' -f2 | cut -d'.' -f1)" -lt 20 ]; then
+    echo "📦 Installing Node.js 20..."
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
     sudo apt install -y nodejs
+fi
+
+# Install PM2 for process management (for Next.js server mode if needed)
+if ! command -v pm2 &> /dev/null; then
+    echo "📦 Installing PM2..."
+    sudo npm install -g pm2
 fi
 
 # Create web directories

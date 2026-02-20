@@ -24,7 +24,7 @@ git clone "$LANDING_REPO" "$TEMP_DIR/landing" --depth 1
 
 # Clone platform repo
 echo "📥 Cloning platform repo..."
-git clone "$PLATFORM_REPO" "$TEMP_DIR/platform" --depth 1
+git clone "$PLATFORM_REPO" "$TEMP_DIR/platform"
 
 cd "$TEMP_DIR/platform"
 
@@ -32,9 +32,11 @@ cd "$TEMP_DIR/platform"
 echo "🌿 Setting up production-landing branch..."
 if git ls-remote --heads origin "$BRANCH_NAME" | grep -q "$BRANCH_NAME"; then
     echo "   Branch exists, checking out..."
-    git checkout "$BRANCH_NAME"
+    git fetch origin "$BRANCH_NAME"
+    git checkout -b "$BRANCH_NAME" "origin/$BRANCH_NAME" 2>/dev/null || git checkout "$BRANCH_NAME"
 else
-    echo "   Branch doesn't exist, creating..."
+    echo "   Branch doesn't exist, creating from main..."
+    git checkout main
     git checkout -b "$BRANCH_NAME"
 fi
 
