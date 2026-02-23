@@ -44,11 +44,18 @@ deploy_branch() {
         if [ -f "next.config.js" ] || [ -f "next.config.ts" ] || [ -f "next.config.mjs" ]; then
             echo "   🔨 Building Next.js app..."
             
-            # Check for .env files and copy them if they exist on VPS
-            if [ -f "$TARGET_DIR/.env.local" ] || [ -f "$TARGET_DIR/.env.production" ]; then
-                echo "   📋 Copying environment variables..."
-                [ -f "$TARGET_DIR/.env.local" ] && cp "$TARGET_DIR/.env.local" .env.local || true
-                [ -f "$TARGET_DIR/.env.production" ] && cp "$TARGET_DIR/.env.production" .env.production || true
+            # Check for .env files and copy them if they exist on VPS (check multiple locations)
+            if [ -f "$TARGET_DIR/.env" ]; then
+                echo "   📋 Copying .env file..."
+                cp "$TARGET_DIR/.env" .env
+            fi
+            if [ -f "$TARGET_DIR/.env.local" ]; then
+                echo "   📋 Copying .env.local file..."
+                cp "$TARGET_DIR/.env.local" .env.local
+            fi
+            if [ -f "$TARGET_DIR/.env.production" ]; then
+                echo "   📋 Copying .env.production file..."
+                cp "$TARGET_DIR/.env.production" .env.production
             fi
             
             npm run build
