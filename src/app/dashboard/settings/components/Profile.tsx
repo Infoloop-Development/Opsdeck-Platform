@@ -13,7 +13,7 @@ import {
   Autocomplete,
   CircularProgress,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import Link from 'next/link';
 import { selectCurrentUser, selectUsers } from '@/redux/selectors';
 import { useSelector } from 'react-redux';

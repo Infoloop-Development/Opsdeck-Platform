@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ObjectId } from 'mongodb';
+import { ObjectId } from 'bson';
 import clientPromise from '../../lib/mongodb';
 import { DATABASE_NAME } from '../../config';
 import { verifyToken } from '../../helpers';
