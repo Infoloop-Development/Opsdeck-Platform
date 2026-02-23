@@ -45,10 +45,26 @@ deploy_branch() {
             echo "   🔨 Building Next.js app..."
             
             # Check for .env files and copy them if they exist on VPS
-            if [ -f "$TARGET_DIR/.env.local" ] || [ -f "$TARGET_DIR/.env.production" ]; then
-                echo "   📋 Copying environment variables..."
-                [ -f "$TARGET_DIR/.env.local" ] && cp "$TARGET_DIR/.env.local" .env.local || true
-                [ -f "$TARGET_DIR/.env.production" ] && cp "$TARGET_DIR/.env.production" .env.production || true
+            if [ -f "$TARGET_DIR/.env.local" ]; then
+                echo "   📋 Copying .env.local..."
+                cp "$TARGET_DIR/.env.local" .env.local
+            fi
+            if [ -f "$TARGET_DIR/.env.production" ]; then
+                echo "   📋 Copying .env.production..."
+                cp "$TARGET_DIR/.env.production" .env.production
+            fi
+            if [ -f "$TARGET_DIR/.env" ]; then
+                echo "   📋 Copying .env..."
+                cp "$TARGET_DIR/.env" .env
+            fi
+            
+            # Check if .env file exists, if not create a minimal one
+            if [ ! -f ".env" ] && [ ! -f ".env.production" ] && [ ! -f ".env.local" ]; then
+                echo "   ⚠️  No .env file found. Creating minimal .env for build..."
+                echo "MONGODB_URI=mongodb://localhost:27017/opsdeck" > .env
+                echo "JWT_SECRET=temp-secret-change-in-production" >> .env
+                echo "NODE_ENV=production" >> .env
+                echo "   ⚠️  WARNING: Using temporary values. Update .env.production in $TARGET_DIR after deployment!"
             fi
             
             npm run build
