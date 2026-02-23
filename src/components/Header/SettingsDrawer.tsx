@@ -9,8 +9,9 @@ import {
   IconButton,
   useTheme,
   useColorScheme,
+  Box,
+  Stack,
 } from '@mui/material';
-import { Box, Stack } from '@mui/system';
 import {
   Brightness7Outlined,
   CloseOutlined,
