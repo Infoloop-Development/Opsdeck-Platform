@@ -246,7 +246,7 @@ export async function POST(request: Request) {
 
       case 'customer.subscription.created':
       case 'customer.subscription.updated': {
-        const subscription = event.data.object as any;
+        const subscription = event.data.object as Stripe.Subscription;
         
         // Upsert subscription info in 'subscriptions' collection
         await subscriptionsCollection.updateOne(
@@ -283,7 +283,7 @@ export async function POST(request: Request) {
       }
 
       case 'customer.subscription.deleted': {
-        const subscription = event.data.object as any;
+        const subscription = event.data.object as Stripe.Subscription;
 
         await subscriptionsCollection.updateOne(
             { stripe_subscription_id: subscription.id },

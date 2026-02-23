@@ -267,25 +267,46 @@ export function extractPublicId(url: string | null | undefined): string | null {
 }
 
 /**
+ * Allowed origins for CORS
+ */
+const ALLOWED_ORIGINS = process.env.NODE_ENV === 'production'
+  ? [
+    process.env.NEXT_PUBLIC_APP_URL,
+    // Add your production origins here
+  ].filter(Boolean) as string[]
+  : [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:5173',
+  ];
+
+/**
  * Add CORS headers to a NextResponse
  * @param response - The NextResponse to add headers to
  * @param origin - The origin from the request headers
  * @returns The response with CORS headers added
  */
-export function addCorsHeaders(response: NextResponse, origin: string | null): NextResponse {
-  // Always allow the origin to accept API calls from any endpoint
-  const allowOrigin = origin || '*';
+export function addCorsHeaders(
+  response: NextResponse,
+  origin: string | null
+): NextResponse {
+  // Check if origin is allowed
+  const isAllowedOrigin = origin && ALLOWED_ORIGINS.includes(origin);
 
-  response.headers.set('Access-Control-Allow-Origin', allowOrigin);
-  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  response.headers.set(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, x-org-slug, x-org-id'
-  );
+  // In development, allow all origins if not in the list
+  const allowOrigin = isAllowedOrigin
+    ? origin
+    : (process.env.NODE_ENV === 'development' ? '*' : null);
 
-  // Only set credentials if NOT using wildcard (browser security requirement)
-  if (allowOrigin !== '*') {
-    response.headers.set('Access-Control-Allow-Credentials', 'true');
+  if (allowOrigin) {
+    response.headers.set('Access-Control-Allow-Origin', allowOrigin);
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-org-slug, x-org-id');
+
+    // Only set credentials if NOT using wildcard (browser security requirement)
+    if (allowOrigin !== '*') {
+      response.headers.set('Access-Control-Allow-Credentials', 'true');
+    }
   }
 
   return response;
