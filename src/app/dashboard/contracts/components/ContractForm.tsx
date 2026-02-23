@@ -68,10 +68,10 @@ const ContractForm: React.FC<ContractFormProps> = ({ open, onClose, onSave, init
   const isValidDateFormat = (dateString: string): boolean => {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(dateString)) return false;
-    
+
     const [year, month, day] = dateString.split('-').map(Number);
     const date = new Date(year, month - 1, day);
-    
+
     // Check if date is valid (handles invalid dates like Feb 30)
     return (
       date.getFullYear() === year &&
@@ -82,7 +82,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ open, onClose, onSave, init
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
+
     // Validate end date - must be a future date
     if (name === 'endDate') {
       // ALWAYS update the form state first to prevent date/month from disappearing
@@ -109,11 +109,11 @@ const ContractForm: React.FC<ContractFormProps> = ({ open, onClose, onSave, init
         const [year, month, day] = value.split('-').map(Number);
         const selectedDate = new Date(year, month - 1, day);
         const today = new Date();
-        
+
         // Normalize both dates to start of day for accurate comparison
         today.setHours(0, 0, 0, 0);
         selectedDate.setHours(0, 0, 0, 0);
-        
+
         if (selectedDate < today) {
           setEndDateError('End date cannot be in the past. Please select a future date.');
           setIsPastDate(true);

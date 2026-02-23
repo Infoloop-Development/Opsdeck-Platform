@@ -203,7 +203,7 @@ export async function PATCH(request: Request) {
     const ticketsCollection = db.collection('supportTickets');
 
     // Verify ticket exists
-    const existingTicket = await ticketsCollection.findOne({ 
+    const existingTicket = await ticketsCollection.findOne({
       _id: new ObjectId(ticketId)
     });
     if (!existingTicket) {
@@ -254,14 +254,14 @@ export async function DELETE(request: Request) {
     const ticketsCollection = db.collection('supportTickets');
 
     // Verify ticket exists
-    const existingTicket = await ticketsCollection.findOne({ 
+    const existingTicket = await ticketsCollection.findOne({
       _id: new ObjectId(ticketId)
     });
     if (!existingTicket) {
       return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
     }
 
-    const result = await ticketsCollection.deleteOne({ 
+    const result = await ticketsCollection.deleteOne({
       _id: new ObjectId(ticketId)
     });
 

@@ -8,18 +8,18 @@ export function extractMentionsFromHTML(htmlContent: string): string[] {
   if (!htmlContent) return [];
 
   const mentionIds: string[] = [];
-  
+
   // Use regex to find all mention spans with data-mention-id
   const mentionRegex = /<span[^>]*class="[^"]*mention[^"]*"[^>]*data-mention-id="([^"]+)"[^>]*>/gi;
   let match;
-  
+
   while ((match = mentionRegex.exec(htmlContent)) !== null) {
     const mentionId = match[1];
     if (mentionId && !mentionIds.includes(mentionId)) {
       mentionIds.push(mentionId);
     }
   }
-  
+
   return mentionIds;
 }
 

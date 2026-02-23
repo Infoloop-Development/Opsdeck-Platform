@@ -41,7 +41,7 @@ export async function GET(request: Request) {
       const userObjectId = new ObjectId(userId);
       query.assignee = userObjectId;
     }
-    
+
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
@@ -188,7 +188,7 @@ export async function POST(request: Request) {
     // Send notifications to assigned users (excluding the creator/admin)
     if (assigneeIds.length > 0) {
       const usersCollection = db.collection('users');
-      
+
       // Get admin info for notification message
       const admin = await usersCollection.findOne({ _id: new ObjectId(decoded.id) });
       const adminName = admin

@@ -217,8 +217,8 @@ const ClientManagement: React.FC = () => {
 
     return (
       <>
-        <IconButton 
-          onClick={(e) => handleOpenMoreMenu(e, String(clientId))} 
+        <IconButton
+          onClick={(e) => handleOpenMoreMenu(e, String(clientId))}
           size="small"
           sx={{ color: 'text.secondary' }}
         >
@@ -232,7 +232,7 @@ const ClientManagement: React.FC = () => {
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           onClick={(e) => e.stopPropagation()}
         >
-          <MenuItem 
+          <MenuItem
             onClick={(e) => {
               e.stopPropagation();
               handleOpenEditModal(item);
@@ -243,7 +243,7 @@ const ClientManagement: React.FC = () => {
             </ListItemIcon>
             <ListItemText>Edit</ListItemText>
           </MenuItem>
-          <MenuItem 
+          <MenuItem
             onClick={(e) => {
               e.stopPropagation();
               handleOpenDeleteModal(item);

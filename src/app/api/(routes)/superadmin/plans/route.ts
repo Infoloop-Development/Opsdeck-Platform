@@ -110,32 +110,34 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    let {
+    const {
       plan_name,
       description,
-      plan_type = [],
-      trial_type = [],
       price = {},
-      billing_period = [],
       users_allowed,
       organizations_allowed,
       best_for = '',
-      access_level = [],
-      features = [],
       mark_as_popular = false,
       status = 'active',
       type = 'normal', // 'normal' | 'add-on'
     } = body;
+    let {
+      plan_type = [],
+      trial_type = [],
+      billing_period = [],
+      access_level = [],
+      features = [],
+    } = body;
 
     // Normalize potential string inputs to arrays
     if (typeof plan_type === 'string') plan_type = [plan_type];
-    
+
     if (type === 'add-on') {
         trial_type = [];
     } else {
         if (typeof trial_type === 'string') trial_type = [trial_type];
     }
-    
+
     // Handle 'both' or string conversion for billing_period
     if (typeof billing_period === 'string') {
         if (billing_period === 'both') {
@@ -280,7 +282,7 @@ export async function POST(request: Request) {
 
       } catch (stripeError: any) {
         console.error('Error creating Stripe product/prices:', stripeError);
-        // Option: return error and abort plan creation? 
+        // Option: return error and abort plan creation?
         // For now, valid to return error so manual clean up isn't needed.
         return NextResponse.json(
           { message: `Failed to create Stripe resources: ${stripeError.message}` },

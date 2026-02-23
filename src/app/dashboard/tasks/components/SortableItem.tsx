@@ -103,13 +103,13 @@ export const SortableItem: React.FC<SortableItemProps> = ({
     try {
       const today = new Date();
       const date = new Date(dueDate);
-      
+
       if (isNaN(date.getTime())) return false;
-      
+
       // Normalize both dates to start of day for accurate comparison
       today.setHours(0, 0, 0, 0);
       date.setHours(0, 0, 0, 0);
-      
+
       return (
         today.getFullYear() === date.getFullYear() &&
         today.getMonth() === date.getMonth() &&
@@ -196,7 +196,7 @@ export const SortableItem: React.FC<SortableItemProps> = ({
   // Check if task is completed
   const taskStatus = (task?.status || '').toLowerCase();
   const isCompleted = taskStatus.includes('done') || taskStatus.includes('completed');
-  
+
   // Check if task is due today and not completed
   const taskDueToday = !isCompleted && task?.dueDate && isDueToday(task.dueDate);
 

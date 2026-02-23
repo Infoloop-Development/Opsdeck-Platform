@@ -1,6 +1,6 @@
 /**
  * Database Migration Utilities
- * 
+ *
  * This file contains functions for managing database migrations,
  * including adding org_id to all collections and creating indexes.
  */

@@ -1,6 +1,6 @@
 /**
  * Organizations Collection Utilities
- * 
+ *
  * This file contains helper functions for managing the organizations collection
  * and ensuring indexes are properly set up.
  */

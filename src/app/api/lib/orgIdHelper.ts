@@ -1,6 +1,6 @@
 /**
  * Organization ID Helper Functions
- * 
+ *
  * Utility functions for working with org_id across the application.
  * These functions help ensure org_id is properly handled in queries.
  */

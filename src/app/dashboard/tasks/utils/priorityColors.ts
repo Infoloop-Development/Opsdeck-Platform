@@ -45,7 +45,7 @@ export const PRIORITY_OPTIONS: PriorityValue[] = ['Low', 'Medium', 'High'];
  */
 export const getCustomPriorityNames = (projectId?: string): Partial<Record<PriorityValue, string>> => {
   if (typeof window === 'undefined') return {};
-  
+
   try {
     const storageKey = projectId ? `priorityCustomNames_${projectId}` : 'priorityCustomNames';
     const saved = localStorage.getItem(storageKey);
@@ -55,7 +55,7 @@ export const getCustomPriorityNames = (projectId?: string): Partial<Record<Prior
   } catch (e) {
     console.error('Error loading custom priority names:', e);
   }
-  
+
   return {};
 };
 
@@ -73,7 +73,7 @@ export const getPriorityDisplayName = (priority: string, projectId?: string): st
  */
 export const getPriorityFieldTitle = (projectId?: string): string => {
   if (typeof window === 'undefined') return 'Priority';
-  
+
   try {
     const storageKey = projectId ? `priorityFieldTitle_${projectId}` : 'priorityFieldTitle';
     const saved = localStorage.getItem(storageKey);

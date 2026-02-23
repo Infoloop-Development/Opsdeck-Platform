@@ -74,8 +74,8 @@ const Feedback = () => {
                 <SupportAgent
                   sx={{
                     fontSize: 80,
-                    color: (theme) => theme.palette.mode === 'dark' 
-                      ? theme.palette.text.secondary 
+                    color: (theme) => theme.palette.mode === 'dark'
+                      ? theme.palette.text.secondary
                       : theme.palette.grey[400],
                     mb: 2,
                   }}

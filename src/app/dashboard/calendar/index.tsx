@@ -67,13 +67,13 @@ const isDueToday = (date?: Date): boolean => {
   try {
     const today = new Date();
     const dueDate = new Date(date);
-    
+
     if (isNaN(dueDate.getTime())) return false;
-    
+
     // Normalize both dates to start of day for accurate comparison
     today.setHours(0, 0, 0, 0);
     dueDate.setHours(0, 0, 0, 0);
-    
+
     return (
       today.getFullYear() === dueDate.getFullYear() &&
       today.getMonth() === dueDate.getMonth() &&
@@ -178,7 +178,7 @@ const Calendar = () => {
         const calendarEvents: CalendarEvent[] = response.data.events.map((event: any) => {
           const startDate = new Date(event.startDate || event.start);
           const endDate = event.endDate ? new Date(event.endDate) : new Date(event.end || startDate);
-          
+
           // Ensure all-day events span the full day
           if (event.allDay !== false) {
             startDate.setHours(0, 0, 0, 0);
@@ -408,7 +408,7 @@ const Calendar = () => {
     if (event.eventType === 'task') {
       const priorityColor = getPriorityColor(event.priority || 'Medium');
       const statusColor = getStatusColor(event.status || 'Todo');
-      
+
       // Check if task is due today and not completed
       const taskDueToday = isDueToday(event.start);
       const isCompleted = isTaskCompleted(event.status);
@@ -476,8 +476,8 @@ const Calendar = () => {
       const defaultStatus = statusOptions.length > 0 ? statusOptions[0].value : 'Todo';
 
       // Ensure projectId is a string
-      const defaultProjectId = projects.length > 0 
-        ? String(projects[0].id || '') 
+      const defaultProjectId = projects.length > 0
+        ? String(projects[0].id || '')
         : '';
 
       return {

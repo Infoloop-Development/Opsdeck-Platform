@@ -37,10 +37,10 @@ export default function InvoiceDialog({
   const isValidDateFormat = (dateString: string): boolean => {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(dateString)) return false;
-    
+
     const [year, month, day] = dateString.split('-').map(Number);
     const date = new Date(year, month - 1, day);
-    
+
     // Check if date is valid (handles invalid dates like Feb 30)
     return (
       date.getFullYear() === year &&
@@ -51,7 +51,7 @@ export default function InvoiceDialog({
 
   const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    
+
     // Special handling for amount field
     if (name === 'amount') {
       // Parse the number value, default to 0 if empty or invalid
@@ -82,11 +82,11 @@ export default function InvoiceDialog({
         const [year, month, day] = value.split('-').map(Number);
         const selectedDate = new Date(year, month - 1, day);
         const today = new Date();
-        
+
         // Normalize both dates to start of day for accurate comparison
         today.setHours(0, 0, 0, 0);
         selectedDate.setHours(0, 0, 0, 0);
-        
+
         if (selectedDate < today) {
           setDueDateError('Due date cannot be in the past. Please select a future date.');
           setIsPastDate(true);
@@ -297,10 +297,10 @@ export default function InvoiceDialog({
         <Button onClick={handleCloseDialog} disabled={saving}>
           Cancel
         </Button>
-        <Button 
-          onClick={handleSaveInvoice} 
-          color="primary" 
-          variant="contained" 
+        <Button
+          onClick={handleSaveInvoice}
+          color="primary"
+          variant="contained"
           disabled={saving || isPastDate}
         >
           {saving ? 'Saving...' : 'Save'}

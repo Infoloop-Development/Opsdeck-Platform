@@ -20,9 +20,9 @@ export async function GET(request: Request) {
 
     // Get total counts
     const totalOrganizations = await organizationsCollection.countDocuments({ deletedAt: null });
-    const activeOrganizations = await organizationsCollection.countDocuments({ 
-      deletedAt: null, 
-      status: 'active' 
+    const activeOrganizations = await organizationsCollection.countDocuments({
+      deletedAt: null,
+      status: 'active'
     });
     const totalUsers = await usersCollection.countDocuments({});
     const totalProjects = await projectsCollection.countDocuments({});
@@ -72,6 +72,5 @@ export async function GET(request: Request) {
     );
   }
 }
-
 
 

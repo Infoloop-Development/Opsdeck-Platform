@@ -51,11 +51,11 @@ const EditPriorityOptionsDialog: React.FC<EditPriorityOptionsDialogProps> = ({
       const priorityCustomNamesKey = projectId ? `priorityCustomNames_${projectId}` : 'priorityCustomNames';
       const fieldTitleKey = projectId ? `priorityFieldTitle_${projectId}` : 'priorityFieldTitle';
       const descriptionKey = projectId ? `priorityFieldDescription_${projectId}` : 'priorityFieldDescription';
-      
+
       const savedOptions = localStorage.getItem(priorityCustomNamesKey);
       const savedFieldTitle = localStorage.getItem(fieldTitleKey);
       const savedDescription = localStorage.getItem(descriptionKey);
-      
+
       if (savedFieldTitle) {
         setFieldTitle(savedFieldTitle);
       }
@@ -88,7 +88,7 @@ const EditPriorityOptionsDialog: React.FC<EditPriorityOptionsDialogProps> = ({
       } else {
         setOptions(defaultOptions);
       }
-      
+
       // Reset new option field state
       setShowNewOptionField(false);
       setNewOptionName('');
@@ -176,11 +176,11 @@ const EditPriorityOptionsDialog: React.FC<EditPriorityOptionsDialogProps> = ({
     const priorityCustomNamesKey = projectId ? `priorityCustomNames_${projectId}` : 'priorityCustomNames';
     const fieldTitleKey = projectId ? `priorityFieldTitle_${projectId}` : 'priorityFieldTitle';
     const descriptionKey = projectId ? `priorityFieldDescription_${projectId}` : 'priorityFieldDescription';
-    
+
     localStorage.setItem(priorityCustomNamesKey, JSON.stringify(optionsRecord));
     localStorage.setItem(fieldTitleKey, fieldTitle);
     localStorage.setItem(descriptionKey, description);
-    
+
     onSave(optionsRecord, fieldTitle, description);
     // Dispatch event to notify other components
     if (typeof window !== 'undefined') {
@@ -194,17 +194,17 @@ const EditPriorityOptionsDialog: React.FC<EditPriorityOptionsDialogProps> = ({
     const priorityCustomNamesKey = projectId ? `priorityCustomNames_${projectId}` : 'priorityCustomNames';
     const fieldTitleKey = projectId ? `priorityFieldTitle_${projectId}` : 'priorityFieldTitle';
     const descriptionKey = projectId ? `priorityFieldDescription_${projectId}` : 'priorityFieldDescription';
-    
+
     const savedOptions = localStorage.getItem(priorityCustomNamesKey);
     const savedFieldTitle = localStorage.getItem(fieldTitleKey);
     const savedDescription = localStorage.getItem(descriptionKey);
-    
+
     if (savedFieldTitle) {
       setFieldTitle(savedFieldTitle);
     } else {
       setFieldTitle('Priority');
     }
-    
+
     if (savedDescription) {
       setDescription(savedDescription);
     } else {
@@ -337,7 +337,7 @@ const EditPriorityOptionsDialog: React.FC<EditPriorityOptionsDialogProps> = ({
                   </IconButton>
                 </Box>
               ))}
-              
+
               {/* Add new option input - only show when user clicks "+ Add an option" */}
               {showNewOptionField && (
                 <Box
@@ -397,7 +397,7 @@ const EditPriorityOptionsDialog: React.FC<EditPriorityOptionsDialogProps> = ({
                 </Box>
               )}
             </Stack>
-            
+
             {!showNewOptionField && (
               <Button
                 onClick={handleShowNewOptionField}

@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 /**
  * Sends an email using Nodemailer with Gmail SMTP configuration
- * 
+ *
  * @param to - The recipient's email address
  * @param subject - The subject of the email
  * @param html - The HTML content of the email

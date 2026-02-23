@@ -216,22 +216,22 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
         // Import react-quill to get access to Quill
         const ReactQuillModule = await import('react-quill');
         const ReactQuillDefault = ReactQuillModule.default;
-        
+
         // Access Quill from react-quill
         const Quill = (ReactQuillDefault as any).Quill || (ReactQuillModule as any).Quill;
-        
+
         if (!Quill) {
           setIsQuillReady(true);
           return;
         }
-        
+
         // Check if already registered
         if (Quill.imports && Quill.imports['blots/mention']) {
           (window as any).__quillMentionRegistered = true;
           setIsQuillReady(true);
           return;
         }
-        
+
         // Custom Mention Blot
         const Mention = (Quill as any).import('blots/inline');
 
@@ -336,7 +336,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
     const quill = quillRef.current.getEditor();
     if (!quill) return;
-    
+
     const editorEl = quill.root;
     if (!editorEl) return;
 
@@ -356,19 +356,19 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
         if (lastAtIndex !== -1) {
           const textAfterAt = textBeforeCursor.substring(lastAtIndex + 1);
-          
+
           // Simple check: if there's no space, newline after @
           if (!textAfterAt.includes(' ') && !textAfterAt.includes('\n') && textAfterAt.length < 50) {
             // Check if we're inside an existing mention by checking the HTML
             // Get the HTML content up to the cursor position
             const htmlContent = quill.root.innerHTML;
             const textUpToCursor = textBeforeCursor;
-            
+
             // Find the position in HTML that corresponds to our text position
             // Simple approach: check if there's a mention tag before the @ symbol
             const htmlBeforeAt = htmlContent.substring(0, htmlContent.indexOf('@') !== -1 ? htmlContent.lastIndexOf('@', htmlContent.indexOf(textUpToCursor)) : 0);
             const isInMention = htmlBeforeAt.includes('data-mention-id') && !htmlBeforeAt.endsWith('>');
-            
+
             if (!isInMention) {
               console.log('✅ Mention detected:', textAfterAt, 'Users available:', users.length);
               setMentionSearch(textAfterAt);
@@ -427,7 +427,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
     // Use Quill's text-change event which is more reliable
     quill.on('text-change', checkForMention);
     quill.on('selection-change', checkForMention);
-    
+
     return () => {
       quill.off('text-change', checkForMention);
       quill.off('selection-change', checkForMention);
@@ -528,7 +528,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   const filteredUsers = useMemo(() => {
     // When just typing @ (no search), show first 20 organization users
     if (!mentionSearch) return users.slice(0, 20);
-    
+
     // When typing letters after @, filter and suggest users
     const search = mentionSearch.toLowerCase();
     return users
@@ -801,8 +801,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
             ))
           ) : (
             <ListItem>
-              <ListItemText 
-                primary={users.length === 0 ? 'No organization users found' : `No users match "${mentionSearch}"`} 
+              <ListItemText
+                primary={users.length === 0 ? 'No organization users found' : `No users match "${mentionSearch}"`}
               />
             </ListItem>
           )}

@@ -74,7 +74,7 @@ export default function Layout({ children }: LayoutProps) {
   // Memoize user routes to prevent recalculation on every render
   const userRoutes = useMemo(() => {
     if (!userInfo?.role) return null;
-    
+
     return {
       Admin: adminItems.map((item) => item.key),
       Regular: regularItems.map((item) => item.key),
@@ -134,10 +134,10 @@ export default function Layout({ children }: LayoutProps) {
             /^\d+$/.test(secondPart) || // Numeric ID
             /^[a-z0-9-]+$/i.test(secondPart) // Alphanumeric with dashes (UUID-like)
           );
-          
+
           // Also allow routes that are sub-routes of valid base routes (e.g., projects/123/edit)
           const isSubRoute = pathParts.length > 1 && currentUserRoutes.includes(baseRoute);
-          
+
           if (!isDynamicRoute && !isSubRoute) {
             router.push('/dashboard/projects'); // Redirect to projects instead of dashboard
           }
@@ -211,7 +211,7 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   const currentPageTitle = getPageTitle(pathname);
-  
+
   // Determine breadcrumb placement - always show breadcrumbs below title (like projects layout)
   const breadcrumbsPlacement = 'below';
 

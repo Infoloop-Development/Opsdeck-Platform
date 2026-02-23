@@ -15,7 +15,7 @@ import { stripe } from '@/utils/stripe';
 /**
  * Public Signup API
  * POST /api/auth/signup
- * 
+ *
  * Validates signup data and creates Stripe Checkout session.
  * Organization and user are created ONLY after successful payment (via webhook).
  * Signup data is stored in Stripe checkout session metadata.
@@ -140,7 +140,7 @@ export async function POST(request: Request) {
     let checkoutUrl = '';
     try {
         const origin = request.headers.get('origin') || 'http://localhost:3000'; // Fallback
-        
+
         const session = await stripe.checkout.sessions.create({
             mode: 'subscription',
             customer_email: email,
@@ -169,7 +169,7 @@ export async function POST(request: Request) {
             success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${origin}/payment/failed`,
         });
-        
+
         if (session.url) {
             checkoutUrl = session.url;
         } else {

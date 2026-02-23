@@ -162,7 +162,7 @@ function* postNewUser({ payload }: any) {
         message: 'Redirecting to payment...',
         variant: 'info',
       });
-      
+
       // Small delay to let snackbar show, then redirect to Stripe checkout
       yield new Promise(resolve => setTimeout(resolve, 1000));
       window.location.href = response.data.checkoutUrl;

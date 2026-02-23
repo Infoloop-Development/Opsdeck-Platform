@@ -58,7 +58,7 @@ const SubscriptionSettings: React.FC = () => {
     try {
         const token = safeLocalStorageGet(accessTokenKey);
         if (!token) return;
-        
+
         if (currentUser?.org_id) {
             const response = await axios.get(`/api/organizations/${currentUser.org_id}`, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -178,10 +178,10 @@ const SubscriptionSettings: React.FC = () => {
                     Manage your plan and billing details
                 </Typography>
             </Box>
-            <Chip 
-                label={subscription.status.toUpperCase()} 
-                color={subscription.status === 'active' || subscription.status === 'trialing' ? 'success' : 'default'} 
-                size="small" 
+            <Chip
+                label={subscription.status.toUpperCase()}
+                color={subscription.status === 'active' || subscription.status === 'trialing' ? 'success' : 'default'}
+                size="small"
             />
         </Box>
 
@@ -199,7 +199,7 @@ const SubscriptionSettings: React.FC = () => {
                         {formatCurrency(subscription.amount, subscription.currency)} / {subscription.interval}
                     </Typography>
                 </Box>
-                
+
                 {subscription.trialEnd && subscription.status === 'trialing' && (
                     <Box display="flex" justifyContent="space-between">
                         <Typography variant="body2" color="text.secondary">Trial Ends</Typography>
@@ -222,8 +222,8 @@ const SubscriptionSettings: React.FC = () => {
 
         <Box display="flex" justifyContent="flex-end" gap={2}>
             {subscription.cancelAtPeriodEnd ? (
-                <Button 
-                    variant="contained" 
+                <Button
+                    variant="contained"
                     color="primary"
                     onClick={handleResumeSubscription}
                     disabled={processing}
@@ -232,8 +232,8 @@ const SubscriptionSettings: React.FC = () => {
                     Resume Subscription
                 </Button>
             ) : (
-                <Button 
-                    variant="outlined" 
+                <Button
+                    variant="outlined"
                     color="error"
                     onClick={() => setOpenCancelDialog(true)}
                     disabled={processing}

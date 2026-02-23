@@ -181,7 +181,7 @@ export async function POST(request: Request) {
                 if (activeAddons.length > 0) {
                     const addonPlanIds = activeAddons.map((addon: any) => new ObjectId(addon.planId));
                     const addonPlans = await plansCollection.find({ _id: { $in: addonPlanIds } }).toArray();
-                    
+
                     const addonLimit = addonPlans.reduce((sum, p) => sum + (p.users_allowed || 0), 0);
                     maxUsers += addonLimit;
                 }
@@ -276,7 +276,7 @@ export async function PATCH(request: Request) {
     if (email) setData.email = email;
     if (role) setData.role = role;
     if (phone !== undefined) setData.phone = phone;
-    
+
     // Handle password update - only if provided
     if (password !== undefined && password !== null) {
       if (password.trim() !== '') {

@@ -70,8 +70,8 @@ export async function POST(request: Request) {
     }
 
     // Convert org_id to ObjectId if it's a string
-    const org_id = user.org_id instanceof ObjectId 
-      ? user.org_id 
+    const org_id = user.org_id instanceof ObjectId
+      ? user.org_id
       : new ObjectId(user.org_id);
 
     // Generate JWT token with organization admin payload

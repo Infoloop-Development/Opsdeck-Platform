@@ -204,7 +204,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Email template not found' }, { status: 404 });
     }
 
-    const result = await templatesCollection.deleteOne({ 
+    const result = await templatesCollection.deleteOne({
       _id: new ObjectId(id)
     });
 

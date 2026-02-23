@@ -129,8 +129,8 @@ const SignupPage: React.FC = () => {
       return plan.billing_period.includes(billingPeriod);
     }
     // Fallback: check if price exists for the selected period
-    return billingPeriod === 'monthly' 
-      ? plan.price.monthly !== null 
+    return billingPeriod === 'monthly'
+      ? plan.price.monthly !== null
       : plan.price.yearly !== null;
   };
 
@@ -387,16 +387,16 @@ const SignupPage: React.FC = () => {
               <FormLabel component="legend" sx={{ fontWeight: 'bold', mb: 0 }}>
                 Select a Plan <span style={{ color: 'red' }}>*</span>
               </FormLabel>
-              
+
               {/* Billing Period Toggle */}
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  bgcolor: 'background.paper', 
-                  borderRadius: 1, 
-                  border: 1, 
+              <Box
+                sx={{
+                  display: 'flex',
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                  border: 1,
                   borderColor: 'divider',
-                  p: 0.5 
+                  p: 0.5
                 }}
               >
                 <Button
@@ -406,12 +406,12 @@ const SignupPage: React.FC = () => {
                     const newBillingPeriod = 'monthly';
                     // Check if current selected plan supports the new billing period
                     const currentPlan = plans.find((p) => p._id === formData.planId);
-                    const supportsNewPeriod = currentPlan 
+                    const supportsNewPeriod = currentPlan
                       ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
                       : false;
-                    
-                    setFormData({ 
-                      ...formData, 
+
+                    setFormData({
+                      ...formData,
                       billingPeriod: newBillingPeriod,
                       planId: supportsNewPeriod ? formData.planId : ''
                     });
@@ -419,8 +419,8 @@ const SignupPage: React.FC = () => {
                       setErrors({ ...errors, planId: '' });
                     }
                   }}
-                  sx={{ 
-                    textTransform: 'none', 
+                  sx={{
+                    textTransform: 'none',
                     borderRadius: 1,
                     minWidth: 80,
                     boxShadow: 'none'
@@ -435,12 +435,12 @@ const SignupPage: React.FC = () => {
                     const newBillingPeriod = 'yearly';
                     // Check if current selected plan supports the new billing period
                     const currentPlan = plans.find((p) => p._id === formData.planId);
-                    const supportsNewPeriod = currentPlan 
+                    const supportsNewPeriod = currentPlan
                       ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
                       : false;
-                    
-                    setFormData({ 
-                      ...formData, 
+
+                    setFormData({
+                      ...formData,
                       billingPeriod: newBillingPeriod,
                       planId: supportsNewPeriod ? formData.planId : ''
                     });
@@ -448,8 +448,8 @@ const SignupPage: React.FC = () => {
                       setErrors({ ...errors, planId: '' });
                     }
                   }}
-                  sx={{ 
-                    textTransform: 'none', 
+                  sx={{
+                    textTransform: 'none',
                     borderRadius: 1,
                     minWidth: 80,
                     boxShadow: 'none'

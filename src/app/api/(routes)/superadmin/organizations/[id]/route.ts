@@ -170,21 +170,21 @@ export async function PATCH(
               { status: 400 }
             );
           }
-          
+
           const plansCollection = db.collection('plans');
           const planDoc = await plansCollection.findOne({
             _id: new ObjectId(body.planId),
             status: 'active',
             deletedAt: null,
           });
-          
+
           if (!planDoc) {
             return NextResponse.json(
               { error: 'Plan not found or inactive for the provided planId' },
               { status: 400 }
             );
           }
-          
+
           updateData.planId = planDoc._id;
           updateData.planName = planDoc.plan_name || '';
         } catch (planError: any) {

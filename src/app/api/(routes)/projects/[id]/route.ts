@@ -188,14 +188,14 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       // Send notifications to newly assigned users (only if admin is assigning)
       // Note: This endpoint already requires admin role (line 103), so we can send notifications
       const org_id = getOrgIdFromToken(decoded);
-      
+
       // Get existing assignees to find newly added ones
-      const existingAssignees = existingProject.assignee 
-        ? (Array.isArray(existingProject.assignee) 
-            ? existingProject.assignee.map((id: any) => id.toString()) 
+      const existingAssignees = existingProject.assignee
+        ? (Array.isArray(existingProject.assignee)
+            ? existingProject.assignee.map((id: any) => id.toString())
             : [existingProject.assignee.toString()])
         : [];
-      
+
       const newAssignees = assigneeIds
         .map(id => id.toString())
         .filter(id => !existingAssignees.includes(id));

@@ -820,7 +820,7 @@ const InvoiceTemplate: React.FC<InvoiceTemplateProps> = ({ company, invoice, ban
                     },
                   }}
                 >
-                  
+
                   <Typography component="span">SUBTOTAL</Typography>
                 </HeaderCell>
               </TableRow>

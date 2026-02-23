@@ -1,15 +1,15 @@
 /**
  * SuperAdmin Seed Script
- * 
+ *
  * ONE-TIME script to create a SuperAdmin user for local/dev testing.
- * 
+ *
  * Usage:
  *   npm run seed:superadmin
- * 
+ *
  * Environment variables required:
  *   SUPERADMIN_EMAIL - Email for the SuperAdmin account
  *   SUPERADMIN_PASSWORD - Password for the SuperAdmin account
- * 
+ *
  * This script:
  * - Creates a user with isSystemAdmin: true
  * - Hashes password with bcrypt

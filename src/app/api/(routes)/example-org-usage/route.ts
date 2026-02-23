@@ -1,6 +1,6 @@
 /**
  * Example API Route Using Organization Middleware
- * 
+ *
  * This file demonstrates how to use the organization middleware in API routes.
  * DELETE THIS FILE after reviewing the pattern.
  */
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
   try {
     // 4. Use org_id in queries
     const query = addOrgIdToQuery({}, org_id);
-    
+
     // Example: Fetch data scoped to organization
     // const data = await collection.find(query).toArray();
 

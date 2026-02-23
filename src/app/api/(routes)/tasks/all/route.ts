@@ -39,7 +39,7 @@ export async function GET(request: Request) {
         createdAt: task.createdAt || new Date(),
         updatedAt: task.updatedAt || task.createdAt || new Date(),
       };
-      
+
       // Handle assignee array (convert legacy single assignee to array)
       if (task.assignee) {
         if (Array.isArray(task.assignee)) {
@@ -51,7 +51,7 @@ export async function GET(request: Request) {
       } else {
         taskData.assignee = [];
       }
-      
+
       return taskData;
     });
 

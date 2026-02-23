@@ -26,8 +26,8 @@ export async function POST(request: Request) {
         const organizationsCollection = db.collection('organizations');
 
         // 2. Fetch the Addon Plan
-        const addonPlan = await plansCollection.findOne({ 
-            _id: new ObjectId(planId), 
+        const addonPlan = await plansCollection.findOne({
+            _id: new ObjectId(planId),
             deletedAt: null,
             status: 'active',
             type: 'add-on' // Ensure it is an add-on
@@ -51,19 +51,19 @@ export async function POST(request: Request) {
         if (!user?.org_id) {
              return NextResponse.json({ error: 'User is not associated with an organization' }, { status: 400 });
         }
-        
+
         const orgId = user.org_id.toString();
         const organization = await organizationsCollection.findOne({ _id: new ObjectId(orgId) });
-        
+
         if (!organization) {
              return NextResponse.json({ error: 'Organization not found' }, { status: 404 });
         }
 
         // 5. Create Stripe Checkout Session
-        // Note: For Add-ons, we create a new Subscription. 
+        // Note: For Add-ons, we create a new Subscription.
         // If we wanted to add to existing subscription, we'd use subscription items, but that's complex logic.
         // Simple approach: New Subscription for the Add-on.
-        
+
         const origin = request.headers.get('origin');
 
         const session = await stripe.checkout.sessions.create({

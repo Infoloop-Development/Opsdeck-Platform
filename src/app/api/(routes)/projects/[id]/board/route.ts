@@ -140,11 +140,11 @@ export async function GET(
       if (!tasksBySection.has(sectionId)) {
         tasksBySection.set(sectionId, []);
       }
-      
+
       // Handle assignee array (convert legacy single assignee to array)
       let assigneeIds: string[] = [];
       let assigneeInfo: any[] = [];
-      
+
       if (task.assignee) {
         if (Array.isArray(task.assignee)) {
           assigneeIds = task.assignee.map((id: any) => {
@@ -156,12 +156,12 @@ export async function GET(
           const idStr = typeof task.assignee === 'string' ? task.assignee : task.assignee.toString();
           assigneeIds = [idStr];
         }
-        
+
         assigneeInfo = assigneeIds
           .map((id: string) => assigneeMap.get(id))
           .filter(Boolean);
       }
-      
+
       tasksBySection.get(sectionId).push({
         _id: task._id.toString(),
         title: task.title,

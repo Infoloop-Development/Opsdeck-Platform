@@ -72,7 +72,7 @@ export default function ProjectsLayout({ children }: LayoutProps) {
   // Memoize user routes to prevent recalculation on every render
   const userRoutes = useMemo(() => {
     if (!userInfo?.role) return null;
-    
+
     return {
       Admin: adminItems.map((item) => item.key),
       Regular: regularItems.map((item) => item.key),

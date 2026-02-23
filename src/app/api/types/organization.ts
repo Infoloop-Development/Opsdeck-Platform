@@ -1,6 +1,6 @@
 /**
  * Organization Type Definitions
- * 
+ *
  * Important Notes:
  * - _id (ObjectId) is the org_id - it NEVER changes
  * - slug is for URL routing only - it CAN change

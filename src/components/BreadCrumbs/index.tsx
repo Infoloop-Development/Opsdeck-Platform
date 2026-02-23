@@ -28,15 +28,15 @@ const DynamicBreadcrumbs = ({ inDashboard = true, mb = 2, omitLabels = [] }: Dyn
   useEffect(() => {
     const pathSegments = pathname.split('/').filter(Boolean);
     // Check if path is /projects/[id]/tasks or /dashboard/projects/[id]/tasks
-    const isProjectTasksPath = 
+    const isProjectTasksPath =
       (pathSegments.length >= 3 && pathSegments[0] === 'projects' && pathSegments[2] === 'tasks') ||
       (pathSegments.length >= 4 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'projects' && pathSegments[3] === 'tasks');
-    
+
     if (isProjectTasksPath) {
       // Get project ID - it's at index 1 for /projects/[id]/tasks or index 2 for /dashboard/projects/[id]/tasks
       const projectIdIndex = pathSegments[0] === 'dashboard' ? 2 : 1;
       const projectId = pathSegments[projectIdIndex];
-      
+
       // Check if it looks like a MongoDB ObjectId (24 hex characters)
       if (projectId && /^[a-f0-9]{24}$/i.test(projectId)) {
         const fetchProjectName = async () => {
@@ -85,16 +85,16 @@ const DynamicBreadcrumbs = ({ inDashboard = true, mb = 2, omitLabels = [] }: Dyn
 
     // Filter out 'dashboard' from breadcrumb labels - Dashboard should NEVER appear in breadcrumbs
     // Use case-insensitive filtering to catch any variations
-    const filteredSegments = pathSegments.filter(segment => 
+    const filteredSegments = pathSegments.filter(segment =>
       segment.toLowerCase() !== 'dashboard'
     );
-    
+
     // If no segments remain after filtering, return empty breadcrumbs
     if (filteredSegments.length === 0) {
       setBreadcrumbs([]);
       return;
     }
-    
+
     const breadcrumbPaths: Breadcrumb[] = filteredSegments.map((segment, index) => {
       // Reconstruct href. For dashboard pages we want /dashboard/..., for external sections like /projects we don't.
       let hrefSegments = inDashboard ? ['dashboard', ...filteredSegments.slice(0, index + 1)] : filteredSegments.slice(0, index + 1);
@@ -111,7 +111,7 @@ const DynamicBreadcrumbs = ({ inDashboard = true, mb = 2, omitLabels = [] }: Dyn
       let label = segment;
       const isDashboardProjectsPath = filteredSegments[0] === 'dashboard' && filteredSegments[1] === 'projects';
       const isProjectsPath = filteredSegments[0] === 'projects';
-      
+
       if (
         projectName &&
         /^[a-f0-9]{24}$/i.test(segment) &&

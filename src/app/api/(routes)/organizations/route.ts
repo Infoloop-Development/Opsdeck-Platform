@@ -30,7 +30,7 @@ export async function GET(request: Request) {
 
         // Build query
         const query: any = { deletedAt: null }; // Only non-deleted organizations
-        
+
         // Global search: search across organization-related fields (excluding plan-based filtering)
         if (search) {
             const searchConditions: any[] = [
@@ -38,7 +38,7 @@ export async function GET(request: Request) {
                 { slug: { $regex: search, $options: 'i' } },
                 { status: { $regex: search, $options: 'i' } },
             ];
-            
+
             // Search by owner information - find matching users first
             const matchingOwners = await usersCollection
                 .find({
@@ -50,12 +50,12 @@ export async function GET(request: Request) {
                 })
                 .project({ _id: 1 })
                 .toArray();
-            
+
             if (matchingOwners.length > 0) {
                 const ownerIds = matchingOwners.map((owner) => owner._id);
                 searchConditions.push({ ownerId: { $in: ownerIds } });
             }
-            
+
             query.$or = searchConditions;
         }
 
@@ -81,7 +81,7 @@ export async function GET(request: Request) {
             // Filter organizations by planId
             query.planId = { $in: planIds };
         }
-        
+
         if (statusFilter) {
             query.status = statusFilter;
         }
@@ -247,7 +247,7 @@ export async function POST(request: Request) {
         try {
             ownerResult = await usersCollection.insertOne(ownerUser);
             ownerId = ownerResult.insertedId;
-            
+
             // Verify the role was set correctly - must be exactly 'Admin'
             const verifyOwner = await usersCollection.findOne({ _id: ownerId });
             if (verifyOwner && verifyOwner.role !== 'Admin') {
@@ -324,13 +324,13 @@ export async function POST(request: Request) {
         try {
             await usersCollection.updateOne(
                 { _id: ownerId },
-                { $set: { 
+                { $set: {
                     organizationId: result.insertedId,
                     org_id: result.insertedId  // Set org_id for organization scoping
                     // NOTE: We explicitly do NOT set role here to avoid overwriting it
                 } }
             );
-            
+
             // Verify role is still correct after update - must be exactly 'Admin'
             const verifyAfterUpdate = await usersCollection.findOne({ _id: ownerId });
             if (verifyAfterUpdate && verifyAfterUpdate.role !== 'Admin') {

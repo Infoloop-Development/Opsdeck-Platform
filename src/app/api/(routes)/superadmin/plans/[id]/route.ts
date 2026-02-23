@@ -180,7 +180,7 @@ export async function PATCH(
           const updateParams: any = {};
           if (body.plan_name) updateParams.name = body.plan_name;
           if (body.description !== undefined) updateParams.description = body.description;
-          
+
           // Update metadata if features changed
           if (body.features !== undefined) {
              updateParams.metadata = {
@@ -194,19 +194,19 @@ export async function PATCH(
         // 2. Handle Price Changes & Archival
         // Prices are immutable in Stripe. We must create NEW prices if the amount changes.
         // We only modify the DB 'stripe_price_ids' map.
-        
+
         const stripeUpdates: any = {};
         let priceChanged = false;
 
         // Helper to safely manage prices (Reuse > Create > Archive Others)
         const manageStripePrice = async (
-            productId: string, 
-            interval: 'month' | 'year', 
+            productId: string,
+            interval: 'month' | 'year',
             amount: number | null
         ): Promise<string | null> => {
             try {
                 console.log(`[Stripe Manage] Checking ${interval} prices for product ${productId}. Target Amount: ${amount}`);
-                
+
                 // 1. List all active prices
                 const prices = await stripe.prices.list({
                     product: productId,
@@ -220,10 +220,10 @@ export async function PATCH(
                 // 2. If we need a valid price (enabled)
                 if (amount !== null && amount !== undefined) {
                     const targetAmountCents = Math.round(Number(amount) * 100);
-                    
+
                     // Check for exact match (Amount + Currency)
-                    const existingMatch = pricesToArchive.find(p => 
-                        p.unit_amount === targetAmountCents && 
+                    const existingMatch = pricesToArchive.find(p =>
+                        p.unit_amount === targetAmountCents &&
                         p.currency === 'usd'
                     );
 
@@ -248,7 +248,7 @@ export async function PATCH(
                 // 3. Archive obsolete prices (All if amount is null, or conflicts if new created/reused)
                 if (pricesToArchive.length > 0) {
                     console.log(`[Stripe Manage] Archiving ${pricesToArchive.length} obsolete ${interval} prices...`);
-                    await Promise.all(pricesToArchive.map(p => 
+                    await Promise.all(pricesToArchive.map(p =>
                         stripe.prices.update(p.id, { active: false })
                     ));
                 }
@@ -264,16 +264,16 @@ export async function PATCH(
         const effectiveBillingPeriod = updateData.billing_period || existingPlan.billing_period || [];
         const isMonthlyEnabled = effectiveBillingPeriod.includes('monthly');
         const isYearlyEnabled = effectiveBillingPeriod.includes('yearly');
-        
+
         console.log(`[Plan Update] ID: ${id}, Monthly: ${isMonthlyEnabled}, Yearly: ${isYearlyEnabled}`);
 
         // Resolve target prices
-        const targetMonthlyPrice = updateData.price?.monthly !== undefined 
-            ? updateData.price.monthly 
+        const targetMonthlyPrice = updateData.price?.monthly !== undefined
+            ? updateData.price.monthly
             : existingPlan.price?.monthly;
-            
-        const targetYearlyPrice = updateData.price?.yearly !== undefined 
-            ? updateData.price.yearly 
+
+        const targetYearlyPrice = updateData.price?.yearly !== undefined
+            ? updateData.price.yearly
             : existingPlan.price?.yearly;
 
         // Check Monthly
@@ -318,7 +318,7 @@ export async function PATCH(
 
         // Check Yearly Price Change
          if (
-            updateData.price?.yearly !== undefined && 
+            updateData.price?.yearly !== undefined &&
             updateData.price.yearly !== existingPlan.price?.yearly &&
             updateData.price.yearly !== null
         ) {
@@ -397,7 +397,7 @@ export async function DELETE(
     if (stripe) {
         try {
             const planToDelete = await plansCollection.findOne({ _id: new ObjectId(id) });
-            
+
             if (planToDelete && planToDelete.stripe_product_id) {
                 // Archive Product
                 await stripe.products.update(planToDelete.stripe_product_id, { active: false });
