@@ -10,11 +10,14 @@ import {
   Stack,
   MenuItem,
   CircularProgress,
+  IconButton,
+  Grid2,
 } from '@mui/material';
 import axios from 'axios';
 import { safeLocalStorageGet } from '@/utils/helpers';
 import { accessTokenKey } from '@/utils/constants';
 import { Client, ClientModalProps } from '../types';
+import { CloseOutlined } from '@mui/icons-material';
 
 export const ClientModal: React.FC<ClientModalProps> = ({
   open,
@@ -146,142 +149,233 @@ export const ClientModal: React.FC<ClientModalProps> = ({
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-      <DialogTitle>{client ? 'Edit Client' : 'Add Client'}</DialogTitle>
-      <DialogContent dividers>
-        <Stack spacing={2} sx={{ mt: 1 }}>
-          {/* Add Photo field (single combined field at top) */}
-          <TextField
-            label="Add Photo (optional)"
-            fullWidth
-            margin="normal"
-            type="url"
-            value={formValues.photoUrl || ''}
-            onChange={(e) => handleChange('photoUrl', e.target.value)}
-            placeholder="Paste image URL or use the upload icon"
-            helperText="Optional. Supports any image; click the icon to upload JPG/PNG."
-            InputProps={{
-              endAdornment: (
-                <Button
-                  component="label"
-                  variant="text"
-                  size="small"
-                  sx={{ whiteSpace: 'nowrap', fontSize: 12 }}
-                >
-                  Upload
-                  <input
-                    type="file"
-                    hidden
-                    accept="image/*"
-                    onChange={handlePhotoFileChange}
-                  />
-                </Button>
-              ),
-            }}
-          />
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >{client ? 'Edit Client' : 'Add Client'}
 
-          <TextField
-            label="Client Name"
-            fullWidth
-            margin="normal"
-            required
-            value={formValues.clientName || formValues.name || ''}
-            onChange={(e) => {
-              handleChange('clientName', e.target.value);
-              handleChange('name', e.target.value);
-            }}
-          />
-          <TextField
-            label="Project Name"
-            fullWidth
-            margin="normal"
-            select
-            value={formValues.projectName || ''}
-            onChange={(e) => handleChange('projectName', e.target.value)}
-            disabled={loadingProjects}
-            SelectProps={{
-              displayEmpty: true,
-            }}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            {projects.map((project) => (
-              <MenuItem key={project._id} value={project.name}>
-                {project.name}
-              </MenuItem>
-            ))}
-          </TextField>
-          {loadingProjects && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
-              <CircularProgress size={20} />
-            </Box>
-          )}
-          <TextField
-            label="Email"
-            type="email"
-            fullWidth
-            margin="normal"
-            required
-            value={formValues.email || ''}
-            onChange={(e) => handleChange('email', e.target.value)}
-          />
-          <TextField
-            label="Phone"
-            fullWidth
-            margin="normal"
-            value={formValues.phone || ''}
-            onChange={(e) => handleChange('phone', e.target.value)}
-          />
-          <TextField
-            label="Company"
-            fullWidth
-            margin="normal"
-            value={formValues.company || ''}
-            onChange={(e) => handleChange('company', e.target.value)}
-          />
-          <TextField
-            label="Address"
-            fullWidth
-            margin="normal"
-            value={formValues.address || ''}
-            onChange={(e) => handleChange('address', e.target.value)}
-          />
-          <Box sx={{ display: 'flex', gap: 2 }}>
+        <IconButton onClick={handleClose} size="small">
+          <CloseOutlined />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent style={{ paddingTop: 24 }} dividers>
+        <Stack spacing={2}>
+          {/* Add Photo field (single combined field at top) */}
+          <Grid2 container spacing={2}>
+            <Grid2 size={{ xs: 12, md: 12 }}>
+              <TextField
+                label="Add Photo (optional)"
+                fullWidth
+                margin="normal"
+                type="url"
+                value={formValues.photoUrl || ''}
+                onChange={(e) => handleChange('photoUrl', e.target.value)}
+                placeholder="Paste image URL or use the upload icon"
+                helperText="Optional. Supports any image; click the icon to upload JPG/PNG."
+                sx={{ mt: 0 }}
+                InputProps={{
+                  endAdornment: (
+                    <Button
+                      component="label"
+                      variant="text"
+                      size="small"
+                      sx={{ whiteSpace: 'nowrap', fontSize: 12 }}
+                    >
+                      Upload
+                      <input
+                        type="file"
+                        hidden
+                        accept="image/*"
+                        onChange={handlePhotoFileChange}
+                      />
+                    </Button>
+                  ),
+                }}
+              />
+            </Grid2>
+
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="Client Name"
+                fullWidth
+                margin="normal"
+                required
+                sx={{ mt: 0 }}
+                value={formValues.clientName || formValues.name || ''}
+                onChange={(e) => {
+                  handleChange('clientName', e.target.value);
+                  handleChange('name', e.target.value);
+                }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="Project Name"
+                fullWidth
+                margin="normal"
+                select
+                value={formValues.projectName || ''}
+                onChange={(e) => handleChange('projectName', e.target.value)}
+                disabled={loadingProjects}
+                sx={{ mt: 0 }}
+                SelectProps={{
+                  displayEmpty: true,
+                }}
+              >
+                <MenuItem value="">
+                  {/* <em>None</em> */}
+                </MenuItem>
+                {projects.map((project) => (
+                  <MenuItem key={project._id} value={project.name}>
+                    {project.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {loadingProjects && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', py: 1 }}>
+                  <CircularProgress size={20} />
+                </Box>
+              )}
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="Email"
+                type="email"
+                fullWidth
+                margin="normal"
+                required
+                value={formValues.email || ''}
+                onChange={(e) => handleChange('email', e.target.value)}
+                sx={{ mt: 0 }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="Phone"
+                fullWidth
+                margin="normal"
+                value={formValues.phone || ''}
+                onChange={(e) => handleChange('phone', e.target.value)}
+                sx={{ mt: 0 }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="Company"
+                fullWidth
+                margin="normal"
+                value={formValues.company || ''}
+                onChange={(e) => handleChange('company', e.target.value)}
+                sx={{ mt: 0 }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="Address"
+                fullWidth
+                margin="normal"
+                value={formValues.address || ''}
+                onChange={(e) => handleChange('address', e.target.value)}
+                sx={{ mt: 0 }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="City"
+                fullWidth
+                margin="normal"
+                value={formValues.city || ''}
+                onChange={(e) => handleChange('city', e.target.value)}
+                sx={{ mt: 0 }}
+              />
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <TextField
+                label="Country"
+                fullWidth
+                margin="normal"
+                value={formValues.country || ''}
+                onChange={(e) => handleChange('country', e.target.value)}
+                sx={{ mt: 0 }}
+              />
+            </Grid2>
             <TextField
-              label="City"
+              label="Notes"
               fullWidth
               margin="normal"
-              value={formValues.city || ''}
-              onChange={(e) => handleChange('city', e.target.value)}
+              multiline
+              rows={3}
+              value={formValues.notes || ''}
+              onChange={(e) => handleChange('notes', e.target.value)}
+              sx={{ mt: 0 }}
             />
-            <TextField
-              label="Country"
-              fullWidth
-              margin="normal"
-              value={formValues.country || ''}
-              onChange={(e) => handleChange('country', e.target.value)}
-            />
-          </Box>
-          <TextField
-            label="Notes"
-            fullWidth
-            margin="normal"
-            multiline
-            rows={3}
-            value={formValues.notes || ''}
-            onChange={(e) => handleChange('notes', e.target.value)}
-          />
+          </Grid2>
         </Stack>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} disabled={saving}>
+      <DialogActions
+        sx={{
+          px: 3,
+          py: 2,
+          borderColor: 'divider',
+        }}
+      >
+        <Button onClick={handleClose} disabled={saving}
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+
+            color: (theme) => theme.palette.text.primary,
+            borderColor: (theme) => theme.palette.divider,
+
+            backgroundColor: 'transparent',
+
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.action.hover,
+              borderColor: (theme) => theme.palette.text.secondary,
+            },
+          }}
+        >
           Cancel
         </Button>
-        <Button onClick={handleSave} variant="contained" disabled={saving}>
+        <Button onClick={handleSave} variant="contained" disabled={saving}
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+
+            color: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[900]
+                : '#ffffff',
+
+            boxShadow: 'none',
+
+            '&:hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.grey[200]
+                  : '#000000',
+              boxShadow: 'none',
+            },
+          }}
+        >
           {saving ? 'Saving...' : 'Save'}
         </Button>
       </DialogActions>
-    </Dialog>
+    </Dialog >
   );
 };
 
@@ -305,15 +399,60 @@ export const DeleteClient: React.FC<DeleteClientProps> = ({
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>Delete Client</DialogTitle>
-      <DialogContent>
+      <DialogTitle sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}>Delete Client
+        <IconButton onClick={() => setOpen(false)} size="small">
+          <CloseOutlined />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent style={{ paddingTop: 24 }} dividers>
         Are you sure you want to delete <strong>{clientName}</strong>? This action cannot be undone.
       </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setOpen(false)} disabled={saving}>
+      <DialogActions
+        sx={{
+          px: 3,
+          py: 2,
+          borderColor: 'divider',
+        }}
+      >
+        <Button onClick={() => setOpen(false)} disabled={saving}
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+
+            color: (theme) => theme.palette.text.primary,
+            borderColor: (theme) => theme.palette.divider,
+
+            backgroundColor: 'transparent',
+
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.action.hover,
+              borderColor: (theme) => theme.palette.text.secondary,
+            },
+          }}
+        >
           Cancel
         </Button>
-        <Button onClick={handleDelete} color="error" variant="contained" disabled={saving}>
+        <Button onClick={handleDelete} color="error" variant="contained" disabled={saving}
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+            boxShadow: 'none',
+            '&:hover': {
+              boxShadow: 'none',
+            },
+          }}
+        >
           {saving ? 'Deleting...' : 'Delete'}
         </Button>
       </DialogActions>

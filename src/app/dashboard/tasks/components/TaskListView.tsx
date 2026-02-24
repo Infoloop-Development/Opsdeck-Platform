@@ -209,13 +209,13 @@ const TaskListView: React.FC<TaskListViewProps> = ({
     try {
       const today = new Date();
       const date = new Date(dueDate);
-
+      
       if (isNaN(date.getTime())) return false;
-
+      
       // Normalize both dates to start of day for accurate comparison
       today.setHours(0, 0, 0, 0);
       date.setHours(0, 0, 0, 0);
-
+      
       return (
         today.getFullYear() === date.getFullYear() &&
         today.getMonth() === date.getMonth() &&
@@ -493,7 +493,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
                         // Determine if task is completed
                         const taskStatusLower = (taskStatus || '').toLowerCase();
                         const isCompleted = taskStatusLower.includes('done') || taskStatusLower.includes('completed');
-
+                        
                         // Check if task is due today and not completed
                         const taskDueToday = !isCompleted && isDueToday(task.dueDate);
 
@@ -583,7 +583,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
                                 sx={{
                                   fontWeight: 500,
                                   minWidth: 'fit-content',
-                                  borderRadius: '4px',
+                                  borderRadius: '50px',
                                   fontSize: '12px',
                                   bgcolor: priorityColor.bg,
                                   color: priorityColor.text,
@@ -598,7 +598,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
                                 sx={{
                                   fontWeight: 500,
                                   minWidth: 'fit-content',
-                                  borderRadius: '4px',
+                                  borderRadius: '50px',
                                   fontSize: '12px',
                                   bgcolor: statusColor.bg,
                                   color: statusColor.text,

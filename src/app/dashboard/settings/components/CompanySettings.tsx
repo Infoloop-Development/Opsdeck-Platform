@@ -234,6 +234,7 @@ const CompanySettings: React.FC = () => {
                     component="span"
                     startIcon={<CloudUpload />}
                     disabled={saving}
+                    sx={{ borderRadius: '50px' }}
                   >
                     Upload Logo
                   </Button>
@@ -317,6 +318,7 @@ const CompanySettings: React.FC = () => {
               onClick={handleSave}
               disabled={saving || !formData.companyName.trim()}
               startIcon={saving && <CircularProgress size={20} color="inherit" />}
+              sx={{ borderRadius: '50px' , backgroundColor: '#88dbff', color: '#000', '&:hover': { backgroundColor: '#88dbff' } }}
             >
               {saving ? 'Saving...' : 'Save Company Settings'}
             </Button>

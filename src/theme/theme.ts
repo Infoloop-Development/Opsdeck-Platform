@@ -20,7 +20,7 @@ const getTheme = ({ primaryColor, fontFamily }) =>
       },
       typography: {
         ...typography,
-        fontFamily: `${fontFamily}, sans-serif`,
+        fontFamily: `${fontFamily}`,
       },
       shape: {
         borderRadius: 10,

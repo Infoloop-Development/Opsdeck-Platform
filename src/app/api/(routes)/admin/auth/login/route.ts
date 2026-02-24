@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // SECURITY: Reject system admins - they cannot login through OpsDeck panel
+    // SECURITY: Reject system admins - they cannot login through NexTask panel
     if (user.isSystemAdmin === true) {
       return NextResponse.json(
         { error: 'Access denied' },
@@ -70,8 +70,8 @@ export async function POST(request: Request) {
     }
 
     // Convert org_id to ObjectId if it's a string
-    const org_id = user.org_id instanceof ObjectId
-      ? user.org_id
+    const org_id = user.org_id instanceof ObjectId 
+      ? user.org_id 
       : new ObjectId(user.org_id);
 
     // Generate JWT token with organization admin payload

@@ -165,7 +165,7 @@ export default function PlansManagement() {
     setSubmitting(true);
     try {
       const token = safeLocalStorageGet(accessTokenKey);
-
+      
       // Prepare payload
       const payload = {
           ...formData,
@@ -190,7 +190,7 @@ export default function PlansManagement() {
           });
           enqueueSnackbar('Plan created successfully', { variant: 'success' });
       }
-
+      
       handleCloseDialog();
       fetchPlans();
 
@@ -204,7 +204,7 @@ export default function PlansManagement() {
 
   const handleDelete = async (id: string) => {
       if (!confirm('Are you sure you want to delete this plan?')) return;
-
+      
       try {
           const token = safeLocalStorageGet(accessTokenKey);
           await axios.delete(`/api/superadmin/plans/${id}`, {
@@ -222,9 +222,9 @@ export default function PlansManagement() {
     <Box sx={{ p: 3 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
             <Typography variant="h5">Plans Management</Typography>
-            <Button
-                variant="contained"
-                startIcon={<Add />}
+            <Button 
+                variant="contained" 
+                startIcon={<Add />} 
                 onClick={() => handleOpenDialog()}
             >
                 Create Plan
@@ -255,10 +255,10 @@ export default function PlansManagement() {
                                 <Typography variant="caption" color="text.secondary">{plan.description}</Typography>
                             </TableCell>
                             <TableCell>
-                                <Chip
-                                    label={plan.type === 'add-on' ? 'Add-on' : 'Normal'}
-                                    color={plan.type === 'add-on' ? 'secondary' : 'primary'}
-                                    size="small"
+                                <Chip 
+                                    label={plan.type === 'add-on' ? 'Add-on' : 'Normal'} 
+                                    color={plan.type === 'add-on' ? 'secondary' : 'primary'} 
+                                    size="small" 
                                     variant="outlined"
                                 />
                             </TableCell>
@@ -272,10 +272,10 @@ export default function PlansManagement() {
                                 )}
                             </TableCell>
                             <TableCell>
-                                <Chip
-                                    label={plan.status}
-                                    color={plan.status === 'active' ? 'success' : 'default'}
-                                    size="small"
+                                <Chip 
+                                    label={plan.status} 
+                                    color={plan.status === 'active' ? 'success' : 'default'} 
+                                    size="small" 
                                 />
                             </TableCell>
                             <TableCell align="right">
@@ -313,7 +313,7 @@ export default function PlansManagement() {
                             </Select>
                         </FormControl>
                     </Grid>
-
+                    
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
@@ -410,13 +410,13 @@ export default function PlansManagement() {
                             onChange={(e) => handleInputChange('features', e.target.value)}
                         />
                     </Grid>
-
+                    
                     <Grid item xs={12}>
                         <FormControlLabel
                             control={
-                                <Switch
-                                    checked={formData.mark_as_popular}
-                                    onChange={(e) => handleInputChange('mark_as_popular', e.target.checked)}
+                                <Switch 
+                                    checked={formData.mark_as_popular} 
+                                    onChange={(e) => handleInputChange('mark_as_popular', e.target.checked)} 
                                 />
                             }
                             label="Mark as Popular"

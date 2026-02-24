@@ -1,9 +1,9 @@
 import HomePage from './home';
 
 export const metadata = {
-  title: 'OpsDeck - Project Management Solution for Seamless Efficiency',
+  title: 'NexTask - Streamline Your Projects with Our SaaS Dev Platform',
   description:
-    'OpsDeck is a comprehensive project management platform designed to streamline workflows, enhance team collaboration, and ensure timely project delivery with real-time tracking and analytics.',
+    'Boost productivity with NexTask SaaS-Dev, the all-in-one cloud platform for seamless project organization, team collaboration, and progress tracking.',
 };
 
 export default function Home() {

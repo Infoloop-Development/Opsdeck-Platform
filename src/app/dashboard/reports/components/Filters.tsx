@@ -97,7 +97,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({ onApplyFilter }) => {
                 sx={{
                   width: { xs: "100%", lg: "520px" },
                   maxWidth: "100%",
-                  borderRadius: "6px",
+                  borderRadius: "50px",
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
@@ -110,6 +110,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({ onApplyFilter }) => {
 
                     "& fieldset": {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     "&:hover fieldset": {
@@ -139,7 +140,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({ onApplyFilter }) => {
                 sx={{
                   width: { xs: "100%", lg: "520px" },
                   maxWidth: "100%",
-                  borderRadius: "6px",
+                  borderRadius: "50px",
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
@@ -152,6 +153,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({ onApplyFilter }) => {
 
                     "& fieldset": {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     "&:hover fieldset": {
@@ -174,7 +176,7 @@ const ReportFilters: React.FC<ReportFiltersProps> = ({ onApplyFilter }) => {
             <Grid2 size={{ xs: 12, sm: 2, md: 4 }}>
               <Button variant="outlined" onClick={handleApplyFilters}
                 sx={{
-                  borderRadius: "6px",
+                  borderRadius: "50px",
                   fontWeight: 500,
                   color: (theme) =>
                     theme.palette.mode === "dark" ? "#fff" : "#000",

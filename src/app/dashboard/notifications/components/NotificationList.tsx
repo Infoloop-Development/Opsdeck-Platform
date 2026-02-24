@@ -73,7 +73,7 @@ const formatTimeAgo = (dateString: string | Date): string => {
 const mapNotificationType = (message: string, type?: string): string => {
   // Use the type from database if available
   if (type && type !== 'info') return type;
-
+  
   // Infer type from message content
   const lowerMessage = message.toLowerCase();
   if (lowerMessage.includes('mentioned')) return 'mention';
@@ -82,7 +82,7 @@ const mapNotificationType = (message: string, type?: string): string => {
   if (lowerMessage.includes('commented')) return 'comment';
   if (lowerMessage.includes('status changed') || lowerMessage.includes('status changed to')) return 'status_change';
   if (lowerMessage.includes('invited')) return 'invitation';
-
+  
   return 'info'; // default
 };
 
@@ -215,7 +215,7 @@ const Notifications: React.FC = () => {
           const notificationId = notification._id?.toString() || notification.id?.toString();
           const notificationType = mapNotificationType(notification.message || '', notification.type);
           const isRead = notification.read || false;
-
+          
           return (
             <React.Fragment key={notificationId}>
               <ListItem
@@ -235,7 +235,7 @@ const Notifications: React.FC = () => {
               >
                 {/* Notification Icon */}
                 <NotificationAvatar>
-                  <NotificationIcon sx={{ bgcolor: getNotificationColor(notificationType) }}>
+                  <NotificationIcon sx={{ bgcolor: '#88dbff' , borderColor: '#88dbff', borderRadius: "50px",}}>
                     {getNotificationIcon(notificationType)}
                   </NotificationIcon>
                 </NotificationAvatar>
@@ -243,8 +243,8 @@ const Notifications: React.FC = () => {
                 {/* Notification Message */}
                 <ListItemText
                   primary={
-                    <Typography
-                      variant="subtitle2"
+                    <Typography 
+                      variant="subtitle2" 
                       color="text.primary"
                       sx={{ fontWeight: isRead ? 400 : 600 }}
                     >
@@ -255,7 +255,7 @@ const Notifications: React.FC = () => {
                     <Stack component={'span'} direction="row" alignItems="center" spacing={1}>
                       <AccessTime sx={{ fontSize: 18 }} />
                       <Typography variant="caption" color="text.secondary" component="span">
-                        {notification.createdAt
+                        {notification.createdAt 
                           ? formatTimeAgo(notification.createdAt)
                           : 'Recently'}
                       </Typography>
@@ -265,7 +265,7 @@ const Notifications: React.FC = () => {
 
                 {/* Menu Options */}
                 <ListItemIcon>
-                  <IconButton
+                  <IconButton 
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent triggering the list item click
                       handleMenuClick(e, notificationId);
@@ -287,7 +287,7 @@ const Notifications: React.FC = () => {
                     }}
                   >
                     {!isRead ? (
-                      <MenuItem
+                      <MenuItem 
                         onClick={(e) => {
                           e.stopPropagation();
                           handleMarkAsRead(notificationId);
@@ -299,7 +299,7 @@ const Notifications: React.FC = () => {
                         <ListItemText>Mark as read</ListItemText>
                       </MenuItem>
                     ) : (
-                      <MenuItem
+                      <MenuItem 
                         onClick={(e) => {
                           e.stopPropagation();
                           handleMarkAsUnread(notificationId);
@@ -311,7 +311,7 @@ const Notifications: React.FC = () => {
                         <ListItemText>Mark as unread</ListItemText>
                       </MenuItem>
                     )}
-                    <MenuItem
+                    <MenuItem 
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDelete(notificationId);

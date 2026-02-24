@@ -184,12 +184,12 @@ const TaskDetailsPage: React.FC = () => {
               formattedDueDate = foundTask.dueDate;
             }
           }
-
+          
           // Ensure projectId is in string format
-          const taskProjectId = foundTask.projectId
+          const taskProjectId = foundTask.projectId 
             ? (typeof foundTask.projectId === 'string' ? foundTask.projectId : String(foundTask.projectId))
             : (foundProject?.id ? String(foundProject.id) : '');
-
+          
           const convertedTask: Task = {
             id: typeof foundTask._id === 'string' ? foundTask._id : String(foundTask._id || ''),
             title: foundTask.title,
@@ -203,7 +203,7 @@ const TaskDetailsPage: React.FC = () => {
           };
           setTask(convertedTask);
           setEditedTask(convertedTask);
-
+          
           // Ensure foundProject has the correct ID format
           const formattedProject: Project = {
             ...foundProject,
@@ -241,16 +241,16 @@ const TaskDetailsPage: React.FC = () => {
         // If it's just a date string (YYYY-MM-DD), parse it properly
         date = new Date(dateString + 'T00:00:00');
       }
-
+      
       // Check if date is valid
       if (isNaN(date.getTime())) {
         return dateString;
       }
-
-      return date.toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
+      
+      return date.toLocaleDateString('en-GB', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
       });
     } catch {
       return dateString || 'Not set';
@@ -268,13 +268,13 @@ const TaskDetailsPage: React.FC = () => {
       } else {
         date = new Date(dueDate + 'T00:00:00');
       }
-
+      
       if (isNaN(date.getTime())) return false;
-
+      
       // Normalize both dates to start of day for accurate comparison
       today.setHours(0, 0, 0, 0);
       date.setHours(0, 0, 0, 0);
-
+      
       return (
         today.getFullYear() === date.getFullYear() &&
         today.getMonth() === date.getMonth() &&
@@ -378,9 +378,9 @@ const TaskDetailsPage: React.FC = () => {
 
     // Prevent saving if past date is selected
     if (isPastDate) {
-      enqueueSnackbar({
-        message: 'Please select a future date for the due date',
-        variant: 'error'
+      enqueueSnackbar({ 
+        message: 'Please select a future date for the due date', 
+        variant: 'error' 
       });
       return;
     }
@@ -438,12 +438,12 @@ const TaskDetailsPage: React.FC = () => {
       );
 
       enqueueSnackbar({ message: 'Task updated successfully', variant: 'success' });
-
+      
       // Update task state with edited data
       const updatedTask = { ...editedTask };
       setTask(updatedTask);
       setIsEditing(false);
-
+      
       // Update project if changed
       if (editedTask.projectId !== task.projectId) {
         const newProject = projects.find((p) => String(p.id) === String(editedTask.projectId));
@@ -453,7 +453,7 @@ const TaskDetailsPage: React.FC = () => {
           setProject(null);
         }
       }
-
+      
       // Refresh task data from server to ensure consistency
       fetchTaskData();
     } catch (error: any) {
@@ -808,10 +808,10 @@ const TaskDetailsPage: React.FC = () => {
                 value={editedTask?.dueDate ? editedTask.dueDate.split('T')[0] : ''}
                 onChange={(e) => {
                   const dateValue = e.target.value;
-
+                  
                   // ALWAYS update the form state first to prevent date/month from disappearing
                   setEditedTask((prev) => (prev ? { ...prev, dueDate: dateValue } : null));
-
+                  
                   // Clear any existing timeout
                   if (dueDateErrorTimeout) {
                     clearTimeout(dueDateErrorTimeout);
@@ -832,7 +832,7 @@ const TaskDetailsPage: React.FC = () => {
 
                     const [year, month, day] = dateValue.split('-').map(Number);
                     const date = new Date(year, month - 1, day);
-
+                    
                     // Check if date is valid (handles invalid dates like Feb 30)
                     if (!(date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day)) {
                       setDueDateError('Invalid date format. Please enter a valid date.');
@@ -845,11 +845,11 @@ const TaskDetailsPage: React.FC = () => {
                     // Validate due date - must be a future date using normalized Date objects
                     const selectedDate = new Date(year, month - 1, day);
                     const today = new Date();
-
+                    
                     // Normalize both dates to start of day for accurate comparison
                     today.setHours(0, 0, 0, 0);
                     selectedDate.setHours(0, 0, 0, 0);
-
+                    
                     if (selectedDate < today) {
                       setDueDateError('Due date cannot be in the past. Please select a future date.');
                       setIsPastDate(true);
@@ -1010,7 +1010,7 @@ const TaskDetailsPage: React.FC = () => {
                       )}
                       {attachment.attachmentType !== 'file' && (
                         <Typography variant="caption" sx={{ color: theme.palette.text.secondary }}>
-                          {attachment.attachmentType === 'url' ? 'URL Link' :
+                          {attachment.attachmentType === 'url' ? 'URL Link' : 
                            attachment.attachmentType === 'google_drive' ? 'Google Drive' :
                            attachment.attachmentType === 'onedrive' ? 'OneDrive/SharePoint' : 'Link'}
                         </Typography>

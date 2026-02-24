@@ -30,7 +30,7 @@ export const cardItems: CardItem[] = [
   {
     title: 'Streamline Your Projects',
     description:
-      'Boost productivity with OpsDeck, the all-in-one cloud platform for seamless project organization, team collaboration, and progress tracking.',
+      'Boost productivity with NexTask SaaS-Dev, the all-in-one cloud platform for seamless project organization, team collaboration, and progress tracking.',
     icon: (
       <RocketLaunchOutlined sx={{ fontSize: 35, color: (theme) => theme.palette.primary.main }} />
     ),
@@ -38,19 +38,19 @@ export const cardItems: CardItem[] = [
   {
     title: 'Collaborate Seamlessly',
     description:
-      "Enable real-time teamwork with OpsDeck's collaboration tools. Share updates, assign tasks, and communicate seamlessly to keep everyone aligned.",
+      "Enable real-time teamwork with NexTask's collaboration tools. Share updates, assign tasks, and communicate seamlessly to keep everyone aligned.",
     icon: <GroupsOutlined sx={{ fontSize: 35, color: (theme) => theme.palette.primary.main }} />,
   },
   {
     title: 'Track Progress with Detailed Analytics',
     description:
-      "Get actionable insights with OpsDeck's analytics. Track timelines, spot bottlenecks, and make data-driven decisions to keep projects on course.",
+      "Get actionable insights with NexTask's analytics. Track timelines, spot bottlenecks, and make data-driven decisions to keep projects on course.",
     icon: <BarChartOutlined sx={{ fontSize: 35, color: (theme) => theme.palette.primary.main }} />,
   },
   {
     title: 'Secure Data with Advanced Encryption',
     description:
-      "Shield your projects with OpsDeck's robust security features. Your data is encrypted and accessible only to authorized users, ensuring full protection.",
+      "Shield your projects with NexTask's robust security features. Your data is encrypted and accessible only to authorized users, ensuring full protection.",
     icon: <LockOutlined sx={{ fontSize: 35, color: (theme) => theme.palette.primary.main }} />,
   },
 ];

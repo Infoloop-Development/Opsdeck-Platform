@@ -1,9 +1,9 @@
 /**
  * Organization Middleware
- *
+ * 
  * This middleware extracts organization slug from the request and resolves it to org_id.
  * It validates the organization exists and is active, then attaches org_id to the request.
- *
+ * 
  * Rules:
  * - Slug → org_id resolution happens once per request
  * - Backend never trusts slug after this point
@@ -43,7 +43,7 @@ export function extractSlugFromPath(pathname: string, headers?: Headers): string
 
   // Skip common prefixes
   const skipPrefixes = ['api', 'dashboard', 'auth', 'admin'];
-
+  
   // Find first segment that's not a skip prefix
   for (const segment of segments) {
     if (segment && !skipPrefixes.includes(segment.toLowerCase())) {
@@ -84,8 +84,8 @@ export async function resolveSlugToOrgId(slug: string): Promise<ObjectId | null>
       return null;
     }
 
-    const org_id = organization._id instanceof ObjectId
-      ? organization._id
+    const org_id = organization._id instanceof ObjectId 
+      ? organization._id 
       : new ObjectId(organization._id);
 
     // Cache the result
@@ -128,7 +128,7 @@ export async function validateOrganizationActive(org_id: ObjectId): Promise<bool
 
 /**
  * Organization middleware for API routes
- *
+ * 
  * Usage in API route:
  * ```typescript
  * const orgResult = await getOrgIdFromRequest(request);
@@ -198,11 +198,11 @@ export async function requireOrgId(
   request: Request | NextRequest
 ): Promise<ObjectId> {
   const result = await getOrgIdFromRequest(request);
-
+  
   if (result.error || !result.org_id) {
     throw new Error(result.error || 'Organization ID is required');
   }
-
+  
   return result.org_id;
 }
 

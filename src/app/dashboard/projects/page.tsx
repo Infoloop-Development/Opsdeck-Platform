@@ -437,7 +437,7 @@ export default function Projects() {
                 sx={{
                   width: { xs: "unset", lg: "520px" },
                   maxWidth: "100%",
-                  borderRadius: "6px",
+                  borderRadius: "50px",
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
@@ -450,6 +450,7 @@ export default function Projects() {
 
                     "& fieldset": {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     "&:hover fieldset": {
@@ -480,7 +481,7 @@ export default function Projects() {
                     setProjectModalVisible(true);
                   }}
                   sx={{
-                    borderRadius: "6px",
+                    borderRadius: "50px",
                     fontWeight: 500,
                     color: (theme) =>
                       theme.palette.mode === "dark" ? "#fff" : "#000",
@@ -601,7 +602,7 @@ export default function Projects() {
                           color: getStatusStyles(project.status || "In Progress").color,
                           fontWeight: 500,
                           minWidth: "fit-content",
-                          borderRadius: "4px",
+                          borderRadius: "50px",
                           fontSize: "12px",
                         }}
                       />
@@ -700,7 +701,7 @@ export default function Projects() {
                                   fontWeight: 500,
                                   minWidth: "fit-content",
                                   width: "fit-content",
-                                  borderRadius: "4px",
+                                  borderRadius: "50px",
                                   fontSize: "12px",
                                 }}
                               />

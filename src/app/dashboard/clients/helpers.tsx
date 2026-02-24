@@ -22,7 +22,7 @@ const clientsColumns: ResponsiveTableColumn[] = [
             sx={(theme) => ({
               width: 38,
               height: 38,
-              borderRadius: '8px',
+              borderRadius: '50px',
               bgcolor:
                 theme.palette.mode === 'dark'
                   ? '#1F2937'

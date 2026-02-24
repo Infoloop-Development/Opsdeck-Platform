@@ -35,7 +35,7 @@ export async function GET(
     const client = await clientPromise;
     const db = client.db(DATABASE_NAME);
     const projectsCollection = db.collection('projects');
-
+    
     // Verify project exists
     const project = await projectsCollection.findOne({ _id: new ObjectId(projectId) });
     if (!project) {
@@ -112,7 +112,7 @@ export async function GET(
 
     // Populate assignee information
     const usersCollection = db.collection('users');
-
+    
     // Get all unique assignee IDs from all tasks
     const allAssigneeIds = new Set<ObjectId>();
     tasks.forEach(task => {
@@ -125,12 +125,12 @@ export async function GET(
         }
       }
     });
-
+    
     // Fetch all assignees in one query
     const assignees = Array.from(allAssigneeIds).length > 0
       ? await usersCollection.find({ _id: { $in: Array.from(allAssigneeIds) } }).toArray()
       : [];
-
+    
     const assigneeMap = new Map(
       assignees.map(u => [u._id.toString(), {
         _id: u._id.toString(),
@@ -139,14 +139,14 @@ export async function GET(
         email: u.email,
       }])
     );
-
+    
     const populatedTasks = tasks.map((task) => {
       const taskData: any = {
         ...task,
         _id: task._id.toString(),
         projectId: task.projectId.toString(),
       };
-
+      
       // Handle assignee array (convert legacy single assignee to array)
       if (task.assignee) {
         if (Array.isArray(task.assignee)) {
@@ -166,7 +166,7 @@ export async function GET(
         taskData.assignee = [];
         taskData.assigneeInfo = [];
       }
-
+      
       return taskData;
     });
 
@@ -300,18 +300,18 @@ export async function POST(
 
     // Validate assignee if provided (array of user IDs)
     const assigneeIds: ObjectId[] = [];
-
+    
     if (assignee && Array.isArray(assignee) && assignee.length > 0) {
       try {
         const usersCollection = db.collection('users');
         // Validate all assignee IDs exist
         for (const assigneeIdStr of assignee) {
           if (!assigneeIdStr || assigneeIdStr.trim() === '') continue;
-
+          
           if (!ObjectId.isValid(assigneeIdStr)) {
             return NextResponse.json({ error: `Invalid assignee ID format: ${assigneeIdStr}` }, { status: 400 });
           }
-
+          
           const assigneeUser = await usersCollection.findOne({
             _id: new ObjectId(assigneeIdStr),
           });
@@ -370,7 +370,7 @@ export async function POST(
     if (assigneeIds.length > 0 && decoded.role === 'Admin') {
       const org_id = getOrgIdFromToken(decoded);
       const usersCollection = db.collection('users');
-
+      
       // Get admin info for notification message
       const admin = await usersCollection.findOne({ _id: new ObjectId(decoded.id) });
       const adminName = admin
@@ -454,7 +454,7 @@ export async function POST(
       const assigneeUsers = await usersCollection.find({
         _id: { $in: assigneeIds },
       }).toArray();
-
+      
       assigneeInfo = assigneeUsers.map(user => ({
         _id: user._id.toString(),
         firstName: user.firstName,
@@ -598,15 +598,15 @@ export async function PATCH(
         try {
           const usersCollection = db.collection('users');
           const assigneeIds: ObjectId[] = [];
-
+          
           // Validate all assignee IDs exist
           for (const assigneeIdStr of assignee) {
             if (!assigneeIdStr || assigneeIdStr.trim() === '') continue;
-
+            
             if (!ObjectId.isValid(assigneeIdStr)) {
               return NextResponse.json({ error: `Invalid assignee ID format: ${assigneeIdStr}` }, { status: 400 });
             }
-
+            
             const assigneeUser = await usersCollection.findOne({
               _id: new ObjectId(assigneeIdStr),
             });
@@ -620,14 +620,14 @@ export async function PATCH(
           // Send notifications to newly assigned users (only if admin is assigning)
           if (decoded.role === 'Admin') {
             const org_id = getOrgIdFromToken(decoded);
-
+            
             // Get existing assignees to find newly added ones
-            const existingAssignees = existingTask.assignee
-              ? (Array.isArray(existingTask.assignee)
-                  ? existingTask.assignee.map((id: any) => id.toString())
+            const existingAssignees = existingTask.assignee 
+              ? (Array.isArray(existingTask.assignee) 
+                  ? existingTask.assignee.map((id: any) => id.toString()) 
                   : [existingTask.assignee.toString()])
               : [];
-
+            
             const newAssignees = assigneeIds
               .map(id => id.toString())
               .filter(id => !existingAssignees.includes(id));
@@ -764,14 +764,14 @@ export async function PATCH(
     // Populate assignee info if exists
     let assigneeInfo: any[] = [];
     const assigneeIds = updatedTask?.assignee ? (Array.isArray(updatedTask.assignee) ? updatedTask.assignee : [updatedTask.assignee]) : [];
-
+    
     if (assigneeIds.length > 0) {
       const usersCollection = db.collection('users');
       const objectIds = assigneeIds.map(id => typeof id === 'string' ? new ObjectId(id) : id);
       const assigneeUsers = await usersCollection.find({
         _id: { $in: objectIds },
       }).toArray();
-
+      
       assigneeInfo = assigneeUsers.map(user => ({
         _id: user._id.toString(),
         firstName: user.firstName,
@@ -785,7 +785,7 @@ export async function PATCH(
       _id: updatedTask?._id?.toString(),
       projectId: updatedTask?.projectId?.toString(),
     };
-
+    
     // Include assignee array (convert to array if it's a single ObjectId from old data)
     if (updatedTask?.assignee) {
       if (Array.isArray(updatedTask.assignee)) {
@@ -797,7 +797,7 @@ export async function PATCH(
     } else {
       taskResponse.assignee = [];
     }
-
+    
     if (assigneeInfo.length > 0) {
       taskResponse.assigneeInfo = assigneeInfo;
     }

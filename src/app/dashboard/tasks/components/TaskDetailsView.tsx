@@ -31,16 +31,16 @@ const TaskDetailsView: React.FC<TaskDetailsViewProps> = ({ open, onClose, task, 
   if (!task) return null;
 
   const getPriorityColor = getPriorityColorUtil;
-
+  
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'Not set';
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
+      return date.toLocaleDateString('en-GB', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
       });
     } catch {
       return dateString;
@@ -53,13 +53,13 @@ const TaskDetailsView: React.FC<TaskDetailsViewProps> = ({ open, onClose, task, 
     try {
       const today = new Date();
       const date = new Date(dueDate);
-
+      
       if (isNaN(date.getTime())) return false;
-
+      
       // Normalize both dates to start of day for accurate comparison
       today.setHours(0, 0, 0, 0);
       date.setHours(0, 0, 0, 0);
-
+      
       return (
         today.getFullYear() === date.getFullYear() &&
         today.getMonth() === date.getMonth() &&

@@ -23,6 +23,8 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
+  IconButton,
+  Breadcrumbs,
 } from '@mui/material';
 import {
   AttachFile,
@@ -31,6 +33,7 @@ import {
   Description as DescriptionIcon,
   ViewModule,
   ViewList,
+  Download,
 } from '@mui/icons-material';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -326,7 +329,33 @@ export default function ProjectFullDetailsPage() {
   const handleReadOnlyRefresh = () => {
     // Read-only: do nothing
   };
+  const getStatusStyles = (status) => {
+    switch (status) {
+      case "In Progress":
+        return {
+          bg: "rgba(255, 165, 0, 0.15)", // orange soft
+          color: "#FF9800",
+        };
 
+      case "Completed":
+        return {
+          bg: "rgba(34, 197, 94, 0.15)", // green soft
+          color: "#22C55E",
+        };
+
+      case "Planning":
+        return {
+          bg: "rgba(124, 77, 255, 0.15)", // purple soft
+          color: "#7C4DFF",
+        };
+
+      default:
+        return {
+          bg: "rgba(107, 114, 128, 0.15)", // gray fallback
+          color: "#6B7280",
+        };
+    }
+  };
   useEffect(() => {
     if (activeTab === 'tasks') {
       // Tasks are loaded by TaskBoard component itself, no need to fetch here
@@ -369,20 +398,52 @@ export default function ProjectFullDetailsPage() {
 
   return (
     <Box>
-      <PageHeader
-        title={projectTitle}
-        action={
-          <Chip
-            label={project.status || 'Pending'}
-            color={(project.status === 'Completed'
-              ? 'success'
-              : project.status === 'In Progress'
-                ? 'warning'
-                : 'default') as any}
-            size="small"
-          />
-        }
-      />
+      <Box sx={{
+        paddingInline: '24px',
+        backgroundColor: (theme) => theme.palette.background.paper,
+        border: (theme) => `1px solid ${theme.palette.divider}`,
+        borderRadius: "8px",
+        mb: 3,
+      }}>
+        <PageHeader
+        className='card_header'
+          sx={{ p: '0 !important' }}
+          title={projectTitle}
+          action={
+            <Chip
+              label={project.status || 'Pending'}
+              size="small"
+              sx={{
+                backgroundColor: getStatusStyles(project.status || "In Progress").bg,
+                color: getStatusStyles(project.status || "In Progress").color,
+                fontWeight: 500,
+                minWidth: "fit-content",
+                borderRadius: "50px",
+                fontSize: "12px",
+              }}
+            />
+          }
+        />
+        <Box sx={{
+          pb: 0.5,
+          mb: 1.5,
+          width: '100%',
+          overflowX: 'auto',
+          display: { xs: 'block', md: 'none' }
+        }}>
+          <Breadcrumbs aria-label="breadcrumb" sx={{ fontSize: { xs: 13, sm: 15 } }}>
+            <MuiLink href="/dashboard" underline="hover" color="inherit">
+              Dashboard
+            </MuiLink>
+            <MuiLink href="/dashboard/projects" underline="hover" color="inherit">
+              Projects
+            </MuiLink>
+            <Typography color="text.primary" sx={{ fontWeight: 500 }}>
+              {projectTitle}
+            </Typography>
+          </Breadcrumbs>
+        </Box>
+      </Box>
 
       <Paper sx={{ mt: 3 }}>
         <Tabs
@@ -401,10 +462,10 @@ export default function ProjectFullDetailsPage() {
       {/* Overview Tab */}
       {activeTab === 'overview' && (
         <Grid2 container spacing={3} sx={{ mt: 2 }}>
-          <Grid2 size={{ xs: 12, md: 8 }}>
+          <Grid2 size={{ xs: 12, lg: 8 }}>
             <Paper sx={{ p: 3 }}>
               <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
-                <DescriptionIcon fontSize="small" color="primary" />
+                {/* <DescriptionIcon fontSize="small" color="primary" /> */}
                 <Typography variant="h6">Project Description</Typography>
               </Stack>
               {project.description ? (
@@ -425,7 +486,7 @@ export default function ProjectFullDetailsPage() {
             </Paper>
           </Grid2>
 
-          <Grid2 size={{ xs: 12, md: 4 }}>
+          <Grid2 size={{ xs: 12, lg: 4 }}>
             <Paper sx={{ p: 3, mb: 3 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>
                 Project Details
@@ -435,44 +496,52 @@ export default function ProjectFullDetailsPage() {
                   <Avatar
                     src={clientPhotoUrl || undefined}
                     sx={{
-                      width: 32,
-                      height: 32,
                       bgcolor: (theme) =>
                         clientPhotoUrl ? 'transparent' : theme.palette.primary.main,
-                      fontSize: 14,
+                      width: 38,
+                      height: 38,
+                      borderRadius: '50px',
+                      // color:
+                      //   theme.palette.mode === 'dark'
+                      //     ? '#E5E7EB'
+                      //     : '#111827',
+                      fontWeight: 600,
+                      fontSize: 15,
                     }}
                   >
                     {!clientPhotoUrl && (project.clientName?.charAt(0) || '?')}
                   </Avatar>
                   <Box>
+                    <Typography variant="body2" sx={{ fontWeight: 500, fontSize: 16 }}>
+                      {project.clientName || 'Not set'}
+                    </Typography>
                     <Typography variant="caption" color="text.secondary">
                       Client
                     </Typography>
-                    <Typography variant="body2">
-                      {project.clientName || 'Not set'}
-                    </Typography>
                   </Box>
                 </Stack>
 
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <CalendarToday fontSize="small" color="action" />
-                  <Box>
-                    <Typography variant="caption" color="text.secondary">
-                      Start Date
-                    </Typography>
-                    <Typography variant="body2">{displayStartDate}</Typography>
-                  </Box>
-                </Stack>
+                <Box sx={{ mt: 3, mb: 0.5, display: 'flex', flexWrap: 'wrap', gap: { xs: 2, xl: 8 } }}>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <CalendarToday fontSize="small" color="action" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Start Date
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 500, fontSize: 14 }}>{displayStartDate}</Typography>
+                    </Box>
+                  </Stack>
 
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <CalendarToday fontSize="small" color="action" />
-                  <Box>
-                    <Typography variant="caption" color="text.secondary">
-                      End Date
-                    </Typography>
-                    <Typography variant="body2">{displayEndDate}</Typography>
-                  </Box>
-                </Stack>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <CalendarToday fontSize="small" color="action" />
+                    <Box>
+                      <Typography variant="caption" color="text.secondary">
+                        End Date
+                      </Typography>
+                      <Typography variant="body2" sx={{ fontWeight: 500, fontSize: 14 }}>{displayEndDate}</Typography>
+                    </Box>
+                  </Stack>
+                </Box>
               </Stack>
             </Paper>
 
@@ -483,44 +552,127 @@ export default function ProjectFullDetailsPage() {
                   size="small"
                   label={`${attachments.length} item${attachments.length === 1 ? '' : 's'}`}
                   variant="outlined"
+                  sx={{
+                    fontWeight: 500,
+                    minWidth: "fit-content",
+                    borderRadius: "50px",
+                    fontSize: "12px",
+                  }}
                 />
               </Stack>
               {attachments.length > 0 ? (
-                <List dense>
+                // <List dense>
+                //   {attachments.map((attachment, index) => (
+                //     <ListItem key={`${attachment.fileUrl}-${index}`} sx={{ px: 0 }}>
+                //       <ListItemIcon sx={{ minWidth: 32 }}>
+                //         <AttachFile fontSize="small" />
+                //       </ListItemIcon>
+                //       <ListItemText
+                //         primary={
+                //           <MuiLink
+                //             href={attachment.fileUrl}
+                //             target="_blank"
+                //             rel="noopener noreferrer"
+                //             underline="hover"
+                //             sx={{
+                //               fontSize: 13,
+                //               overflow: 'hidden',
+                //               textOverflow: 'ellipsis',
+                //               whiteSpace: 'nowrap',
+                //               display: 'block',
+                //             }}
+                //           >
+                //             {attachment.fileName || 'Attachment'}
+                //           </MuiLink>
+                //         }
+                //         secondary={
+                //           attachment.fileType ? (
+                //             <Typography variant="caption" color="text.secondary">
+                //               {attachment.fileType}
+                //             </Typography>
+                //           ) : null
+                //         }
+                //       />
+                //     </ListItem>
+                //   ))}
+                // </List>
+                <Box>
+                  {/* Attachments List */}
                   {attachments.map((attachment, index) => (
-                    <ListItem key={`${attachment.fileUrl}-${index}`} sx={{ px: 0 }}>
-                      <ListItemIcon sx={{ minWidth: 32 }}>
-                        <AttachFile fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={
+                    <Box
+                      key={`${attachment.fileUrl}-${index}`}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.05)"
+                            : "#f1f3f5",
+                        borderRadius: "10px",
+                        px: 2,
+                        py: 1.6,
+                        mb: 1.5,
+                        transition: "all .18s ease",
+                        border: "1px solid",
+                        borderColor: (theme) =>
+                          theme.palette.mode === "dark" ? "rgba(255,255,255,0.08)" : "#e2e6ea",
+                        "&:hover": {
+                          backgroundColor: (theme) =>
+                            theme.palette.mode === "dark"
+                              ? "rgba(255,255,255,0.09)"
+                              : "#e9ecef",
+                        },
+                      }}
+                    >
+                      {/* Left Section */}
+                      <Box sx={{ display: "flex", alignItems: "center", minWidth: 0 }}>
+                        <AttachFile sx={{ mr: 1.5, color: "text.secondary" }} />
+
+                        <Box sx={{ minWidth: 0 }}>
                           <MuiLink
                             href={attachment.fileUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            underline="hover"
+                            underline="none"
                             sx={{
-                              fontSize: 13,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                              display: 'block',
+                              fontSize: 14,
+                              fontWeight: 500,
+                              color: "text.primary",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                              display: "block",
+                              maxWidth: { xs: 180, sm: 320 },
                             }}
                           >
-                            {attachment.fileName || 'Attachment'}
+                            {attachment.fileName || "Attachment"}
                           </MuiLink>
-                        }
-                        secondary={
-                          attachment.fileType ? (
+
+                          {attachment.fileType && (
                             <Typography variant="caption" color="text.secondary">
                               {attachment.fileType}
                             </Typography>
-                          ) : null
-                        }
-                      />
-                    </ListItem>
+                          )}
+                        </Box>
+                      </Box>
+
+                      {/* Download Button */}
+                      <IconButton
+                        component="a"
+                        href={attachment.fileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                          ml: 2,
+                          color: "text.secondary",
+                        }}
+                      >
+                        <Download />
+                      </IconButton>
+                    </Box>
                   ))}
-                </List>
+                </Box>
               ) : (
                 <Typography variant="body2" color="text.secondary">
                   No attachments for this project.

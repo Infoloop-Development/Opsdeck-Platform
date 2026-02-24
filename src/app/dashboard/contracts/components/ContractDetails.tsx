@@ -100,7 +100,7 @@ const ContractDetailsDialog: React.FC<ContractDetailsDialogProps> = ({
                 ...getStatusStyles(contract.status || ''),
                 height: 24,
                 fontWeight: 500,
-                borderRadius: '4px',
+                borderRadius: '50px',
                 fontSize: '12px',
                 minWidth: 'fit-content',
               }}

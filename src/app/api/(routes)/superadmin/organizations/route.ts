@@ -32,14 +32,14 @@ export async function GET(request: Request) {
 
     // Build query
     const query: any = { deletedAt: null };
-
+    
     if (search) {
       const searchConditions: any[] = [
         { name: { $regex: search, $options: 'i' } },
         { slug: { $regex: search, $options: 'i' } },
         { status: { $regex: search, $options: 'i' } },
       ];
-
+      
       const matchingOwners = await usersCollection
         .find({
           $or: [
@@ -50,12 +50,12 @@ export async function GET(request: Request) {
         })
         .project({ _id: 1 })
         .toArray();
-
+      
       if (matchingOwners.length > 0) {
         const ownerIds = matchingOwners.map((owner) => owner._id);
         searchConditions.push({ ownerId: { $in: ownerIds } });
       }
-
+      
       query.$or = searchConditions;
     }
 
@@ -78,7 +78,7 @@ export async function GET(request: Request) {
       }
       query.planId = { $in: planIds };
     }
-
+    
     if (statusFilter) {
       query.status = statusFilter;
     }
@@ -263,7 +263,7 @@ export async function POST(request: Request) {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-
+    
     // Double-check the role is correct before proceeding
     if (ownerUser.role !== 'Admin') {
       console.error('CRITICAL ERROR: ownerUser.role is not "Admin"! Value:', ownerUser.role);
@@ -281,14 +281,14 @@ export async function POST(request: Request) {
     try {
       // Log what we're about to insert
       console.log('About to create owner user with role:', ownerUser.role, 'for email:', finalOwnerEmail);
-
+      
       ownerResult = await usersCollection.insertOne(ownerUser);
       ownerId = ownerResult.insertedId;
-
+      
       // Immediately verify the role was set correctly - must be exactly 'Admin'
       const verifyOwner = await usersCollection.findOne({ _id: ownerId });
       console.log('User created. Verifying role. Found role in DB:', verifyOwner?.role);
-
+      
       if (!verifyOwner) {
         console.error('CRITICAL: Owner user was not found after creation!');
         return NextResponse.json(
@@ -296,7 +296,7 @@ export async function POST(request: Request) {
           { status: 500 }
         );
       }
-
+      
       if (verifyOwner.role !== 'Admin') {
         console.error('ERROR: Owner role was not set correctly! Expected "Admin", got:', verifyOwner.role);
         console.error('Full user object:', JSON.stringify(verifyOwner, null, 2));
@@ -306,11 +306,11 @@ export async function POST(request: Request) {
           { $set: { role: 'Admin' } }
         );
         console.log('Role fix update result:', fixResult);
-
+        
         // Verify again after fix
         const verifyAfterFix = await usersCollection.findOne({ _id: ownerId });
         console.log('Role after fix:', verifyAfterFix?.role);
-
+        
         if (verifyAfterFix && verifyAfterFix.role !== 'Admin') {
           console.error('CRITICAL: Role fix failed! Role is still:', verifyAfterFix.role);
           return NextResponse.json(
@@ -331,7 +331,7 @@ export async function POST(request: Request) {
 
     let resolvedPlanId: ObjectId | null = null;
     let resolvedPlanName = '';
-
+    
     // Handle planId or planName - planId takes precedence
     if (planId) {
       // If planId is provided directly, validate it and get plan name
@@ -343,14 +343,14 @@ export async function POST(request: Request) {
             { status: 400 }
           );
         }
-
+        
         const plansCollection = db.collection('plans');
         const planDoc = await plansCollection.findOne({
           _id: new ObjectId(planId),
           status: 'active',
           deletedAt: null,
         });
-
+        
         if (!planDoc) {
           await usersCollection.deleteOne({ _id: ownerId });
           return NextResponse.json(
@@ -358,7 +358,7 @@ export async function POST(request: Request) {
             { status: 400 }
           );
         }
-
+        
         resolvedPlanId = planDoc._id;
         resolvedPlanName = planDoc.plan_name || '';
       } catch (planError: any) {
@@ -422,18 +422,18 @@ export async function POST(request: Request) {
       console.log('Updating owner with org_id. Owner ID:', ownerId.toString());
       const updateResult = await usersCollection.updateOne(
         { _id: ownerId },
-        { $set: {
+        { $set: { 
           organizationId: result.insertedId,
           org_id: result.insertedId  // Set org_id for organization scoping
           // NOTE: We explicitly do NOT set role here to avoid overwriting it
         } }
       );
       console.log('Update result:', updateResult);
-
+      
       // Verify role is still correct after update - must be exactly 'Admin'
       const verifyAfterUpdate = await usersCollection.findOne({ _id: ownerId });
       console.log('Role after org_id update:', verifyAfterUpdate?.role);
-
+      
       if (!verifyAfterUpdate) {
         console.error('CRITICAL: Owner user not found after org_id update!');
       } else if (verifyAfterUpdate.role !== 'Admin') {
@@ -449,11 +449,11 @@ export async function POST(request: Request) {
           { $set: { role: 'Admin' } }
         );
         console.log('Role fix result:', fixResult);
-
+        
         // Final verification
         const finalVerify = await usersCollection.findOne({ _id: ownerId });
         console.log('Final role verification:', finalVerify?.role);
-
+        
         if (finalVerify && finalVerify.role !== 'Admin') {
           console.error('CRITICAL: Role fix failed! Final role:', finalVerify.role);
         } else {
@@ -517,28 +517,28 @@ export async function POST(request: Request) {
       console.log('Current role in DB:', finalOwnerCheck.role);
       console.log('Role type:', typeof finalOwnerCheck.role);
       console.log('Role === "Admin":', finalOwnerCheck.role === 'Admin');
-
+      
       if (finalOwnerCheck.role !== 'Admin') {
         console.error('❌ CRITICAL: Owner role is NOT "Admin" in final check!');
         console.error('   Expected: "Admin"');
         console.error('   Got:', finalOwnerCheck.role);
         console.error('   Full user object:', JSON.stringify(finalOwnerCheck, null, 2));
-
+        
         // Last chance fix - force set to 'Admin'
         const finalFixResult = await usersCollection.updateOne(
           { _id: ownerId },
           { $set: { role: 'Admin' } }
         );
         console.log('Final fix update result:', finalFixResult);
-
+        
         // Verify the fix worked
         const afterFinalFix = await usersCollection.findOne({ _id: ownerId });
         console.log('Role after final fix:', afterFinalFix?.role);
-
+        
         if (afterFinalFix && afterFinalFix.role !== 'Admin') {
           console.error('❌❌❌ FINAL FIX FAILED! Role is still:', afterFinalFix.role);
           return NextResponse.json(
-            {
+            { 
               error: 'Failed to set owner role to Admin. Please check database.',
               debug: {
                 expectedRole: 'Admin',

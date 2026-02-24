@@ -5,7 +5,7 @@ import { DATABASE_NAME } from '../../config';
 /**
  * Public Plans API
  * GET /api/plans
- *
+ * 
  * Returns all active plans available for public signup
  * No authentication required
  * Used by signup page to display available plans

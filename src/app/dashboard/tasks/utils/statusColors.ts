@@ -147,7 +147,7 @@ export const getStatusOptions = (projectId?: string): Array<{ value: string; nam
  */
 export const getStatusDisplayName = (status: string, projectId?: string): string => {
   if (!status) return 'Not set';
-
+  
   const options = getStatusOptions(projectId);
   const option = options.find((opt) => opt.value === status);
   return option?.name || status;
@@ -158,7 +158,7 @@ export const getStatusDisplayName = (status: string, projectId?: string): string
  */
 export const getStatusFieldTitle = (projectId?: string): string => {
   if (typeof window === 'undefined') return 'Status';
-
+  
   try {
     const storageKey = projectId ? `statusFieldTitle_${projectId}` : 'statusFieldTitle';
     const saved = localStorage.getItem(storageKey);

@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 /**
  * Sends an email using Nodemailer with Gmail SMTP configuration
- *
+ * 
  * @param to - The recipient's email address
  * @param subject - The subject of the email
  * @param html - The HTML content of the email
@@ -22,7 +22,7 @@ export async function sendEmail(to: string, subject: string, html: string) {
     });
 
     const mailOptions = {
-      from: process.env.SENDER_EMAIL || process.env.SMTP_USER || 'noreply@OpsDeck.com',
+      from: process.env.SENDER_EMAIL || process.env.SMTP_USER || 'noreply@nextask.com',
       to,
       subject,
       html,

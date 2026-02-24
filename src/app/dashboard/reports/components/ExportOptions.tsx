@@ -17,7 +17,7 @@ const ExportOptions: React.FC<ExportOptionsProps> = ({ title, data, columns }) =
   // Handle PDF generation
   const handleGeneratePdf = async () => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
-
+    
     setPdfLoading(true);
 
     try {

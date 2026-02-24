@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
     // Verify the Stripe session was completed
     const session = await stripe.checkout.sessions.retrieve(sessionId);
-
+    
     if (session.status !== 'complete') {
       return NextResponse.json(
         { error: 'Payment session not completed' },
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
 
     // Find user by email (should exist after webhook created it)
     const user = await usersCollection.findOne({ email });
-
+    
     if (!user) {
       return NextResponse.json(
         { error: 'Account not found. Please wait a moment and try logging in manually.' },

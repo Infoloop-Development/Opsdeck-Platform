@@ -85,7 +85,7 @@ const HomePage: React.FC = () => {
                   <Box>
                     <Link href="/signup">
                       <Button variant="contained" sx={{
-                        background:"linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)" , borderRadius: '5px !important' , py: '10px',
+                        background:"linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)" , borderRadius: '5px !important' , py: '10px', 
                       }} startIcon={<FollowTheSignsOutlined />}>
                         Create account
                       </Button>

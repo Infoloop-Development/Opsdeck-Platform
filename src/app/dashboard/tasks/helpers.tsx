@@ -35,13 +35,13 @@ const isDueToday = (dueDate?: string): boolean => {
   try {
     const today = new Date();
     const date = new Date(dueDate);
-
+    
     if (isNaN(date.getTime())) return false;
-
+    
     // Normalize both dates to start of day for accurate comparison
     today.setHours(0, 0, 0, 0);
     date.setHours(0, 0, 0, 0);
-
+    
     return (
       today.getFullYear() === date.getFullYear() &&
       today.getMonth() === date.getMonth() &&

@@ -51,11 +51,11 @@ const EditStatusOptionsDialog: React.FC<EditStatusOptionsDialogProps> = ({
       const statusOptionsKey = projectId ? `statusOptions_${projectId}` : 'statusOptions';
       const fieldTitleKey = projectId ? `statusFieldTitle_${projectId}` : 'statusFieldTitle';
       const descriptionKey = projectId ? `statusFieldDescription_${projectId}` : 'statusFieldDescription';
-
+      
       const savedOptions = localStorage.getItem(statusOptionsKey);
       const savedFieldTitle = localStorage.getItem(fieldTitleKey);
       const savedDescription = localStorage.getItem(descriptionKey);
-
+      
       if (savedFieldTitle) {
         setFieldTitle(savedFieldTitle);
       }
@@ -104,7 +104,7 @@ const EditStatusOptionsDialog: React.FC<EditStatusOptionsDialogProps> = ({
         }));
         setOptions(defaultOptions);
       }
-
+      
       // Reset new option field state
       setShowNewOptionField(false);
       setNewOptionName('');
@@ -130,7 +130,7 @@ const EditStatusOptionsDialog: React.FC<EditStatusOptionsDialogProps> = ({
 
     // Generate unique colors for new options (avoid repeating colors)
     const usedColors = options.map(opt => `${opt.color.bg}-${opt.color.text}`);
-
+    
     // Find first unused color from extended palette
     let selectedColor = STATUS_COLORS_EXTENDED[0];
     for (const color of STATUS_COLORS_EXTENDED) {
@@ -182,11 +182,11 @@ const EditStatusOptionsDialog: React.FC<EditStatusOptionsDialogProps> = ({
     const statusOptionsKey = projectId ? `statusOptions_${projectId}` : 'statusOptions';
     const fieldTitleKey = projectId ? `statusFieldTitle_${projectId}` : 'statusFieldTitle';
     const descriptionKey = projectId ? `statusFieldDescription_${projectId}` : 'statusFieldDescription';
-
+    
     localStorage.setItem(statusOptionsKey, JSON.stringify(optionsToSave));
     localStorage.setItem(fieldTitleKey, fieldTitle);
     localStorage.setItem(descriptionKey, description);
-
+    
     onSave(optionsToSave, fieldTitle, description);
     // Dispatch event to notify other components
     if (typeof window !== 'undefined') {
@@ -200,17 +200,17 @@ const EditStatusOptionsDialog: React.FC<EditStatusOptionsDialogProps> = ({
     const statusOptionsKey = projectId ? `statusOptions_${projectId}` : 'statusOptions';
     const fieldTitleKey = projectId ? `statusFieldTitle_${projectId}` : 'statusFieldTitle';
     const descriptionKey = projectId ? `statusFieldDescription_${projectId}` : 'statusFieldDescription';
-
+    
     const savedOptions = localStorage.getItem(statusOptionsKey);
     const savedFieldTitle = localStorage.getItem(fieldTitleKey);
     const savedDescription = localStorage.getItem(descriptionKey);
-
+    
     if (savedFieldTitle) {
       setFieldTitle(savedFieldTitle);
     } else {
       setFieldTitle('Status');
     }
-
+    
     if (savedDescription) {
       setDescription(savedDescription);
     } else {
@@ -356,7 +356,7 @@ const EditStatusOptionsDialog: React.FC<EditStatusOptionsDialogProps> = ({
                   </IconButton>
                 </Box>
               ))}
-
+              
               {/* Add new option input - only show when user clicks "+ Add an option" */}
               {showNewOptionField && (
                 <Box
@@ -416,7 +416,7 @@ const EditStatusOptionsDialog: React.FC<EditStatusOptionsDialogProps> = ({
                 </Box>
               )}
             </Stack>
-
+            
             {!showNewOptionField && (
               <Button
                 onClick={handleShowNewOptionField}

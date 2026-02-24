@@ -217,8 +217,8 @@ const ClientManagement: React.FC = () => {
 
     return (
       <>
-        <IconButton
-          onClick={(e) => handleOpenMoreMenu(e, String(clientId))}
+        <IconButton 
+          onClick={(e) => handleOpenMoreMenu(e, String(clientId))} 
           size="small"
           sx={{ color: 'text.secondary' }}
         >
@@ -232,7 +232,7 @@ const ClientManagement: React.FC = () => {
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
           onClick={(e) => e.stopPropagation()}
         >
-          <MenuItem
+          <MenuItem 
             onClick={(e) => {
               e.stopPropagation();
               handleOpenEditModal(item);
@@ -243,7 +243,7 @@ const ClientManagement: React.FC = () => {
             </ListItemIcon>
             <ListItemText>Edit</ListItemText>
           </MenuItem>
-          <MenuItem
+          <MenuItem 
             onClick={(e) => {
               e.stopPropagation();
               handleOpenDeleteModal(item);
@@ -297,7 +297,7 @@ const ClientManagement: React.FC = () => {
                 sx={{
                   width: { xs: "unset", lg: "520px" },
                   maxWidth: "100%",
-                  borderRadius: "6px",
+                  borderRadius: "50px",
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
@@ -310,6 +310,7 @@ const ClientManagement: React.FC = () => {
 
                     "& fieldset": {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     "&:hover fieldset": {
@@ -328,7 +329,7 @@ const ClientManagement: React.FC = () => {
                 startIcon={<AddOutlined />}
                 onClick={handleOpenAddModal}
                 sx={{
-                  borderRadius: "6px",
+                  borderRadius: "50px",
                   fontWeight: 500,
                   color: (theme) =>
                     theme.palette.mode === "dark" ? "#fff" : "#000",

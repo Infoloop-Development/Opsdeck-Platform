@@ -127,7 +127,7 @@ const ResponsiveTable: React.FC<ResponsiveTableProps> = ({
           loading={loading}
         />
       ) : (
-
+        
       )} */}
       {/* {isSmallScreen ? (
         <Pagination

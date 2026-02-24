@@ -1,7 +1,7 @@
 import ConfirmEmailPage from '.';
 
 export const metadata = {
-  title: 'Confirm Email - OpsDeck',
+  title: 'Confirm Email - NexTask',
   description: 'Confirm your email address',
 };
 

@@ -41,11 +41,11 @@ export async function POST(request: Request) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-
+        
         // Retrieve the subscription details to get the plan ID (product ID)
         if (session.subscription) {
             const subscription = await stripe.subscriptions.retrieve(session.subscription as string) as any;
-
+            
             // Check if this is a new organization signup (data stored in metadata)
             if (session.metadata?.signupType === 'new_organization') {
                 // Create organization and user from metadata
@@ -63,8 +63,8 @@ export async function POST(request: Request) {
                 const ADMIN_ROLE = 'Admin';
                 const startDate = new Date(subscription.current_period_start * 1000);
                 const endDate = new Date(subscription.current_period_end * 1000);
-                const trialEndDate = subscription.trial_end
-                    ? new Date(subscription.trial_end * 1000)
+                const trialEndDate = subscription.trial_end 
+                    ? new Date(subscription.trial_end * 1000) 
                     : null;
 
                 // Create owner user first
@@ -149,7 +149,7 @@ export async function POST(request: Request) {
                 (async () => {
                     try {
                         const origin = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-
+                        
                         // Generate email confirmation token
                         const confirmationToken = jwt.sign({ email }, JWT_SECRET!, { expiresIn: '1d' });
                         const confirmationLink = `${origin}/confirm-email?token=${confirmationToken}`;
@@ -182,7 +182,7 @@ export async function POST(request: Request) {
                         const welcomeEmailHtml = getEmailTemplate('welcome', {
                             name: `${firstName} ${lastName}`,
                         });
-                        await sendEmail(email, 'Welcome to OpsDeck!', welcomeEmailHtml);
+                        await sendEmail(email, 'Welcome to NexTask!', welcomeEmailHtml);
 
                     } catch (emailError) {
                         console.error('Error sending emails in webhook (background):', emailError);
@@ -214,11 +214,11 @@ export async function POST(request: Request) {
                 } else {
                     const startDate = new Date(subscription.current_period_start * 1000);
                     const endDate = new Date(subscription.current_period_end * 1000);
-
-                    const trialEndDate = subscription.trial_end
-                        ? new Date(subscription.trial_end * 1000)
+                    
+                    const trialEndDate = subscription.trial_end 
+                        ? new Date(subscription.trial_end * 1000) 
                         : null;
-
+    
                     const updateData: any = {
                         status: 'active',
                         subscription_id: subscription.id,
@@ -227,11 +227,11 @@ export async function POST(request: Request) {
                         planEndDate: endDate,
                         updatedAt: new Date(),
                     };
-
+    
                     if (trialEndDate) {
                         updateData.trialEndDate = trialEndDate;
                     }
-
+    
                     await organizationsCollection.updateOne(
                         { _id: orgId },
                         {
@@ -246,8 +246,8 @@ export async function POST(request: Request) {
 
       case 'customer.subscription.created':
       case 'customer.subscription.updated': {
-        const subscription = event.data.object as any;
-
+        const subscription = event.data.object as Stripe.Subscription;
+        
         // Upsert subscription info in 'subscriptions' collection
         await subscriptionsCollection.updateOne(
             { stripe_subscription_id: subscription.id },
@@ -267,7 +267,7 @@ export async function POST(request: Request) {
             },
             { upsert: true }
         );
-
+        
         // Sync status with Organization
         await organizationsCollection.updateOne(
             { stripe_customer_id: subscription.customer as string },
@@ -297,8 +297,8 @@ export async function POST(request: Request) {
         if (orgWithAddon) {
             await organizationsCollection.updateOne(
                 { 'addons.subscriptionId': subscription.id },
-                {
-                    $set: { 'addons.$.status': 'canceled' }
+                { 
+                    $set: { 'addons.$.status': 'canceled' } 
                 }
             );
         } else {
@@ -309,7 +309,7 @@ export async function POST(request: Request) {
         }
         break;
       }
-
+      
       case 'invoice.payment_succeeded': {
           // Can be used to extend subscription expiry if handled manually
           // But 'customer.subscription.updated' usually handles the dates.

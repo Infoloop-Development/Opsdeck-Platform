@@ -57,7 +57,7 @@ export async function GET(request: Request) {
 
     // Get org_id from token for organization scoping
     const org_id = getOrgIdFromToken(decoded);
-
+    
     // Build query with org_id filter
     const query: any = {};
     if (org_id) {
@@ -123,9 +123,9 @@ export async function POST(request: Request) {
     }
 
     // Check if the user already exists in the same organization
-    const existingUser = await usersCollection.findOne({
+    const existingUser = await usersCollection.findOne({ 
       email,
-      org_id: org_id
+      org_id: org_id 
     });
     if (existingUser) {
       return NextResponse.json({ error: 'User with this email already exists in your organization' }, { status: 400 });
@@ -278,9 +278,9 @@ export async function PATCH(request: Request) {
     const usersCollection = db.collection('users');
 
     // Get the user to update - must be in the same organization
-    const userToUpdate = await usersCollection.findOne({
+    const userToUpdate = await usersCollection.findOne({ 
       _id: new ObjectId(userId),
-      org_id: org_id
+      org_id: org_id 
     });
     if (!userToUpdate) {
       return NextResponse.json({ error: 'User not found in your organization' }, { status: 404 });
@@ -331,9 +331,9 @@ export async function DELETE(request: Request) {
     const usersCollection = db.collection('users');
 
     // Get the user to delete - must be in the same organization
-    const userToDelete = await usersCollection.findOne({
+    const userToDelete = await usersCollection.findOne({ 
       _id: new ObjectId(id),
-      org_id: org_id
+      org_id: org_id 
     });
     if (!userToDelete) {
       return NextResponse.json({ error: 'User not found in your organization' }, { status: 404 });
@@ -348,9 +348,9 @@ export async function DELETE(request: Request) {
     }
 
     // Delete the user
-    const result = await usersCollection.deleteOne({
+    const result = await usersCollection.deleteOne({ 
       _id: new ObjectId(id),
-      org_id: org_id
+      org_id: org_id 
     });
 
     if (result.deletedCount === 0) {

@@ -49,6 +49,7 @@ import {
   MoreVert,
   Edit,
   Delete,
+  CloseOutlined,
 } from '@mui/icons-material';
 import { SortableItem } from './SortableItem';
 import axios from 'axios';
@@ -1096,9 +1097,19 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
       </Dialog>
 
       {/* Add Section Dialog */}
-      <Dialog open={addSectionDialogOpen} onClose={() => setAddSectionDialogOpen(false)}>
-        <DialogTitle>Add New Task Section</DialogTitle>
-        <DialogContent>
+      <Dialog open={addSectionDialogOpen} onClose={() => setAddSectionDialogOpen(false)} fullWidth maxWidth="sm">
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >Add New Task Section
+          <IconButton onClick={() => setAddSectionDialogOpen(false)} size="small">
+            <CloseOutlined />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent style={{ paddingTop: 24 }} dividers>
           <TextField
             autoFocus
             margin="dense"
@@ -1111,9 +1122,60 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
             }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setAddSectionDialogOpen(false)}>Cancel</Button>
-          <Button onClick={handleAddSection} variant="contained" disabled={!newSectionName.trim()}>
+        <DialogActions
+          sx={{
+            px: 3,
+            py: 2,
+            borderColor: 'divider',
+          }}>
+          <Button onClick={() => setAddSectionDialogOpen(false)}
+            variant="outlined"
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+
+              color: (theme) => theme.palette.text.primary,
+              borderColor: (theme) => theme.palette.divider,
+
+              backgroundColor: 'transparent',
+
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.action.hover,
+                borderColor: (theme) => theme.palette.text.secondary,
+              },
+            }}
+          >Cancel</Button>
+          <Button onClick={handleAddSection} variant="contained" disabled={!newSectionName.trim()}
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.grey[100]
+                  : theme.palette.grey[900],
+
+              color: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.grey[900]
+                  : '#ffffff',
+
+              boxShadow: 'none',
+
+              '&:hover': {
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'dark'
+                    ? theme.palette.grey[200]
+                    : '#000000',
+                boxShadow: 'none',
+              },
+            }}
+          >
             Add
           </Button>
         </DialogActions>

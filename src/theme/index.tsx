@@ -15,10 +15,10 @@ const ThemeContext = createContext<any>(null);
 export const useThemeContext = () => {
   return useContext(ThemeContext);
 };
-
+  
 export const initialTheme: ThemeConfig = {
   primaryColor: blue[500],
-  fontFamily: 'Poppins',
+  fontFamily: 'TT Firs Neue Trl',
 };
 
 export default function CustomTheme({ children }) {

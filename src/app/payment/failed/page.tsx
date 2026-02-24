@@ -19,18 +19,18 @@ export default function PaymentFailedPage() {
           <Typography variant="body1" color="text.secondary" paragraph>
             We were unable to process your payment. Please try again or use a different payment method.
           </Typography>
-
+          
           <Box display="flex" gap={2} justifyContent="center" mt={4}>
-            <Button
-              variant="outlined"
-              component={Link}
+            <Button 
+              variant="outlined" 
+              component={Link} 
               href="/signup"
             >
               Back to Signup
             </Button>
-             <Button
-              variant="contained"
-              component={Link}
+             <Button 
+              variant="contained" 
+              component={Link} 
               href="/support"
             >
               Contact Support

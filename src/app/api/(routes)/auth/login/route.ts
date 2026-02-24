@@ -92,8 +92,8 @@ export async function POST(request: Request) {
 
     // Add org_id to token if user belongs to an organization
     if (user.org_id) {
-      const org_id = user.org_id instanceof ObjectId
-        ? user.org_id
+      const org_id = user.org_id instanceof ObjectId 
+        ? user.org_id 
         : new ObjectId(user.org_id);
       tokenPayload.org_id = org_id.toString();
     }
@@ -116,7 +116,7 @@ export async function POST(request: Request) {
 
     // Add org_id to user response if present
     if (user.org_id) {
-      const org_id = user.org_id instanceof ObjectId
+      const org_id = user.org_id instanceof ObjectId 
         ? user.org_id.toString()
         : user.org_id.toString();
       userResponse.org_id = org_id;

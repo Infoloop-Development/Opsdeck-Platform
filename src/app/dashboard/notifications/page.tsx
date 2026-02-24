@@ -44,7 +44,7 @@ export default function Client() {
                 sx={{
                   width: { xs: "unset", lg: "520px" },
                   maxWidth: "100%",
-                  borderRadius: "6px",
+                  borderRadius: "50px",
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
@@ -57,6 +57,7 @@ export default function Client() {
 
                     "& fieldset": {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     "&:hover fieldset": {

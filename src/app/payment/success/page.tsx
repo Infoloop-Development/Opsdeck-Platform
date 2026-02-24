@@ -26,7 +26,7 @@ export default function PaymentSuccessPage() {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
-
+  
   const [loading, setLoading] = useState(true);
   const [details, setDetails] = useState<SessionDetails | null>(null);
   const [attemptingLogin, setAttemptingLogin] = useState(false);
@@ -37,7 +37,7 @@ export default function PaymentSuccessPage() {
         try {
             const { data } = await axios.get(`/api/stripe/session?session_id=${sessionId}`);
             setDetails(data);
-
+            
             // If this is a new signup, attempt to auto-login after a short delay
             // (giving webhook time to create account)
             if (data.isNewSignup && data.customer_email) {
@@ -52,18 +52,18 @@ export default function PaymentSuccessPage() {
             setLoading(false);
         }
     };
-
+    
     fetchSession();
   }, [sessionId]);
 
   const attemptAutoLogin = async (email: string) => {
     if (attemptingLogin || !sessionId) return;
-
+    
     setAttemptingLogin(true);
     try {
       // Wait a bit more to ensure webhook has processed
       await new Promise(resolve => setTimeout(resolve, 2000));
-
+      
       // Attempt auto-login using session verification
       const response = await axios.post('/api/auth/login-after-payment', {
         sessionId,
@@ -77,7 +77,7 @@ export default function PaymentSuccessPage() {
           user: response.data.user,
           token: response.data.token,
         }));
-
+        
         // Redirect to dashboard
         router.push('/dashboard/projects');
       }
@@ -114,7 +114,7 @@ export default function PaymentSuccessPage() {
           <Typography variant="h4" component="h1" gutterBottom color="success.main" sx={{mb: '0 !important'}}>
             Payment Successful!
           </Typography>
-
+          
           {loading ? (
              <Box display="flex" justifyContent="center" my={4}>
                 <CircularProgress />
@@ -125,7 +125,7 @@ export default function PaymentSuccessPage() {
                     Subscription Confirmed
                 </Typography>
                 <Divider sx={{ my: 2 }} />
-
+                
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <Typography variant="body2" color="text.secondary">Plan</Typography>
@@ -139,7 +139,7 @@ export default function PaymentSuccessPage() {
                             {formatCurrency(details.amount, details.currency)} / {details.interval}
                         </Typography>
                     </Grid>
-
+                    
                     {details.trialEnd && (
                         <Grid item xs={12}>
                              <Box bgcolor="success.light" p={2} borderRadius={1} mt={1}>
@@ -150,7 +150,7 @@ export default function PaymentSuccessPage() {
                              </Box>
                         </Grid>
                     )}
-
+                    
                     <Grid item xs={12} mt={1}>
                         <Typography variant="body2" color="text.secondary" align="center">
                             Next billing date: {details.nextBillingDate ? formatDate(details.nextBillingDate) : formatDate(details.trialEnd) || 'N/A'}
@@ -174,10 +174,10 @@ export default function PaymentSuccessPage() {
                   <CircularProgress size={24} />
                 </Box>
               ) : (
-                <Button
-                  variant="contained"
-                  size="large"
-                  component={Link}
+                <Button 
+                  variant="contained" 
+                  size="large" 
+                  component={Link} 
                   href={`/login?email=${encodeURIComponent(details.customer_email || '')}`}
                   fullWidth
                   sx={{ background: 'linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)' }}
@@ -187,10 +187,10 @@ export default function PaymentSuccessPage() {
               )}
             </Box>
           ) : (
-            <Button
-              variant="contained"
-              size="large"
-              component={Link}
+            <Button 
+              variant="contained" 
+              size="large" 
+              component={Link} 
               href="/dashboard"
               fullWidth
               sx={{ background: 'linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)' }}

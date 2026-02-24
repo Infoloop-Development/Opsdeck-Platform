@@ -501,7 +501,6 @@ function TaskDialog({ open, onClose, onSave, task, projects, saving = false, res
           alignItems: 'center',
           justifyContent: 'space-between',
           p: 2,
-          borderBottom: `1px solid ${theme.palette.divider}`,
           backgroundColor: theme.palette.background.paper,
         }}
       >
@@ -636,7 +635,7 @@ function TaskDialog({ open, onClose, onSave, task, projects, saving = false, res
             placeholder="Type / for menu"
           />
         </Box>
-        <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
+        <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
           <StatusSelect
             value={editedTask.status}
             onChange={(value) => {
@@ -656,7 +655,7 @@ function TaskDialog({ open, onClose, onSave, task, projects, saving = false, res
             projectId={editedTask.projectId}
           />
         </Stack>
-        <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
+        <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
           <TextField
             select
             margin="dense"
@@ -776,6 +775,7 @@ function TaskDialog({ open, onClose, onSave, task, projects, saving = false, res
               onClick={() => setAttachmentDialogOpen(true)}
               size="small"
               variant="outlined"
+              sx={{ borderRadius: '50px' }}
             >
               Attach
             </Button>
@@ -845,8 +845,33 @@ function TaskDialog({ open, onClose, onSave, task, projects, saving = false, res
           projectId={editedTask.projectId}
         />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} disabled={saving}>
+      <DialogActions
+        sx={{
+          px: 3,
+          py: 2,
+          borderColor: 'divider',
+        }}
+      >
+        <Button onClick={onClose} disabled={saving}
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+
+            color: (theme) => theme.palette.text.primary,
+            borderColor: (theme) => theme.palette.divider,
+
+            backgroundColor: 'transparent',
+
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.action.hover,
+              borderColor: (theme) => theme.palette.text.secondary,
+            },
+          }}
+        >
           Cancel
         </Button>
         <Button
@@ -855,6 +880,32 @@ function TaskDialog({ open, onClose, onSave, task, projects, saving = false, res
           color="primary"
           disabled={saving || isPastDate}
           startIcon={saving ? <CircularProgress size={16} color="inherit" /> : undefined}
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+
+            color: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[900]
+                : '#ffffff',
+
+            boxShadow: 'none',
+
+            '&:hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.grey[200]
+                  : '#000000',
+              boxShadow: 'none',
+            },
+          }}
         >
           {saving ? 'Saving...' : 'Save'}
         </Button>

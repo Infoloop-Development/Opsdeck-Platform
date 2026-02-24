@@ -96,7 +96,7 @@ export default function InvoiceItem({
             sx={(theme) => ({
               width: 38,
               height: 38,
-              borderRadius: '8px',
+              borderRadius: '50px',
               bgcolor:
                 theme.palette.mode === 'dark'
                   ? '#1F2937'
@@ -191,7 +191,7 @@ export default function InvoiceItem({
               sx={{
                 fontWeight: 500,
                 minWidth: 'fit-content',
-                borderRadius: '4px',
+                borderRadius: '50px',
                 fontSize: '12px',
                 backgroundColor: styles.bg,
                 color: styles.color,

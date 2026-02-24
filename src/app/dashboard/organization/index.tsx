@@ -292,8 +292,12 @@ const Organization = () => {
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Box
                   sx={{
-                    p: 1.5,
-                    borderRadius: 2,
+                    width: 58,
+                    height: 58,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50px',
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'dark'
                         ? 'rgba(25, 118, 210, 0.1)'
@@ -331,8 +335,12 @@ const Organization = () => {
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Box
                   sx={{
-                    p: 1.5,
-                    borderRadius: 2,
+                    width: 58,
+                    height: 58,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50px',
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'dark'
                         ? 'rgba(46, 125, 50, 0.1)'
@@ -370,8 +378,12 @@ const Organization = () => {
               <Stack direction="row" alignItems="center" spacing={2}>
                 <Box
                   sx={{
-                    p: 1.5,
-                    borderRadius: 2,
+                    width: 58,
+                    height: 58,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50px',
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'dark'
                         ? 'rgba(156, 39, 176, 0.1)'
@@ -415,7 +427,23 @@ const Organization = () => {
                     variant="outlined"
                     startIcon={<EditOutlined />}
                     onClick={handleEdit}
-                    size="small"
+                    sx={{
+                      textTransform: 'none',
+                      borderRadius: '50px',
+                      px: 3,
+                      py: 1.25,
+                      fontWeight: 500,
+
+                      color: (theme) => theme.palette.text.primary,
+                      borderColor: (theme) => theme.palette.divider,
+
+                      backgroundColor: 'transparent',
+
+                      '&:hover': {
+                        backgroundColor: (theme) => theme.palette.action.hover,
+                        borderColor: (theme) => theme.palette.text.secondary,
+                      },
+                    }}
                   >
                     Edit
                   </Button>
@@ -425,8 +453,24 @@ const Organization = () => {
                       variant="outlined"
                       startIcon={<CancelOutlined />}
                       onClick={handleCancel}
-                      size="small"
                       disabled={saving}
+                      sx={{
+                        textTransform: 'none',
+                        borderRadius: '50px',
+                        px: 3,
+                        py: 1.25,
+                        fontWeight: 500,
+
+                        color: (theme) => theme.palette.text.primary,
+                        borderColor: (theme) => theme.palette.divider,
+
+                        backgroundColor: 'transparent',
+
+                        '&:hover': {
+                          backgroundColor: (theme) => theme.palette.action.hover,
+                          borderColor: (theme) => theme.palette.text.secondary,
+                        },
+                      }}
                     >
                       Cancel
                     </Button>
@@ -434,8 +478,33 @@ const Organization = () => {
                       variant="contained"
                       startIcon={<SaveOutlined />}
                       onClick={handleSave}
-                      size="small"
                       disabled={saving}
+                      sx={{
+                        textTransform: 'none',
+                        borderRadius: '50px',
+                        px: 3,
+                        py: 1.25,
+                        fontWeight: 500,
+                        backgroundColor: (theme) =>
+                          theme.palette.mode === 'dark'
+                            ? theme.palette.grey[100]
+                            : theme.palette.grey[900],
+
+                        color: (theme) =>
+                          theme.palette.mode === 'dark'
+                            ? theme.palette.grey[900]
+                            : '#ffffff',
+
+                        boxShadow: 'none',
+
+                        '&:hover': {
+                          backgroundColor: (theme) =>
+                            theme.palette.mode === 'dark'
+                              ? theme.palette.grey[200]
+                              : '#000000',
+                          boxShadow: 'none',
+                        },
+                      }}
                     >
                       {saving ? 'Saving...' : 'Save'}
                     </Button>
@@ -505,37 +574,37 @@ const Organization = () => {
                   </>
                 )}
 
-                    {!isEditing && (
-                      <>
-                        {isValidDate(organization.trialStartDate) && isValidDate(organization.trialEndDate) && (
-                          <Grid item xs={12} md={6}>
-                            <Box>
-                              <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
-                                Trial Period
-                              </Typography>
-                              <Typography variant="body1" fontWeight={500}>
-                                {formatDate(organization.trialStartDate)} -{' '}
-                                {formatDate(organization.trialEndDate)}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                        )}
-
-                        {isValidDate(organization.planStartDate) && isValidDate(organization.planEndDate) && (
-                          <Grid item xs={12} md={6}>
-                            <Box>
-                              <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
-                                Plan Period
-                              </Typography>
-                              <Typography variant="body1" fontWeight={500}>
-                                {formatDate(organization.planStartDate)} -{' '}
-                                {formatDate(organization.planEndDate)}
-                              </Typography>
-                            </Box>
-                          </Grid>
-                        )}
-                      </>
+                {!isEditing && (
+                  <>
+                    {isValidDate(organization.trialStartDate) && isValidDate(organization.trialEndDate) && (
+                      <Grid item xs={12} md={6}>
+                        <Box>
+                          <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                            Trial Period
+                          </Typography>
+                          <Typography variant="body1" fontWeight={500}>
+                            {formatDate(organization.trialStartDate)} -{' '}
+                            {formatDate(organization.trialEndDate)}
+                          </Typography>
+                        </Box>
+                      </Grid>
                     )}
+
+                    {isValidDate(organization.planStartDate) && isValidDate(organization.planEndDate) && (
+                      <Grid item xs={12} md={6}>
+                        <Box>
+                          <Typography variant="caption" color="text.secondary" display="block" mb={0.5}>
+                            Plan Period
+                          </Typography>
+                          <Typography variant="body1" fontWeight={500}>
+                            {formatDate(organization.planStartDate)} -{' '}
+                            {formatDate(organization.planEndDate)}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    )}
+                  </>
+                )}
               </Grid>
 
               {organization.owner && (

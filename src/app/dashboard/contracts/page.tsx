@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Button, Chip, Paper, Stack, useMediaQuery, useTheme, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Typography, Box, TextField, Pagination } from '@mui/material';
-import { Add as AddIcon, Edit, DeleteOutline, Visibility, Search, AddOutlined } from '@mui/icons-material';
+import { Add as AddIcon, Edit, DeleteOutline, Visibility, Search, AddOutlined, CloseOutlined } from '@mui/icons-material';
 import ContractDetails from './components/ContractDetails';
 import ContractForm from './components/ContractForm';
 import PageHeader from '@/components/PageHeader';
@@ -239,7 +239,7 @@ export default function Contracts() {
                 sx={{
                   width: { xs: "unset", lg: "520px" },
                   maxWidth: "100%",
-                  borderRadius: "6px",
+                  borderRadius: "50px",
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
@@ -252,6 +252,7 @@ export default function Contracts() {
 
                     "& fieldset": {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     "&:hover fieldset": {
@@ -270,7 +271,7 @@ export default function Contracts() {
                 startIcon={<AddOutlined />}
                 onClick={handleAddContract}
                 sx={{
-                  borderRadius: "6px",
+                  borderRadius: "50px",
                   fontWeight: 500,
                   color: (theme) =>
                     theme.palette.mode === "dark" ? "#fff" : "#000",
@@ -406,17 +407,64 @@ export default function Contracts() {
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-        <DialogTitle>Delete Contract</DialogTitle>
-        <DialogContent>
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >Delete Contract
+          <IconButton onClick={() => setDeleteDialogOpen(false)} size="small">
+            <CloseOutlined />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent style={{ paddingTop: 24 }} dividers>
           <Typography>
             Are you sure you want to delete contract <strong>{contractToDelete?.title}</strong>? This action cannot be undone.
           </Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} disabled={saving}>
+        <DialogActions
+          sx={{
+            px: 3,
+            py: 2,
+            borderColor: 'divider',
+          }}
+        >
+          <Button onClick={() => setDeleteDialogOpen(false)} disabled={saving}
+            variant="outlined"
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+
+              color: (theme) => theme.palette.text.primary,
+              borderColor: (theme) => theme.palette.divider,
+
+              backgroundColor: 'transparent',
+
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.action.hover,
+                borderColor: (theme) => theme.palette.text.secondary,
+              },
+            }}
+          >
             Cancel
           </Button>
-          <Button onClick={handleConfirmDelete} color="error" variant="contained" disabled={saving}>
+          <Button onClick={handleConfirmDelete} color="error" variant="contained" disabled={saving}
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+              boxShadow: 'none',
+              '&:hover': {
+                boxShadow: 'none',
+              },
+            }}
+          >
             Delete
           </Button>
         </DialogActions>

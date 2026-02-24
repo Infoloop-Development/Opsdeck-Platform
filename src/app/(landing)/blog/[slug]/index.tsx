@@ -32,7 +32,7 @@ export default function BlogPost() {
                 track and deliver results with confidence`}
               </Typography>
               <Box mt={4}>
-                <Typography variant="caption">By OpsDeck team on 10/09/2024 | 5min read</Typography>
+                <Typography variant="caption">By NexTask team on 10/09/2024 | 5min read</Typography>
               </Box>
             </Box>
           </Grid2>

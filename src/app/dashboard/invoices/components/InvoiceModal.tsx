@@ -10,12 +10,14 @@ import {
   TextField,
   Grid,
   CircularProgress,
+  IconButton,
 } from '@mui/material';
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
 import { InvoiceDialogProps } from '../types';
 import { accessTokenKey } from '@/utils/constants';
 import { safeLocalStorageGet } from '@/utils/helpers';
+import { CloseOutlined } from '@mui/icons-material';
 
 export default function InvoiceDialog({
   isDialogOpen,
@@ -158,8 +160,18 @@ export default function InvoiceDialog({
 
   return (
     <Dialog open={isDialogOpen} onClose={handleCloseDialog} fullWidth maxWidth="sm">
-      <DialogTitle>{isEdit ? 'Edit Invoice' : 'Add Invoice'}</DialogTitle>
-      <DialogContent dividers>
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >{isEdit ? 'Edit Invoice' : 'Add Invoice'}
+        <IconButton onClick={handleCloseDialog} size="small">
+          <CloseOutlined />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent style={{ paddingTop: 24 }} dividers>
         <TextField
           margin="normal"
           label="Invoice Number"
@@ -293,8 +305,32 @@ export default function InvoiceDialog({
           rows={3}
         />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCloseDialog} disabled={saving}>
+      <DialogActions
+        sx={{
+          px: 3,
+          py: 2,
+          borderColor: 'divider',
+        }}
+      >
+        <Button onClick={handleCloseDialog} disabled={saving}
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+
+            color: (theme) => theme.palette.text.primary,
+            borderColor: (theme) => theme.palette.divider,
+
+            backgroundColor: 'transparent',
+
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.action.hover,
+              borderColor: (theme) => theme.palette.text.secondary,
+            },
+          }}>
           Cancel
         </Button>
         <Button
@@ -302,6 +338,32 @@ export default function InvoiceDialog({
           color="primary"
           variant="contained"
           disabled={saving || isPastDate}
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+
+            color: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[900]
+                : '#ffffff',
+
+            boxShadow: 'none',
+
+            '&:hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.grey[200]
+                  : '#000000',
+              boxShadow: 'none',
+            },
+          }}
         >
           {saving ? 'Saving...' : 'Save'}
         </Button>

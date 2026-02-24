@@ -91,10 +91,10 @@ export async function DELETE(request: Request) {
             cancel_at_period_end: true,
         }) as any;
 
-        return NextResponse.json({
+        return NextResponse.json({ 
             message: 'Subscription scheduled for cancellation',
             cancelAtPeriodEnd: subscription.cancel_at_period_end,
-            currentPeriodEnd: subscription.current_period_end
+            currentPeriodEnd: subscription.current_period_end 
         });
 
     } catch (error: any) {
@@ -124,9 +124,9 @@ export async function PUT(request: Request) {
             cancel_at_period_end: false,
         }) as any;
 
-        return NextResponse.json({
+        return NextResponse.json({ 
             message: 'Subscription resumed',
-            cancelAtPeriodEnd: subscription.cancel_at_period_end
+            cancelAtPeriodEnd: subscription.cancel_at_period_end 
         });
 
     } catch (error: any) {

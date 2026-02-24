@@ -29,7 +29,7 @@ export async function verifyToken(request: Request, role?: string, superuser?: b
  * Get org_id from request
  * This function extracts org_id from the request (either from URL slug or header)
  * and validates the organization exists and is active.
- *
+ * 
  * Usage:
  * ```typescript
  * const orgResult = await getOrgId(request);

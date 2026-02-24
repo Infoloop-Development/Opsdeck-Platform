@@ -22,18 +22,18 @@ export async function GET(request: NextRequest) {
 
   const limitParam = request.nextUrl.searchParams.get('limit');
   const limit = limitParam ? parseInt(limitParam, 10) : undefined;
-
+  
   try {
     const client = await clientPromise;
     const db = client.db(DATABASE_NAME);
     const usersCollection = db.collection('users');
-
+    
     // Verify user belongs to the organization
     const user = await usersCollection.findOne({
       _id: new ObjectId(userId),
       org_id: org_id instanceof ObjectId ? org_id : new ObjectId(org_id)
     });
-
+    
     if (!user) {
       return NextResponse.json(
         { error: 'User not found in organization' },
@@ -192,9 +192,9 @@ export async function DELETE(request: Request) {
 
     const client = await clientPromise;
     const db = client.db(DATABASE_NAME);
-
+    
     const orgObjectId = org_id instanceof ObjectId ? org_id : new ObjectId(org_id);
-
+    
     const result = await db
       .collection('notifications')
       .deleteOne({

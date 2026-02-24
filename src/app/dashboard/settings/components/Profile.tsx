@@ -13,7 +13,7 @@ import {
   Autocomplete,
   CircularProgress,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import Link from 'next/link';
 import { selectCurrentUser, selectUsers } from '@/redux/selectors';
 import { useSelector } from 'react-redux';
@@ -129,7 +129,24 @@ const ProfileSettings: React.FC = ({ }) => {
           action={
             <>
               <Link href={'/change-password'}>
-                <Button sx={{ mr: 2 }} variant="outlined" startIcon={<KeyOutlined />}>
+                <Button sx={{
+                  textTransform: 'none',
+                  borderRadius: '50px',
+                  px: 3,
+                  py: 1.25,
+                  mr: 2,
+                  fontWeight: 500,
+
+                  color: (theme) => theme.palette.text.primary,
+                  borderColor: (theme) => theme.palette.divider,
+
+                  backgroundColor: 'transparent',
+
+                  '&:hover': {
+                    backgroundColor: (theme) => theme.palette.action.hover,
+                    borderColor: (theme) => theme.palette.text.secondary,
+                  },
+                }} variant="outlined" startIcon={<KeyOutlined />}>
                   Change Password
                 </Button>
               </Link>
@@ -137,7 +154,33 @@ const ProfileSettings: React.FC = ({ }) => {
                 disabled={saving}
                 startIcon={saving && <CircularProgress color="inherit" size={15} />}
                 variant="contained"
-                sx={{ float: 'right' }}
+                sx={{
+                  textTransform: 'none',
+                  borderRadius: '50px',
+                  float: 'right',
+                  px: 3,
+                  py: 1.25,
+                  fontWeight: 500,
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'dark'
+                      ? theme.palette.grey[100]
+                      : theme.palette.grey[900],
+
+                  color: (theme) =>
+                    theme.palette.mode === 'dark'
+                      ? theme.palette.grey[900]
+                      : '#ffffff',
+
+                  boxShadow: 'none',
+
+                  '&:hover': {
+                    backgroundColor: (theme) =>
+                      theme.palette.mode === 'dark'
+                        ? theme.palette.grey[200]
+                        : '#000000',
+                    boxShadow: 'none',
+                  },
+                }}
                 type="submit"
               >
                 Save Changes
@@ -172,7 +215,8 @@ const ProfileSettings: React.FC = ({ }) => {
                       </Typography>
 
                       <Stack direction="row" spacing={1}>
-                        <Button disabled={saving} variant="outlined" component="span">
+                        <Button disabled={saving} variant="outlined" component="span" sx={{
+                          borderRadius: '50px',}}>
                           {photoUrl ? 'Change Avatar' : 'Upload Avatar'}
                         </Button>
                       </Stack>

@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import {
-    Box,
-    Typography,
-    Button,
-    Card,
-    CardContent,
-    CardActions,
-    Grid,
+import { 
+    Box, 
+    Typography, 
+    Button, 
+    Card, 
+    CardContent, 
+    CardActions, 
+    Grid, 
     Chip,
     Table,
     TableBody,
@@ -67,7 +67,7 @@ export default function SubscriptionSettings({ organization }: { organization: a
     // Actually, we modified /api/plans to exclude them. So we need a new endpoint or pass a param `includeAddons=true`.
     // Let's assume we create a new internal endpoint or use /api/plans?type=add-on if we modify it.
     // For now, I will modify /api/plans to accept type=add-on query param for authenticated users or create a new simple fetcher.
-    // Let's implement a direct fetch here assuming we fix the API or use a verified route.
+    // Let's implement a direct fetch here assuming we fix the API or use a verified route. 
     // Wait, I blocked them in public API. I should probably create `GET /api/addons` or just use `GET /api/plans?type=add-on` and adjust the route.
     // I will adjust the route in next step.
 
@@ -75,7 +75,7 @@ export default function SubscriptionSettings({ organization }: { organization: a
         const fetchAddons = async () => {
              try {
                  // We will need to update GET /api/plans to allow fetching addons via param
-                 const res = await axios.get('/api/plans?type=add-on');
+                 const res = await axios.get('/api/plans?type=add-on'); 
                  if (res.data.success) {
                      setAddonPlans(res.data.plans);
                  }
@@ -130,7 +130,7 @@ export default function SubscriptionSettings({ organization }: { organization: a
             setSuccessMsg('Add-on subscription cancelled successfully. It will remain active until the end of the billing period.');
             setCancelDialogOpen(false);
             setAddonToCancel(null);
-            router.refresh();
+            router.refresh(); 
         } catch (err: any) {
              console.error('Cancellation failed', err);
              setError(err.response?.data?.error || 'Failed to cancel subscription');
@@ -143,11 +143,11 @@ export default function SubscriptionSettings({ organization }: { organization: a
     const handleCloseSnackbar = () => setSuccessMsg('');
 
     // This is just a draft of the Addon section to be merged.
-
+    
     return (
         <Box sx={{ mt: 4 }} id="addon-plans">
             <Typography variant="h6" gutterBottom>Add-ons</Typography>
-
+            
             {/* List Active Addons */}
             {organization?.addons && organization.addons.length > 0 ? (
                 <TableContainer component={Paper} variant="outlined" sx={{ mb: 4 }}>
@@ -167,16 +167,16 @@ export default function SubscriptionSettings({ organization }: { organization: a
                                         Add-on Plan ({addonPlans?.find((plan: any) => plan._id === addon.planId)?.plan_name ?? "N/A"})
                                     </TableCell>
                                     <TableCell>
-                                        <Chip
-                                            label={addon.status}
-                                            color={addon.status === 'active' ? 'success' : 'default'}
-                                            size="small"
+                                        <Chip 
+                                            label={addon.status} 
+                                            color={addon.status === 'active' ? 'success' : 'default'} 
+                                            size="small" 
                                         />
                                     </TableCell>
                                     <TableCell align="right">
-                                        <Button
-                                            size="small"
-                                            color="error"
+                                        <Button 
+                                            size="small" 
+                                            color="error" 
                                             onClick={() => handleCancelClick(addon)}
                                             disabled={addon.status === 'canceled'}
                                         >
@@ -196,7 +196,7 @@ export default function SubscriptionSettings({ organization }: { organization: a
 
             <Typography variant="subtitle1" gutterBottom sx={{ mt: 2 }}>Available Add-ons</Typography>
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-
+            
             <Grid container spacing={2}>
                 {addonPlans.map((plan) => (
                     <Grid item xs={12} md={6} lg={4} key={plan._id}>
@@ -217,8 +217,8 @@ export default function SubscriptionSettings({ organization }: { organization: a
                             </CardContent>
                             <CardActions>
                                 {plan.price.monthly && (
-                                    <Button
-                                        variant="contained"
+                                    <Button 
+                                        variant="contained" 
                                         size="small"
                                         disabled={!!purchasing}
                                         onClick={() => handleBuyAddon(plan, 'monthly')}
@@ -227,8 +227,8 @@ export default function SubscriptionSettings({ organization }: { organization: a
                                     </Button>
                                 )}
                                 {plan.price.yearly && (
-                                    <Button
-                                        variant="outlined"
+                                    <Button 
+                                        variant="outlined" 
                                         size="small"
                                         disabled={!!purchasing}
                                         onClick={() => handleBuyAddon(plan, 'yearly')}
@@ -250,7 +250,7 @@ export default function SubscriptionSettings({ organization }: { organization: a
                 <DialogTitle>Cancel Add-on Subscription</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Are you sure you want to cancel this add-on plan?
+                        Are you sure you want to cancel this add-on plan? 
                         <br /><br />
                         Your access will continue until the end of the current billing period, after which it will be deactivated.
                     </DialogContentText>

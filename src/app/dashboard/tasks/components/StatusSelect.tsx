@@ -148,7 +148,7 @@ const StatusSelect: React.FC<StatusSelectProps> = ({
           const statusColors = getStatusColor(statusOption.value, projectId);
           const isSelected = value === statusOption.value;
           const displayName = getStatusDisplayName(statusOption.value, projectId);
-
+          
           return (
             <MenuItem key={statusOption.value} value={statusOption.value} selected={isSelected}>
               <ListItemIcon sx={{ minWidth: 36 }}>

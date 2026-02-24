@@ -165,7 +165,7 @@ export const contractColumns: ResponsiveTableColumn[] = [
           sx={{
             height: 24,
             fontWeight: 500,
-            borderRadius: '4px',
+            borderRadius: '50px',
             fontSize: '12px',
             minWidth: 'fit-content',
             color: styles.color,

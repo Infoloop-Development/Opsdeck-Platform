@@ -107,61 +107,62 @@ const StyledDrawer = styled(Drawer)(({ open, theme }) => ({
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   margin: "8px 14px",
-  borderRadius: "5px !important",
+  borderRadius: "50px !important",
   outline: "1px solid",
+  paddingLeft: 20,
   outlineColor: theme.palette.mode === "dark" ? "#2A2F3A" : "#F5F5F5",
 
   /* Text */
   "& .MuiListItemText-primary": {
-    color: theme.palette.mode === "dark"
-      ? "#FFFFFF"
-      : "#2A2A2A",
+  color: theme.palette.mode === "dark"
+    ? "#FFFFFF"
+    : "#1f2937",
     fontWeight: 500,
   },
 
-  /* Icon */
-  "& .MuiListItemIcon-root": {
-    color: theme.palette.mode === "dark"
-      ? "#FFFFFF"
-      : "#2A2A2A",
+/* Icon */
+"& .MuiListItemIcon-root": {
+  color: theme.palette.mode === "dark"
+    ? "#FFFFFF"
+    : "#1f2937",
   },
 
-  /* Hover */
-  "&:hover": {
-    backgroundColor: theme.palette.mode === "dark"
-      ? "#111827"
-      : "#F9FAFC",
-  },
+/* Hover */
+// "&:hover": {
+//   backgroundColor: theme.palette.mode === "dark"
+//     ? "#111827"
+//     : "#F9FAFC",
+// },
 
-  /* Selected */
-  "&.Mui-selected": {
-    background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
-    color: "#fff",
+/* Selected */
+"&.Mui-selected": {
+  background: "#88dbff !important",
+    color: "#1f2937",
 
-    /* Fake gradient border (correct way) */
-    position: "relative",
-    outline: "none",
-    "&::before": {
-      content: '""',
+      /* Fake gradient border (correct way) */
+      position: "relative",
+        outline: "none",
+          "&::before": {
+    content: '""',
       position: "absolute",
-      inset: 0,
-      padding: "1px",
-      borderRadius: "5px",
-      background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
-      WebkitMask:
-        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+        inset: 0,
+          padding: "1px",
+            borderRadius: "5px",
+              // background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
+              WebkitMask:
+    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
       WebkitMaskComposite: "xor",
-      maskComposite: "exclude",
-      pointerEvents: "none",
+        maskComposite: "exclude",
+          pointerEvents: "none",
     },
 
-    "& .MuiListItemText-primary": {
-      color: "#fff",
+  "& .MuiListItemText-primary": {
+    color: "#000",
     },
-    "& .MuiListItemIcon-root": {
-      color: "#fff",
+  "& .MuiListItemIcon-root": {
+    color: "#000",
     },
-  },
+},
 }));
 
 const StyledNestedListItemButton = styled(ListItemButton)(({ theme }) => ({
@@ -492,7 +493,7 @@ const Sider: React.FC<SiderProps> = ({ collapsed, setCollapsed, isSuperUser, use
                           color: styles.chipColor,
                           fontWeight: 500,
                           minWidth: 'fit-content !important',
-                          borderRadius: '4px',
+                          borderRadius: '50px',
                           fontSize: '12px',
                         }}
                       />

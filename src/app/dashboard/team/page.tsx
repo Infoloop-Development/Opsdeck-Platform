@@ -398,7 +398,7 @@ const StaffManagementPage: React.FC = () => {
                 sx={{
                   width: { xs: "unset", lg: "520px" },
                   maxWidth: "100%",
-                  borderRadius: "6px",
+                  borderRadius: "50px",
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
@@ -411,6 +411,7 @@ const StaffManagementPage: React.FC = () => {
 
                     "& fieldset": {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     "&:hover fieldset": {
@@ -430,7 +431,7 @@ const StaffManagementPage: React.FC = () => {
                   startIcon={<AddOutlined />}
                   onClick={handleOpenCreate}
                   sx={{
-                    borderRadius: "6px",
+                    borderRadius: "50px",
                     fontWeight: 500,
                     color: (theme) =>
                       theme.palette.mode === "dark" ? "#fff" : "#000",
@@ -562,7 +563,7 @@ const StaffManagementPage: React.FC = () => {
                             sx={(theme) => ({
                               width: 38,
                               height: 38,
-                              borderRadius: '8px',
+                              borderRadius: '50px',
                               bgcolor:
                                 theme.palette.mode === 'dark'
                                   ? '#1F2937'
@@ -603,16 +604,16 @@ const StaffManagementPage: React.FC = () => {
                           sx={(theme) => ({
                             fontWeight: 500,
                             minWidth: 'fit-content',
-                            borderRadius: '4px',
+                            borderRadius: '50px',
                             fontSize: '12px',
                             backgroundColor:
                               item.role === 'Admin'
                                 ? theme.palette.mode === 'dark'
                                   ? 'rgba(255,106,0,0.2)'
-                                  : 'rgba(255,106,0,0.12)'
+                                  : 'rgba(255,106,0,0.10)'
                                 : theme.palette.mode === 'dark'
                                   ? 'rgba(124,58,237,0.2)'
-                                  : 'rgba(124,58,237,0.12)',
+                                  : 'rgba(124,58,237,0.10)',
                             color:
                               item.role === 'Admin'
                                 ? '#FF6A00'
@@ -639,7 +640,7 @@ const StaffManagementPage: React.FC = () => {
                               sx={{
                                 fontWeight: 500,
                                 minWidth: 'fit-content',
-                                borderRadius: '4px',
+                                borderRadius: '50px',
                                 fontSize: '12px',
                                 backgroundColor: style.bg,
                                 color: style.color,
@@ -869,7 +870,7 @@ const StaffManagementPage: React.FC = () => {
             variant="outlined"
             sx={{
               textTransform: 'none',
-              borderRadius: '8px',
+              borderRadius: '50px',
               px: 3,
               py: 1.25,
               fontWeight: 500,
@@ -897,7 +898,7 @@ const StaffManagementPage: React.FC = () => {
             startIcon={saving && <CircularProgress size={15} color="inherit" />}
             sx={{
               textTransform: 'none',
-              borderRadius: '8px',
+              borderRadius: '50px',
               px: 3,
               py: 1.25,
               fontWeight: 500,
@@ -929,16 +930,52 @@ const StaffManagementPage: React.FC = () => {
 
       {/* Delete Dialog */}
       < Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-        <DialogTitle>Delete Staff</DialogTitle>
-        <DialogContent>
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >Delete Staff
+          <IconButton onClick={() => setDeleteDialogOpen(false)} size="small">
+            <CloseOutlined />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent style={{ paddingTop: 24 }} dividers
+        >
           {selectedStaff && (
             <Typography>
               Are you sure you want to delete <strong>{selectedStaff.firstName} {selectedStaff.lastName}</strong>? This action cannot be undone.
             </Typography>
           )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)} disabled={saving}>
+        <DialogActions
+          sx={{
+            px: 3,
+            py: 2,
+            borderColor: 'divider',
+          }}
+        >
+          <Button onClick={() => setDeleteDialogOpen(false)} disabled={saving}
+            variant="outlined"
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+
+              color: (theme) => theme.palette.text.primary,
+              borderColor: (theme) => theme.palette.divider,
+
+              backgroundColor: 'transparent',
+
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.action.hover,
+                borderColor: (theme) => theme.palette.text.secondary,
+              },
+            }}
+          >
             Cancel
           </Button>
           <Button
@@ -947,6 +984,17 @@ const StaffManagementPage: React.FC = () => {
             color="error"
             disabled={saving}
             startIcon={saving && <CircularProgress size={15} color="inherit" />}
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+              boxShadow: 'none',
+              '&:hover': {
+                boxShadow: 'none',
+              },
+            }}
           >
             Delete
           </Button>

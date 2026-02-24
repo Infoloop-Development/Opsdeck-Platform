@@ -130,7 +130,7 @@ export async function GET(
           };
       }
     }
-    // If invoice has stored details (hasStoredCompanyDetails && hasStoredBankingDetails),
+    // If invoice has stored details (hasStoredCompanyDetails && hasStoredBankingDetails), 
     // use them as-is - they represent the immutable snapshot at creation time
 
     return NextResponse.json(

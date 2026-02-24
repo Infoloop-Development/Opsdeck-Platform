@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     const permissionsCollection = db.collection('rolesAndPermissions');
 
     // Check if role exists
-    const existingRole = await permissionsCollection.findOne({
+    const existingRole = await permissionsCollection.findOne({ 
       roleName
     });
     if (existingRole) {
@@ -102,7 +102,7 @@ export async function PATCH(request: Request) {
     const permissionsCollection = db.collection('rolesAndPermissions');
 
     // Verify role exists
-    const existingRole = await permissionsCollection.findOne({
+    const existingRole = await permissionsCollection.findOne({ 
       _id: new ObjectId(roleId)
     });
     if (!existingRole) {
@@ -148,14 +148,14 @@ export async function DELETE(request: Request) {
     const permissionsCollection = db.collection('rolesAndPermissions');
 
     // Verify role exists
-    const existingRole = await permissionsCollection.findOne({
+    const existingRole = await permissionsCollection.findOne({ 
       _id: new ObjectId(roleId)
     });
     if (!existingRole) {
       return NextResponse.json({ error: 'Role not found' }, { status: 404 });
     }
 
-    const result = await permissionsCollection.deleteOne({
+    const result = await permissionsCollection.deleteOne({ 
       _id: new ObjectId(roleId)
     });
 

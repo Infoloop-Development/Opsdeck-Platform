@@ -19,7 +19,7 @@ const InvoiceContainer = styled(Box)(({ theme }) => ({
   width: '1160px',
   maxWidth: '100%',
   margin: '0 auto',
-  fontFamily: 'Rubik, sans-serif',
+  fontFamily: 'TT Firs Neue Trl',
   color: '#000248',
   backgroundColor: '#fff',
   padding: theme.spacing(4),
@@ -130,7 +130,7 @@ const InfoValue = styled('h4')({
   margin: 0,
   fontWeight: 400,
   fontSize: '18px',
-  fontFamily: 'Rubik, sans-serif',
+  fontFamily: 'TT Firs Neue Trl',
 });
 
 const StatusBadge = styled('h4')<{ status: string }>(({ status }) => {
@@ -157,7 +157,7 @@ const StatusBadge = styled('h4')<{ status: string }>(({ status }) => {
     color: colors.color,
     borderRadius: '5px',
     display: 'inline-block',
-    fontFamily: 'Rubik, sans-serif',
+    fontFamily: 'TT Firs Neue Trl',
   };
 });
 
@@ -198,7 +198,7 @@ const ClientName = styled('h4')({
   fontWeight: 400,
   margin: '6px 0 4px 0',
   fontSize: '18px',
-  fontFamily: 'Rubik, sans-serif',
+  fontFamily: 'TT Firs Neue Trl',
   '@media print': {
     margin: '2px 0 2px 0',
     fontSize: '14px',
@@ -820,7 +820,7 @@ const InvoiceTemplate: React.FC<InvoiceTemplateProps> = ({ company, invoice, ban
                     },
                   }}
                 >
-
+                  
                   <Typography component="span">SUBTOTAL</Typography>
                 </HeaderCell>
               </TableRow>

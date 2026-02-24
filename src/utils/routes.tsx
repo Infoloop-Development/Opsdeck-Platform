@@ -24,7 +24,7 @@ export const superUserItems = [
   {
     title: 'Projects',
     icon: <FolderOutlined fontSize="small" />,
-    key: 'projects',
+    key: 'projects',  
   },
   {
     title: 'Staff Management',
@@ -103,25 +103,25 @@ export const adminItems = (() => {
 
   // Build the array with Projects explicitly first
   const itemsWithDepartment: any[] = [];
-
+  
   // Add Projects first - this is critical for the requirement
   if (projectsItem) {
     itemsWithDepartment.push(projectsItem);
   }
-
+  
   // Add items before Department (Staff Management)
   itemsWithDepartment.push(...otherItems.slice(0, staffManagementIndex + 1));
-
+  
   // Insert Department right after Staff Management
   itemsWithDepartment.push({
     title: 'Department',
     icon: <BusinessOutlined fontSize="small" />,
     key: 'admin/departments',
   });
-
+  
   // Add remaining items
   itemsWithDepartment.push(...otherItems.slice(staffManagementIndex + 1));
-
+  
   // Add Admin at the end
   itemsWithDepartment.push({
     title: 'Admin',
@@ -144,25 +144,25 @@ export const superUserItemsWithAdmin = (() => {
 
   // Build the array with Projects explicitly first
   const itemsWithAdmin: any[] = [];
-
+  
   // Add Projects first - this is critical for the requirement
   if (projectsItem) {
     itemsWithAdmin.push(projectsItem);
   }
-
+  
   // Add items before Department (Staff Management)
   itemsWithAdmin.push(...otherItems.slice(0, staffManagementIndex + 1));
-
+  
   // Insert Department right after Staff Management
   itemsWithAdmin.push({
     title: 'Department',
     icon: <BusinessOutlined fontSize="small" />,
     key: 'admin/departments',
   });
-
+  
   // Add remaining items
   itemsWithAdmin.push(...otherItems.slice(staffManagementIndex + 1));
-
+  
   // Add Admin at the end
   itemsWithAdmin.push({
     title: 'Admin',
