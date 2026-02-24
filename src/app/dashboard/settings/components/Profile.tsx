@@ -39,6 +39,7 @@ const ProfileSettings: React.FC = ({ }) => {
 
   const handleSaveChanges = (e) => {
     e.preventDefault();
+    console.log('Saving changes with data:', { ...formData, photo: photoUrl });
     dispatch(addUser({ formData: { ...formData, photo: photoUrl } }));
   };
   const { data: currentUserInfo, loading } = useSelector(selectCurrentUser);

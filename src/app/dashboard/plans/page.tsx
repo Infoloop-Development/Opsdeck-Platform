@@ -353,12 +353,34 @@ const PlansManagementPage: React.FC = () => {
                         : '-'}
                     </TableCell>
 
-                    {/* ✅ FIXED: Safe price display */}
+                    {/* ✅ FIXED: Safe price display with support for 'both' billing period */}
                     <TableCell align="center">
                       {plan.price && plan.billing_period
-                        ? Array.isArray(plan.billing_period)
-                          ? (plan.price[plan.billing_period[0]] ?? '-')
-                          : (plan.price[plan.billing_period] ?? '-')
+                        ? (() => {
+                            const bpArray = Array.isArray(plan.billing_period)
+                              ? plan.billing_period
+                              : [plan.billing_period];
+
+                            // If billing period is 'both', show monthly and yearly
+                            if (bpArray.includes('both')) {
+                              const monthly =
+                                plan.price?.monthly ?? plan.price?.Monthly ?? null;
+                              const yearly =
+                                plan.price?.yearly ?? plan.price?.Yearly ?? null;
+
+                              if (monthly != null && yearly != null) {
+                                return `${monthly} / ${yearly}`;
+                              }
+                              if (monthly != null) return monthly;
+                              if (yearly != null) return yearly;
+                              return '-';
+                            }
+
+                            const key = bpArray[0];
+                            return key && plan.price
+                              ? plan.price[key] ?? '-'
+                              : '-';
+                          })()
                         : '-'}
                     </TableCell>
 
