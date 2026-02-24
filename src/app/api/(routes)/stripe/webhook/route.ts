@@ -182,7 +182,7 @@ export async function POST(request: Request) {
                                 const welcomeEmailHtml = getEmailTemplate('welcome', {
                                     name: `${firstName} ${lastName}`,
                                 });
-                                await sendEmail(email, 'Welcome to NexTask!', welcomeEmailHtml);
+                                await sendEmail(email, 'Welcome to OpsDeck!', welcomeEmailHtml);
 
                             } catch (emailError) {
                                 console.error('Error sending emails in webhook (background):', emailError);

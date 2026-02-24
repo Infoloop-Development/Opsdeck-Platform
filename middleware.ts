@@ -19,9 +19,8 @@ export function middleware(request: NextRequest) {
 
   // Set CORS headers - use specific origin if allowed, otherwise allow all in dev
   if (isAllowedOrigin) {
-    // response.headers.set('Access-Control-Allow-Origin', origin);
-    // response.headers.set('Access-Control-Allow-Credentials', 'true');
-    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Origin', origin);
+    response.headers.set('Access-Control-Allow-Credentials', 'true');
   } else if (process.env.NODE_ENV === 'development') {
     // In development, allow all origins (but no credentials with wildcard)
     response.headers.set('Access-Control-Allow-Origin', '*');
