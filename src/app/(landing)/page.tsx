@@ -13,7 +13,7 @@ export default function RootRedirectPage() {
     const token = localStorage.getItem(accessTokenKey);
 
     if (token) {
-      router.replace('/dashboard/projects');
+      router.replace('/dashboard/organization');
     } else {
       router.replace('/login');
     }
