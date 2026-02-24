@@ -353,7 +353,7 @@ const PlansManagementPage: React.FC = () => {
                         : '-'}
                     </TableCell>
 
-                    {/* ✅ FIXED: Safe price display with support for 'both' billing period */}
+                    {/* ✅ FIXED: Safe price display with support for monthly & yearly together */}
                     <TableCell align="center">
                       {plan.price && plan.billing_period
                         ? (() => {
@@ -361,13 +361,16 @@ const PlansManagementPage: React.FC = () => {
                               ? plan.billing_period
                               : [plan.billing_period];
 
-                            // If billing period is 'both', show monthly and yearly
-                            if (bpArray.includes('both')) {
-                              const monthly =
-                                plan.price?.monthly ?? plan.price?.Monthly ?? null;
-                              const yearly =
-                                plan.price?.yearly ?? plan.price?.Yearly ?? null;
+                            const hasMonthly = bpArray.includes('monthly');
+                            const hasYearly = bpArray.includes('yearly');
 
+                            const monthly =
+                              plan.price?.monthly ?? plan.price?.Monthly ?? null;
+                            const yearly =
+                              plan.price?.yearly ?? plan.price?.Yearly ?? null;
+
+                            // If both periods are present, show both prices
+                            if (hasMonthly && hasYearly) {
                               if (monthly != null && yearly != null) {
                                 return `${monthly} / ${yearly}`;
                               }
@@ -376,10 +379,17 @@ const PlansManagementPage: React.FC = () => {
                               return '-';
                             }
 
+                            // Otherwise, fall back to first billing period key
                             const key = bpArray[0];
-                            return key && plan.price
-                              ? plan.price[key] ?? '-'
-                              : '-';
+                            if (!key) return '-';
+
+                            const valueFromPrice = plan.price?.[key];
+                            if (valueFromPrice != null) return valueFromPrice;
+
+                            // As a fallback, show monthly or yearly if available
+                            if (monthly != null) return monthly;
+                            if (yearly != null) return yearly;
+                            return '-';
                           })()
                         : '-'}
                     </TableCell>

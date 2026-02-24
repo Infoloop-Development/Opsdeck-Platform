@@ -44,7 +44,8 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
     description: '',
     plan_type: '',
     trial_type: '',
-    price: { monthly: 0, yearly: 0 },
+    // Store price as strings for better input UX, convert on submit
+    price: { monthly: '', yearly: '' },
     billing_period: '',
     users_allowed: 1,
     organizations_allowed: 1,
@@ -64,7 +65,7 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
         description: '',
         plan_type: '',
         trial_type: '',
-        price: { monthly: 0, yearly: 0 },
+        price: { monthly: '', yearly: '' },
         billing_period: '',
         users_allowed: 1,
         organizations_allowed: 1,
@@ -85,13 +86,30 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
         // ✅ FIXED: Handle arrays from API → single strings for form
         plan_type: Array.isArray(initialValues.plan_type) ? initialValues.plan_type[0] || '' : initialValues.plan_type || '',
         trial_type: Array.isArray(initialValues.trial_type) ? initialValues.trial_type[0] || '' : initialValues.trial_type || '',
-        // ✅ FIXED: Handle price object directly
+        // ✅ FIXED: Handle price object safely and as strings (no nulls)
         price: {
-          monthly: initialValues.price?.monthly || initialValues.price?.Monthly || 0,
-          yearly: initialValues.price?.yearly || initialValues.price?.Yearly || 0,
+          monthly:
+            initialValues.price?.monthly ??
+            initialValues.price?.Monthly ??
+            '',
+          yearly:
+            initialValues.price?.yearly ??
+            initialValues.price?.Yearly ??
+            '',
         },
-        // ✅ FIXED: Handle billing_period array → single string
-        billing_period: Array.isArray(initialValues.billing_period) ? initialValues.billing_period[0] || '' : initialValues.billing_period || '',
+        // ✅ FIXED: Handle billing_period array:
+        // - If it includes both monthly & yearly, treat as "both"
+        // - Otherwise, take the first value as a single selection
+        billing_period: (() => {
+          const bp = initialValues.billing_period;
+          if (Array.isArray(bp)) {
+            const hasMonthly = bp.includes('monthly');
+            const hasYearly = bp.includes('yearly');
+            if (hasMonthly && hasYearly) return 'both';
+            return bp[0] || '';
+          }
+          return bp || '';
+        })(),
         users_allowed: initialValues.users_allowed || initialValues.Users_allowed || 1,
         organizations_allowed: initialValues.organizations_allowed || initialValues.Organizations_allowed || 1,
         best_for: initialValues.best_for || '',
@@ -132,8 +150,15 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
     if (formData.organizations_allowed <= 0 || !Number.isInteger(formData.organizations_allowed)) {
       newErrors.organizations_allowed = 'Organizations allowed must be a whole number greater than 0';
     }
-    if (formData.price.monthly < 0) newErrors.price_monthly = 'Monthly price cannot be negative';
-    if (formData.price.yearly < 0) newErrors.price_yearly = 'Yearly price cannot be negative';
+    const monthlyValue = formData.price.monthly === '' ? 0 : Number(formData.price.monthly);
+    const yearlyValue = formData.price.yearly === '' ? 0 : Number(formData.price.yearly);
+
+    if (Number.isNaN(monthlyValue) || monthlyValue < 0) {
+      newErrors.price_monthly = 'Monthly price cannot be negative';
+    }
+    if (Number.isNaN(yearlyValue) || yearlyValue < 0) {
+      newErrors.price_yearly = 'Yearly price cannot be negative';
+    }
 
     // Features validation
     if (formData.features.length === 0) {
@@ -160,10 +185,14 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
       plan_type: formData.plan_type ? [formData.plan_type] : [],
       trial_type: formData.trial_type ? [formData.trial_type] : [],
       access_level: formData.access_level ? [formData.access_level] : [],
-      billing_period: formData.billing_period ? [formData.billing_period] : [],
+      billing_period: formData.billing_period
+        ? formData.billing_period === 'both'
+          ? ['monthly', 'yearly']
+          : [formData.billing_period]
+        : [],
       price: {
-        monthly: Number(formData.price.monthly),
-        yearly: Number(formData.price.yearly),
+        monthly: Number(formData.price.monthly || 0),
+        yearly: Number(formData.price.yearly || 0),
       },
     };
 
@@ -258,7 +287,7 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
                 onChange={(e) =>
                   setFormData((prev) => ({
                     ...prev,
-                    price: { ...prev.price, monthly: Number(e.target.value) || 0 },
+                    price: { ...prev.price, monthly: e.target.value },
                   }))
                 }
                 error={!!errors.price_monthly}
@@ -285,7 +314,7 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
                 onChange={(e) =>
                   setFormData((prev) => ({
                     ...prev,
-                    price: { ...prev.price, yearly: Number(e.target.value) || 0 },
+                    price: { ...prev.price, yearly: e.target.value },
                   }))
                 }
                 error={!!errors.price_yearly}
