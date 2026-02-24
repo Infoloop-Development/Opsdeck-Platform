@@ -321,6 +321,7 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
               >
                 <MenuItem value="monthly">Monthly</MenuItem>
                 <MenuItem value="yearly">Yearly</MenuItem>
+                <MenuItem value="both">Both (Monthly &amp; Yearly)</MenuItem>
               </Select>
             </FormControl>
             <TextField
