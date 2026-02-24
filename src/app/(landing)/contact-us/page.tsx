@@ -2,8 +2,8 @@ import React from 'react';
 import ContactUs from '.';
 
 export const metadata = {
-  title: 'Contact - NexTask',
-  description: 'Get in touch with NexTask',
+  title: 'Contact - OpsDeck',
+  description: 'Get in touch with OpsDeck',
 };
 
 export default function ContactPage() {

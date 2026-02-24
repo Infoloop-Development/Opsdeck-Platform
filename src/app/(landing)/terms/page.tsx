@@ -2,7 +2,7 @@ import React from 'react';
 import TermsAndConditions from '.';
 
 export const metadata = {
-  title: 'Terms and Conditions - NexTask',
+  title: 'Terms and Conditions - OpsDeck',
   description: 'Read our terms and conditions',
 };
 

@@ -1,7 +1,7 @@
 import EmailTemplatesPage from '.';
 
 export const metadata = {
-  title: 'Email Templates - NexTask',
+  title: 'Email Templates - OpsDeck',
   description: 'Manage your email templates',
 };
 

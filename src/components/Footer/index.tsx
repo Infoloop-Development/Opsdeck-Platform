@@ -29,7 +29,7 @@ const Footer = () => {
               About Us
             </Typography>
             <Typography variant="body2" color="textDisabled">
-              At NexTask, we’re passionate about transforming the way teams collaborate and achieve
+              At OpsDeck, we’re passionate about transforming the way teams collaborate and achieve
               their goals.
             </Typography>
           </Grid2>
@@ -103,7 +103,7 @@ const Footer = () => {
         </Grid2>
         <Box textAlign={'center'} pt={2}>
           <Typography variant="caption">
-            &copy; {new Date().getFullYear()} NexTask v{packageJson.version}. All rights reserved.
+            &copy; {new Date().getFullYear()} OpsDeck v{packageJson.version}. All rights reserved.
           </Typography>
         </Box>
       </Container>

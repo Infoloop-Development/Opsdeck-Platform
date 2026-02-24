@@ -13,7 +13,7 @@ export default function Logo() {
             : "/images/logo_dark.png"
         }
         height={28}
-        alt="NexTask Logo"
+        alt="OpsDeck Logo"
       />
     </Link>
   );

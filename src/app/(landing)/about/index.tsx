@@ -75,12 +75,12 @@ const About: React.FC = () => {
                 </AnimatedComponent>
                 <AnimatedComponent animationType="slideRight">
                   <Typography variant={isSmallScreen ? 'caption' : 'body1'}>
-                    At NexTask, we’re passionate about transforming the way teams collaborate and
+                    At OpsDeck, we’re passionate about transforming the way teams collaborate and
                     achieve their goals. Our mission is to create intuitive, efficient, and scalable
                     tools that empower individuals and organizations to manage projects seamlessly.
                     With a focus on innovation and user-centric design, we’ve built a platform that
                     simplifies complex workflows, enhances team communication, and drives
-                    productivity. Whether you’re a startup or an enterprise, NexTask is your partner
+                    productivity. Whether you’re a startup or an enterprise, OpsDeck is your partner
                     in delivering success—on time, every time. Join thousands of teams worldwide who
                     trust us to turn ideas into reality.
                   </Typography>
