@@ -15,12 +15,14 @@ import {
   Paper,
 } from '@mui/material';
 import Link from 'next/link';
-import { EmailOutlined, LockOutlined, LoginOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
+import NextLink from 'next/link';
+import { ArrowBackIosNewRounded, EmailOutlined, LockOutlined, LoginOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { loginStart } from '@/redux/slices';
 import { selectAuthLoading } from '@/redux/selectors';
 import { useSelector } from 'react-redux';
+import { useTheme } from '@mui/material';
 
 // Type definitions for form data and errors
 interface FormData {
@@ -97,170 +99,187 @@ const SignInPage: React.FC = () => {
       dispatch(loginStart({ formData, router }));
     }
   };
+  const theme = useTheme();
 
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      window.location.href = "https://opsdeck.app/";
+    }
+  };
   return (
     <Box
     >
       {/* Login Card */}
-      <Paper
-        elevation={0}
-        sx={{
-          width: "100%",
-          p: { xs: 3, sm: 5 },
-          borderRadius: "14px",
-          backgroundColor: (theme) =>
-            theme.palette.mode === "dark"
-              ? theme.palette.background.paper
-              : "#ffffff",
-          border: "none !important",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
-        }}
-      >
-        {/* Heading */}
-        <Box mb={4} textAlign="center">
-          <Typography
-            variant="h4"
-            fontWeight={700}
-            sx={{
-              background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            Sign In
-          </Typography>
-
-          <Typography variant="body2" color="text.secondary" mt={1}>
-            Welcome! Please sign in to your account.
-          </Typography>
-        </Box>
-
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
-          <TextField
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            onChange={handleChange}
-            error={Boolean(errors.email)}
-            helperText={errors.email}
-            value={formData.email}
-            sx={{ mb: 2 }}
-            disabled={loading}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <EmailOutlined color="action" />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type={showPassword ? 'text' : 'password'}
-            id="password"
-            autoComplete="current-password"
-            onChange={handleChange}
-            error={Boolean(errors.password)}
-            helperText={errors.password}
-            value={formData.password}
-            sx={{ mb: 1 }}
-            disabled={loading}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LockOutlined color="action" />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          {/* Forgot Password */}
-          <Box textAlign="right" mb={3}>
-            <MuiLink
-              component={Link}
-              href="/change-password"
-              underline="hover"
+      <Box sx={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+        <Box>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 2, width: '50%' }}>
+            <IconButton
+              onClick={handleBack}
               sx={{
-                fontSize: 13,
-                color: "#005B8E",
-                fontWeight: 500,
+                mr: 'auto',
+                borderRadius: "10px",
+                border: "1px solid",
+                borderColor: "divider",
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? "rgba(255,255,255,0.06)"
+                    : "#f5f7fb",
+                "&:hover": {
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === "dark"
+                      ? "rgba(255,255,255,0.12)"
+                      : "#e9eef5",
+                },
               }}
             >
-              Forgot Password?
-            </MuiLink>
+              <ArrowBackIosNewRounded sx={{ fontSize: 18 }} />
+            </IconButton>
           </Box>
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            disabled={loading}
-            startIcon={
-              loading ? <CircularProgress size={16} color="inherit" /> : <LoginOutlined />
-            }
-            sx={{
-              height: 48,
-              borderRadius: "10px",
-              fontSize: 15,
-              fontWeight: 600,
-              textTransform: "none",
-              // background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
-              background: "#88dbff",
-              color: '#000',
-              boxShadow: "0 6px 18px rgba(3,215,254,0.25)",
+          <a href={'/'}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: 24,
             }}
           >
-            Sign In
-          </Button>
+            <img
+              src={
+                theme.palette.mode === "dark"
+                  ? "/images/logo_white.png"
+                  : "/images/logo_dark.png"
+              }
+              height={40}
+              alt="Opsdeck Logo"
+            />
+          </a>
+          {/* Heading */}
+          <Box mb={4} textAlign="center">
+            <Typography
+              variant="h4"
+              fontWeight={700}
+              sx={{
+                // background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
+                // WebkitBackgroundClip: "text",
+                // WebkitTextFillColor: "transparent",
+                color: "#00b2ff",
+              }}
+            >
+              Sign In
+            </Typography>
 
-          <Divider sx={{ my: 3 }} />
+            <Typography variant="body2" color="text.secondary" mt={1}>
+              Welcome! Please sign in to your account.
+            </Typography>
+          </Box>
 
-          <Typography textAlign="center" variant="body2" color="text.secondary">
-            Need help? Contact support@opsdeck.app
-          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              onChange={handleChange}
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              value={formData.email}
+              sx={{ mb: 3 }}
+              disabled={loading}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailOutlined color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              autoComplete="current-password"
+              onChange={handleChange}
+              error={Boolean(errors.password)}
+              helperText={errors.password}
+              value={formData.password}
+              sx={{ mb: 1 }}
+              disabled={loading}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LockOutlined color="action" />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {/* Forgot Password */}
+            <Box textAlign="right" mb={3}>
+              <MuiLink
+                component={Link}
+                href="/change-password"
+                underline="hover"
+                sx={{
+                  fontSize: 13,
+                  color: "#00b2ff",
+                  fontWeight: 500,
+                }}
+              >
+                Forgot Password?
+              </MuiLink>
+            </Box>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={loading}
+              startIcon={
+                loading ? <CircularProgress size={16} color="inherit" /> : <LoginOutlined />
+              }
+              sx={{
+                height: 48,
+                borderRadius: "100px",
+                fontSize: 15,
+                fontWeight: 600,
+                textTransform: "none",
+                // background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
+                background: "#88dbff",
+                color: '#000',
+                boxShadow: "0 6px 18px rgba(3,215,254,0.25)",
+              }}
+            >
+              Sign In
+            </Button>
+
+            <Divider sx={{ my: 3 }} />
+
+            <Grid2 container justifyContent="center">
+              <Typography variant="body2">
+                Signup instead?
+                <MuiLink component={Link} href="/signup" sx={{ ml: 1, fontWeight: 500, color: "#00b2ff" }}>
+                  Signup
+                </MuiLink>
+              </Typography>
+            </Grid2>
+          </Box>
         </Box>
-      </Paper>
+      </Box>
     </Box>
   );
 };
 
 export default SignInPage;
-
-
-{/* Password */ }
-{/* <TextField
-  fullWidth
-  label="Password"
-  type={showPassword ? "text" : "password"}
-  sx={{ mb: 1 }}
-  InputProps={{
-    startAdornment: (
-      <InputAdornment position="start">
-        <LockOutlined color="action" />
-      </InputAdornment>
-    ),
-    endAdornment: (
-      <InputAdornment position="end">
-        <IconButton onClick={() => setShowPassword(!showPassword)}>
-          {showPassword ? <VisibilityOff /> : <Visibility />}
-        </IconButton>
-      </InputAdornment>
-    ),
-  }}
-/> */}
-

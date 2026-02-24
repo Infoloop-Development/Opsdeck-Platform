@@ -21,7 +21,7 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { ArrowBackIosNewRounded, Visibility, VisibilityOff } from '@mui/icons-material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
@@ -29,6 +29,7 @@ import { signupStart } from '@/redux/slices';
 import { useSelector } from 'react-redux';
 import { selectAuthLoading } from '@/redux/selectors';
 import axios from 'axios';
+import { useTheme } from '@mui/material';
 
 interface Plan {
   _id: string;
@@ -215,412 +216,473 @@ const SignupPage: React.FC = () => {
       dispatch(signupStart({ formData, router }));
     }
   };
+  const theme = useTheme();
+
+  const handleBack = () => {
+    if (typeof window !== "undefined") {
+      window.location.href = "https://opsdeck.app/";
+    }
+  };
 
   return (
-    <Box
-    >
-      <Paper
-        elevation={0}
-        sx={{
-          width: "100%",
-          borderRadius: "16px",
-          p: { xs: 3, sm: 5 },
-          backgroundColor: (theme) =>
-            theme.palette.mode === "dark"
-              ? 'theme.palette.background.paper'
-              : "#ffffff",
-          border: "none !important",
-          boxShadow: "0 12px 40px rgba(0,0,0,0.06)",
-        }}
-      >
-        <Box mb={4} textAlign="center">
-          <Typography
-            variant="h4"
-            fontWeight={700}
-            sx={{
-              background: "linear-gradient(90deg,#005B8E,#03D7FE)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            Create Account
-          </Typography>
+    <Box>
+      <Box>
+        <Box sx={{
+          height: "100vh",
+          overflow: "auto",
+          maxWidth: { xs: "100%", md: "90%", lg: "85%" },
+          margin: "0 auto",
+          px: { xs: 5, md: 1 },
+          paddingBottom: 8,
 
-          <Typography variant="body2" color="text.secondary" mt={1}>
-            Join Opsdeck and start managing your projects efficiently
-          </Typography>
-        </Box>
+          /* Chrome, Edge, Safari */
+          "&::-webkit-scrollbar": {
+            width: "3px",   // ← scrollbar thickness (change here)
+          },
 
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <Grid2 container spacing={2}>
-            <Grid2 size={6}>
-              <TextField
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                name="firstName"
-                autoComplete="name"
-                sx={{
-                  mb: 2.2,
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "10px",
+          "&::-webkit-scrollbar-track": {
+            background: "transparent",
+          },
 
-                  },
-                }}
-                onChange={handleChange}
-                error={Boolean(errors.firstName)}
-                helperText={errors.firstName}
-                disabled={loading}
-              />
-            </Grid2>
-            <Grid2 size={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="name"
-                sx={{
-                  mb: 2.2,
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "10px",
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#f2f2f2",
+            borderRadius: "10px",
+          },
 
-                  },
-                }}
-                onChange={handleChange}
-                error={Boolean(errors.lastName)}
-                helperText={errors.lastName}
-                disabled={loading}
-              />
-            </Grid2>
-          </Grid2>
-          <TextField
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            sx={{
-              mb: 2.2,
-              "& .MuiOutlinedInput-root": {
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#9e9e9e",
+          },
+
+          /* Firefox */
+          scrollbarWidth: "thin",
+          scrollbarColor: "#bdbdbd transparent",
+        }}>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mb: 2, width: '50%' }}>
+            <IconButton
+              onClick={handleBack}
+              sx={{
+                mr: 'auto',
                 borderRadius: "10px",
-
-              },
-            }}
-            onChange={handleChange}
-            error={Boolean(errors.email)}
-            helperText={errors.email}
-            disabled={loading}
-          />
-          <TextField
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type={showPassword ? "text" : "password"}
-            onChange={handleChange}
-            error={Boolean(errors.password)}
-            helperText={errors.password}
-            disabled={loading}
-            sx={{
-              mb: 2.2,
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-
-              },
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            required
-            fullWidth
-            name="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            id="confirmPassword"
-            autoComplete="new-password"
-            sx={{
-              mb: 2.2,
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-
-              },
-            }}
-            onChange={handleChange}
-            error={Boolean(errors.confirmPassword)}
-            helperText={errors.confirmPassword}
-            disabled={loading}
-          />
-
-          <TextField
-            required
-            fullWidth
-            id="organizationName"
-            label="Organization Name"
-            name="organizationName"
-            sx={{
-              mb: 2.2,
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "10px",
-
-              },
-            }}
-            onChange={handleChange}
-            error={Boolean(errors.organizationName)}
-            helperText={errors.organizationName}
-            disabled={loading}
-            placeholder="Enter your company or organization name"
-          />
-
-          {/* Plan Selection */}
-          <Box sx={{ mb: 3 }}>
-            <FormControl component="fieldset" error={Boolean(errors.planId)} fullWidth>
-              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <FormLabel component="legend" sx={{ fontWeight: 'bold', mb: 0 }}>
-                  Select a Plan <span style={{ color: 'red' }}>*</span>
-                </FormLabel>
-
-                {/* Billing Period Toggle */}
-                <Box
-                  sx={{
-                    display: 'flex',
-                    bgcolor: 'background.paper',
-                    borderRadius: '50px',
-                    border: 1,
-                    borderColor: 'divider',
-                    p: 0.5
-                  }}
-                >
-                  <Button
-                    size="small"
-                    variant={formData.billingPeriod === 'monthly' ? 'contained' : 'text'}
-                    onClick={() => {
-                      const newBillingPeriod = 'monthly';
-                      // Check if current selected plan supports the new billing period
-                      const currentPlan = plans.find((p) => p._id === formData.planId);
-                      const supportsNewPeriod = currentPlan
-                        ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
-                        : false;
-
-                      setFormData({
-                        ...formData,
-                        billingPeriod: newBillingPeriod,
-                        planId: supportsNewPeriod ? formData.planId : ''
-                      });
-                      if (!supportsNewPeriod) {
-                        setErrors({ ...errors, planId: '' });
-                      }
-                    }}
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "50px",
-                      minWidth: 90,
-                      boxShadow: "none",
-                      fontWeight: 600,
-                      color: formData.billingPeriod === "monthly" ? "#000" : "text.secondary",
-                      backgroundColor:
-                        formData.billingPeriod === "monthly" ? "#88dbff" : "transparent",
-
-                      "&:hover": {
-                        backgroundColor:
-                          formData.billingPeriod === "monthly"
-                            ? "#88dbff"
-                            : "rgba(136,219,255,0.25)",
-                      },
-                    }}
-                  >
-                    Monthly
-                  </Button>
-                  <Button
-                    size="small"
-                    variant={formData.billingPeriod === 'yearly' ? 'contained' : 'text'}
-                    onClick={() => {
-                      const newBillingPeriod = 'yearly';
-                      // Check if current selected plan supports the new billing period
-                      const currentPlan = plans.find((p) => p._id === formData.planId);
-                      const supportsNewPeriod = currentPlan
-                        ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
-                        : false;
-
-                      setFormData({
-                        ...formData,
-                        billingPeriod: newBillingPeriod,
-                        planId: supportsNewPeriod ? formData.planId : ''
-                      });
-                      if (!supportsNewPeriod) {
-                        setErrors({ ...errors, planId: '' });
-                      }
-                    }}
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "50px",
-                      minWidth: 90,
-                      boxShadow: "none",
-                      fontWeight: 600,
-                      color: formData.billingPeriod === "yearly" ? "#000" : "text.secondary",
-                      backgroundColor:
-                        formData.billingPeriod === "yearly" ? "#88dbff" : "transparent",
-
-                      "&:hover": {
-                        backgroundColor:
-                          formData.billingPeriod === "yearly"
-                            ? "#88dbff"
-                            : "rgba(136,219,255,0.25)",
-                      },
-                    }}
-                  >
-                    Yearly
-                  </Button>
-                </Box>
-              </Box>
-              {loadingPlans ? (
-                <Box display="flex" justifyContent="center" py={3}>
-                  <CircularProgress size={24} />
-                </Box>
-              ) : plans.length === 0 ? (
-                <Typography color="error" variant="body2">
-                  No plans available. Please contact support.
-                </Typography>
-              ) : (
-                <RadioGroup
-                  name="planId"
-                  value={formData.planId}
-                  onChange={handlePlanChange}
-                  sx={{ gap: 2 }}
-                >
-                  {plans
-                    .filter((plan) => planSupportsBillingPeriod(plan, formData.billingPeriod))
-                    .map((plan) => (
-                      <Card
-                        key={plan._id}
-                        sx={{
-                          border: formData.planId === plan._id ? '2px solid' : '1px solid',
-                          borderColor:
-                            formData.planId === plan._id ? '#88dbff' : 'divider',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s',
-                          '&:hover': {
-                            borderColor: '#88dbff',
-                            boxShadow: 2,
-                          },
-                        }}
-                        onClick={() => {
-                          setFormData({ ...formData, planId: plan._id });
-                          setErrors({ ...errors, planId: '' });
-                        }}
-                      >
-                        <CardContent>
-                          <FormControlLabel
-                            value={plan._id}
-                            control={<Radio />}
-                            label={
-                              <Box>
-                                <Box display="flex" alignItems="center" gap={1} mb={1}>
-                                  <Typography variant="h6" component="span">
-                                    {plan.plan_name}
-                                  </Typography>
-                                  {plan.mark_as_popular && (
-                                    <Chip
-                                      label="Popular"
-                                      color="primary"
-                                      sx={{ minWidth: 'fit-content', background: '#88dbff', color: '#000', borderRadius: '50px' }}
-                                    />
-                                  )}
-                                </Box>
-                                {plan.description && (
-                                  <Typography variant="body2" color="text.secondary" mb={1}>
-                                    {plan.description}
-                                  </Typography>
-                                )}
-                                <Box display="flex" gap={2} alignItems="center">
-                                  {formData.billingPeriod === 'monthly' && plan.price.monthly !== null && (
-                                    <Typography variant="body1" fontWeight="bold">
-                                      ${plan.price.monthly}/month
-                                    </Typography>
-                                  )}
-                                  {formData.billingPeriod === 'yearly' && plan.price.yearly !== null && (
-                                    <Typography variant="body1" fontWeight="bold">
-                                      ${plan.price.yearly}/year
-                                    </Typography>
-                                  )}
-                                  {/* Show the other price as secondary info if desired, or hide it */}
-                                  {formData.billingPeriod === 'monthly' && plan.price.yearly !== null && (
-                                    <Typography variant="caption" color="text.secondary">
-                                      (or ${plan.price.yearly}/year)
-                                    </Typography>
-                                  )}
-                                  {formData.billingPeriod === 'yearly' && plan.price.monthly !== null && (
-                                    <Typography variant="caption" color="text.secondary">
-                                      (or ${plan.price.monthly}/month)
-                                    </Typography>
-                                  )}
-                                </Box>
-                                <Chip
-                                  label="15 days free trial"
-                                  color="success"
-                                  size="small"
-                                  sx={{ mt: 1 }}
-                                />
-                              </Box>
-                            }
-                            sx={{ width: '100%', m: 0 }}
-                          />
-                        </CardContent>
-                      </Card>
-                    ))}
-                </RadioGroup>
-              )}
-              {errors.planId && (
-                <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-                  {errors.planId}
-                </Typography>
-              )}
-            </FormControl>
+                border: "1px solid",
+                borderColor: "divider",
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? "rgba(255,255,255,0.06)"
+                    : "#f5f7fb",
+                "&:hover": {
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === "dark"
+                      ? "rgba(255,255,255,0.12)"
+                      : "#e9eef5",
+                },
+              }}
+            >
+              <ArrowBackIosNewRounded sx={{ fontSize: 18 }} />
+            </IconButton>
           </Box>
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 2,
-              mb: 4,
-              height: 50,
-              borderRadius: "10px",
-              fontSize: 15,
-              fontWeight: 600,
-              textTransform: "none",
-              background: "#88dbff",
-              color: '#000',
-              boxShadow: "0 6px 18px rgba(3,215,254,0.25)",
+          <a href={'/'}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: 24,
             }}
-            startIcon={loading && <CircularProgress size={15} color="inherit" />}
-            disabled={loading || loadingPlans}
           >
-            Sign Up
-          </Button>
-
-          <Grid2 container justifyContent="center">
-            <Typography variant="body2">
-              Already have an account?{' '}
-              <MuiLink component={Link} href="/login" sx={{ ml: 1 }}>
-                Sign in
-              </MuiLink>
+            <img
+              src={
+                theme.palette.mode === "dark"
+                  ? "/images/logo_white.png"
+                  : "/images/logo_dark.png"
+              }
+              height={28}
+              alt="Opsdeck Logo"
+            />
+          </a>
+          <Box mb={4} textAlign="center">
+            <Typography
+              variant="h4"
+              fontWeight={700}
+              sx={{
+                background: "linear-gradient(90deg,#005B8E,#03D7FE)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Create Account
             </Typography>
-          </Grid2>
+            <Typography variant="body2" color="text.secondary" mt={1}>
+              Join Opsdeck and start managing your projects efficiently
+            </Typography>
+          </Box>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Grid2 container spacing={2}>
+              <Grid2 size={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  name="firstName"
+                  autoComplete="name"
+                  sx={{
+                    mb: 2.2,
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "100px",
+                    },
+                  }}
+                  onChange={handleChange}
+                  error={Boolean(errors.firstName)}
+                  helperText={errors.firstName}
+                  disabled={loading}
+                />
+              </Grid2>
+              <Grid2 size={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="name"
+                  sx={{
+                    mb: 2.2,
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "10px",
+
+                    },
+                  }}
+                  onChange={handleChange}
+                  error={Boolean(errors.lastName)}
+                  helperText={errors.lastName}
+                  disabled={loading}
+                />
+              </Grid2>
+            </Grid2>
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              sx={{
+                mb: 2.2,
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+
+                },
+              }}
+              onChange={handleChange}
+              error={Boolean(errors.email)}
+              helperText={errors.email}
+              disabled={loading}
+            />
+            <TextField
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type={showPassword ? "text" : "password"}
+              onChange={handleChange}
+              error={Boolean(errors.password)}
+              helperText={errors.password}
+              disabled={loading}
+              sx={{
+                mb: 2.2,
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+
+                },
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmPassword"
+              autoComplete="new-password"
+              sx={{
+                mb: 2.2,
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+
+                },
+              }}
+              onChange={handleChange}
+              error={Boolean(errors.confirmPassword)}
+              helperText={errors.confirmPassword}
+              disabled={loading}
+            />
+
+            <TextField
+              required
+              fullWidth
+              id="organizationName"
+              label="Organization Name"
+              name="organizationName"
+              sx={{
+                mb: 2.2,
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+
+                },
+              }}
+              onChange={handleChange}
+              error={Boolean(errors.organizationName)}
+              helperText={errors.organizationName}
+              disabled={loading}
+              placeholder="Enter your company or organization name"
+            />
+
+            {/* Plan Selection */}
+            <Box sx={{ mb: 3 }}>
+              <FormControl component="fieldset" error={Boolean(errors.planId)} fullWidth>
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                  <FormLabel component="legend" sx={{ fontWeight: 'bold', mb: 0 }}>
+                    Select a Plan <span style={{ color: 'red' }}>*</span>
+                  </FormLabel>
+
+                  {/* Billing Period Toggle */}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      bgcolor: 'background.paper',
+                      borderRadius: '50px',
+                      border: 1,
+                      borderColor: 'divider',
+                      p: 0.5,
+                    }}
+                  >
+                    <Button
+                      size="small"
+                      variant={formData.billingPeriod === 'monthly' ? 'contained' : 'text'}
+                      onClick={() => {
+                        const newBillingPeriod = 'monthly';
+                        // Check if current selected plan supports the new billing period
+                        const currentPlan = plans.find((p) => p._id === formData.planId);
+                        const supportsNewPeriod = currentPlan
+                          ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
+                          : false;
+
+                        setFormData({
+                          ...formData,
+                          billingPeriod: newBillingPeriod,
+                          planId: supportsNewPeriod ? formData.planId : ''
+                        });
+                        if (!supportsNewPeriod) {
+                          setErrors({ ...errors, planId: '' });
+                        }
+                      }}
+                      sx={{
+                        textTransform: "none",
+                        borderRadius: "50px",
+                        minWidth: 90,
+                        boxShadow: "none",
+                        fontWeight: 600,
+                        color: formData.billingPeriod === "monthly" ? "#000" : "text.secondary",
+                        backgroundColor:
+                          formData.billingPeriod === "monthly" ? "#88dbff" : "transparent",
+
+                        "&:hover": {
+                          backgroundColor:
+                            formData.billingPeriod === "monthly"
+                              ? "#88dbff"
+                              : "rgba(136,219,255,0.25)",
+                        },
+                      }}
+                    >
+                      Monthly
+                    </Button>
+                    <Button
+                      size="small"
+                      variant={formData.billingPeriod === 'yearly' ? 'contained' : 'text'}
+                      onClick={() => {
+                        const newBillingPeriod = 'yearly';
+                        // Check if current selected plan supports the new billing period
+                        const currentPlan = plans.find((p) => p._id === formData.planId);
+                        const supportsNewPeriod = currentPlan
+                          ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
+                          : false;
+
+                        setFormData({
+                          ...formData,
+                          billingPeriod: newBillingPeriod,
+                          planId: supportsNewPeriod ? formData.planId : ''
+                        });
+                        if (!supportsNewPeriod) {
+                          setErrors({ ...errors, planId: '' });
+                        }
+                      }}
+                      sx={{
+                        textTransform: "none",
+                        borderRadius: "50px",
+                        minWidth: 90,
+                        boxShadow: "none",
+                        fontWeight: 600,
+                        color: formData.billingPeriod === "yearly" ? "#000" : "text.secondary",
+                        backgroundColor:
+                          formData.billingPeriod === "yearly" ? "#88dbff" : "transparent",
+
+                        "&:hover": {
+                          backgroundColor:
+                            formData.billingPeriod === "yearly"
+                              ? "#88dbff"
+                              : "rgba(136,219,255,0.25)",
+                        },
+                      }}
+                    >
+                      Yearly
+                    </Button>
+                  </Box>
+                </Box>
+                {loadingPlans ? (
+                  <Box display="flex" justifyContent="center" py={3}>
+                    <CircularProgress size={24} />
+                  </Box>
+                ) : plans.length === 0 ? (
+                  <Typography color="error" variant="body2">
+                    No plans available. Please contact support.
+                  </Typography>
+                ) : (
+                  <RadioGroup
+                    name="planId"
+                    value={formData.planId}
+                    onChange={handlePlanChange}
+                    sx={{ gap: 2, display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}
+                  >
+                    {plans
+                      .filter((plan) => planSupportsBillingPeriod(plan, formData.billingPeriod))
+                      .map((plan) => (
+                        <Card
+                          key={plan._id}
+                          sx={{
+                            border: formData.planId === plan._id ? '2px solid' : '1px solid',
+                            borderColor:
+                              formData.planId === plan._id ? '#88dbff' : 'divider',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            '&:hover': {
+                              borderColor: '#88dbff',
+                              boxShadow: 2,
+                            },
+                          }}
+                          onClick={() => {
+                            setFormData({ ...formData, planId: plan._id });
+                            setErrors({ ...errors, planId: '' });
+                          }}
+                        >
+                          <CardContent>
+                            <FormControlLabel
+                              value={plan._id}
+                              control={<Radio />}
+                              label={
+                                <Box>
+                                  <Box display="flex" alignItems="center" gap={1} mb={1}>
+                                    <Typography variant="h6" component="span">
+                                      {plan.plan_name}
+                                    </Typography>
+                                    {plan.mark_as_popular && (
+                                      <Chip
+                                        label="Popular"
+                                        color="primary"
+                                        sx={{ minWidth: 'fit-content', background: '#88dbff', color: '#000', borderRadius: '50px' }}
+                                      />
+                                    )}
+                                  </Box>
+                                  {plan.description && (
+                                    <Typography variant="body2" color="text.secondary" mb={1}>
+                                      {plan.description}
+                                    </Typography>
+                                  )}
+                                  <Box display="flex" gap={2} alignItems="center">
+                                    {formData.billingPeriod === 'monthly' && plan.price.monthly !== null && (
+                                      <Typography variant="body1" fontWeight="bold">
+                                        ${plan.price.monthly}/month
+                                      </Typography>
+                                    )}
+                                    {formData.billingPeriod === 'yearly' && plan.price.yearly !== null && (
+                                      <Typography variant="body1" fontWeight="bold">
+                                        ${plan.price.yearly}/year
+                                      </Typography>
+                                    )}
+                                    {/* Show the other price as secondary info if desired, or hide it */}
+                                    {formData.billingPeriod === 'monthly' && plan.price.yearly !== null && (
+                                      <Typography variant="caption" color="text.secondary">
+                                        (or ${plan.price.yearly}/year)
+                                      </Typography>
+                                    )}
+                                    {formData.billingPeriod === 'yearly' && plan.price.monthly !== null && (
+                                      <Typography variant="caption" color="text.secondary">
+                                        (or ${plan.price.monthly}/month)
+                                      </Typography>
+                                    )}
+                                  </Box>
+                                  <Chip
+                                    label="15 days free trial"
+                                    color="success"
+                                    size="small"
+                                    sx={{ mt: 1 }}
+                                  />
+                                </Box>
+                              }
+                              sx={{ width: '100%', m: 0 }}
+                            />
+                          </CardContent>
+                        </Card>
+                      ))}
+                  </RadioGroup>
+                )}
+                {errors.planId && (
+                  <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
+                    {errors.planId}
+                  </Typography>
+                )}
+              </FormControl>
+            </Box>
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                mt: 2,
+                mb: 4,
+                height: 50,
+                borderRadius: "100px",
+                fontSize: 15,
+                fontWeight: 600,
+                textTransform: "none",
+                background: "#88dbff",
+                color: '#000',
+                boxShadow: "0 6px 18px rgba(3,215,254,0.25)",
+              }}
+              startIcon={loading && <CircularProgress size={15} color="inherit" />}
+              disabled={loading || loadingPlans}
+            >
+              Sign Up
+            </Button>
+
+            <Grid2 container justifyContent="center">
+              <Typography variant="body2">
+                Already have an account?{' '}
+                <MuiLink component={Link} href="/login" sx={{ ml: 1, fontWeight: 500, color: "#00b2ff" }}>
+                  Sign in
+                </MuiLink>
+              </Typography>
+            </Grid2>
+          </Box>
         </Box>
-      </Paper>
+      </Box>
     </Box>
   );
 };

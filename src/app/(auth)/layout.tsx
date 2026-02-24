@@ -25,19 +25,20 @@ export default function AuthLayout({
 
   return (
     <>
-      <Header isAuthHeader />
+      {/* <Header isAuthHeader /> */}
       <Grid2
         container
-        component="main"
-        justifyContent={'center'}
-        alignItems={'center'}
-        sx={{ height: '100vh', pt: `${appbarHeight}px` }}
-      >
-        <Grid2 size={{ xs: 12, sm: 8, md: 6, lg: 5 }} mx={1}>
-          <Box maxWidth={500} mx={'auto'} my={'auto'} component={Paper}>
+        component="main">
+        <Box className="auth-layout" sx={{ display: 'flex', alignItems: 'center', width: '100%', height: `100vh`, overflow: 'hidden', backgroundColor: (theme) => theme.palette.background.default, }}>
+          <Box sx={{ width: '40%', height: '100%', overflow: 'hidden', display: { xs: 'none', md: 'block' } }}>
+            <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
+              <img src="/images/onboard-image.jpg" alt="Onboarding" style={{ objectFit: 'cover', height: '100%', }} />
+            </Box>
+          </Box>
+          <Box sx={{ width: { xs: '100%', md: '60%' }, height: '100%', padding: 4, }}>
             {children}
           </Box>
-        </Grid2>
+        </Box>
       </Grid2>
     </>
   );
