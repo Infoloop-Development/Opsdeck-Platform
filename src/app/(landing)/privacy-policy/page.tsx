@@ -2,7 +2,7 @@ import React from 'react';
 import PrivacyPolicy from '.';
 
 export const metadata = {
-  title: 'Privacy Policy - NexTask',
+  title: 'Privacy Policy - OpsDeck',
   description: 'Read our privacy policy',
 };
 

@@ -107,7 +107,6 @@ const SignInPage: React.FC = () => {
       window.location.href = "https://opsdeck.app/";
     }
   };
-
   return (
     <Box
     >

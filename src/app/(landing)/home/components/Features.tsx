@@ -81,7 +81,7 @@ const KeyFeatures: React.FC = () => {
             </Typography>
             <Divider>
               <Typography textAlign="center" variant="body2">
-                NexTask Key Features
+                OpsDeck Key Features
               </Typography>
             </Divider>
           </Grid2>

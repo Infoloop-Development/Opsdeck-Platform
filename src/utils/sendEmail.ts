@@ -22,7 +22,7 @@ export async function sendEmail(to: string, subject: string, html: string) {
     });
 
     const mailOptions = {
-      from: process.env.SENDER_EMAIL || process.env.SMTP_USER || 'noreply@nextask.com',
+      from: process.env.SENDER_EMAIL || process.env.SMTP_USER || 'noreply@OpsDeck.com',
       to,
       subject,
       html,

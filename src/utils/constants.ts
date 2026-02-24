@@ -70,7 +70,7 @@ export const emailTemplateVariables = {
 export const EMAIL_CONFIRMATION_TEXT = `
 Hi ${emailTemplateVariables.name},
 
-Welcome to NexTask! Please confirm your email address to activate your account.
+Welcome to OpsDeck! Please confirm your email address to activate your account.
 
 Click the link below to verify your email:
 ${emailTemplateVariables.btnLink}
@@ -78,7 +78,7 @@ ${emailTemplateVariables.btnLink}
 If you didn’t create this account, you can ignore this message.
 
 Best,  
-The NexTask Team
+The OpsDeck Team
 `;
 
 export const PASSWORD_RESET_TEXT = `
@@ -92,7 +92,7 @@ ${emailTemplateVariables.btnLink}
 If you didn’t request this change, please ignore this email.
 
 Best,  
-The NexTask Team
+The OpsDeck Team
 `;
 
 export const SUPPORT_FEEDBACK_TEXT = `
@@ -105,7 +105,7 @@ We’ve received your feedback:
 Thank you for sharing your thoughts with us! Our support team will review your message and get back to you if needed.
 
 Best regards,  
-The NexTask Team
+The OpsDeck Team
 `;
 
 export const dateFormat = 'MM/DD/YYYY';

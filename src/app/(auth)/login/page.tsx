@@ -1,7 +1,7 @@
 import LoginPage from '.';
 
 export const metadata = {
-  title: 'Login - NexTask',
+  title: 'Login - OpsDeck',
   description: 'Sign in to your account.',
 };
 
