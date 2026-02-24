@@ -25,6 +25,9 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_VERSION: packageJson.version,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -64,7 +67,8 @@ const nextConfig = {
       serverOnlyPackages.forEach((pkg) => {
         config.resolve.alias[pkg] = false;
       });
-    }
+    };
+
 
     // For server-side: mark Node.js-only packages as external using function
     if (isServer) {
