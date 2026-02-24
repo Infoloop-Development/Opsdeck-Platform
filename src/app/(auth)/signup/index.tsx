@@ -129,8 +129,8 @@ const SignupPage: React.FC = () => {
       return plan.billing_period.includes(billingPeriod);
     }
     // Fallback: check if price exists for the selected period
-    return billingPeriod === 'monthly' 
-      ? plan.price.monthly !== null 
+    return billingPeriod === 'monthly'
+      ? plan.price.monthly !== null
       : plan.price.yearly !== null;
   };
 
@@ -225,8 +225,11 @@ const SignupPage: React.FC = () => {
           width: "100%",
           borderRadius: "16px",
           p: { xs: 3, sm: 5 },
-          backgroundColor: "#ffffff",
-          border: "1px solid #e6eaf0",
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark"
+              ? 'theme.palette.background.paper'
+              : "#ffffff",
+          border: "none !important",
           boxShadow: "0 12px 40px rgba(0,0,0,0.06)",
         }}
       >
@@ -262,7 +265,7 @@ const SignupPage: React.FC = () => {
                   mb: 2.2,
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "10px",
-                    backgroundColor: "#fafbfd",
+
                   },
                 }}
                 onChange={handleChange}
@@ -283,7 +286,7 @@ const SignupPage: React.FC = () => {
                   mb: 2.2,
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "10px",
-                    backgroundColor: "#fafbfd",
+
                   },
                 }}
                 onChange={handleChange}
@@ -304,7 +307,7 @@ const SignupPage: React.FC = () => {
               mb: 2.2,
               "& .MuiOutlinedInput-root": {
                 borderRadius: "10px",
-                backgroundColor: "#fafbfd",
+
               },
             }}
             onChange={handleChange}
@@ -326,7 +329,7 @@ const SignupPage: React.FC = () => {
               mb: 2.2,
               "& .MuiOutlinedInput-root": {
                 borderRadius: "10px",
-                backgroundColor: "#fafbfd",
+
               },
             }}
             InputProps={{
@@ -351,7 +354,7 @@ const SignupPage: React.FC = () => {
               mb: 2.2,
               "& .MuiOutlinedInput-root": {
                 borderRadius: "10px",
-                backgroundColor: "#fafbfd",
+
               },
             }}
             onChange={handleChange}
@@ -370,7 +373,7 @@ const SignupPage: React.FC = () => {
               mb: 2.2,
               "& .MuiOutlinedInput-root": {
                 borderRadius: "10px",
-                backgroundColor: "#fafbfd",
+
               },
             }}
             onChange={handleChange}
@@ -380,190 +383,211 @@ const SignupPage: React.FC = () => {
             placeholder="Enter your company or organization name"
           />
 
-        {/* Plan Selection */}
-        <Box sx={{ mb: 3 }}>
-          <FormControl component="fieldset" error={Boolean(errors.planId)} fullWidth>
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-              <FormLabel component="legend" sx={{ fontWeight: 'bold', mb: 0 }}>
-                Select a Plan <span style={{ color: 'red' }}>*</span>
-              </FormLabel>
-              
-              {/* Billing Period Toggle */}
-              <Box 
-                sx={{ 
-                  display: 'flex', 
-                  bgcolor: 'background.paper', 
-                  borderRadius: 1, 
-                  border: 1, 
-                  borderColor: 'divider',
-                  p: 0.5 
-                }}
-              >
-                <Button
-                  size="small"
-                  variant={formData.billingPeriod === 'monthly' ? 'contained' : 'text'}
-                  onClick={() => {
-                    const newBillingPeriod = 'monthly';
-                    // Check if current selected plan supports the new billing period
-                    const currentPlan = plans.find((p) => p._id === formData.planId);
-                    const supportsNewPeriod = currentPlan 
-                      ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
-                      : false;
-                    
-                    setFormData({ 
-                      ...formData, 
-                      billingPeriod: newBillingPeriod,
-                      planId: supportsNewPeriod ? formData.planId : ''
-                    });
-                    if (!supportsNewPeriod) {
-                      setErrors({ ...errors, planId: '' });
-                    }
-                  }}
-                  sx={{ 
-                    textTransform: 'none', 
-                    borderRadius: 1,
-                    minWidth: 80,
-                    boxShadow: 'none'
+          {/* Plan Selection */}
+          <Box sx={{ mb: 3 }}>
+            <FormControl component="fieldset" error={Boolean(errors.planId)} fullWidth>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <FormLabel component="legend" sx={{ fontWeight: 'bold', mb: 0 }}>
+                  Select a Plan <span style={{ color: 'red' }}>*</span>
+                </FormLabel>
+
+                {/* Billing Period Toggle */}
+                <Box
+                  sx={{
+                    display: 'flex',
+                    bgcolor: 'background.paper',
+                    borderRadius: '50px',
+                    border: 1,
+                    borderColor: 'divider',
+                    p: 0.5
                   }}
                 >
-                  Monthly
-                </Button>
-                <Button
-                  size="small"
-                  variant={formData.billingPeriod === 'yearly' ? 'contained' : 'text'}
-                  onClick={() => {
-                    const newBillingPeriod = 'yearly';
-                    // Check if current selected plan supports the new billing period
-                    const currentPlan = plans.find((p) => p._id === formData.planId);
-                    const supportsNewPeriod = currentPlan 
-                      ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
-                      : false;
-                    
-                    setFormData({ 
-                      ...formData, 
-                      billingPeriod: newBillingPeriod,
-                      planId: supportsNewPeriod ? formData.planId : ''
-                    });
-                    if (!supportsNewPeriod) {
-                      setErrors({ ...errors, planId: '' });
-                    }
-                  }}
-                  sx={{ 
-                    textTransform: 'none', 
-                    borderRadius: 1,
-                    minWidth: 80,
-                    boxShadow: 'none'
-                  }}
-                >
-                  Yearly
-                </Button>
-              </Box>
-            </Box>
-            {loadingPlans ? (
-              <Box display="flex" justifyContent="center" py={3}>
-                <CircularProgress size={24} />
-              </Box>
-            ) : plans.length === 0 ? (
-              <Typography color="error" variant="body2">
-                No plans available. Please contact support.
-              </Typography>
-            ) : (
-              <RadioGroup
-                name="planId"
-                value={formData.planId}
-                onChange={handlePlanChange}
-                sx={{ gap: 2 }}
-              >
-                {plans
-                  .filter((plan) => planSupportsBillingPeriod(plan, formData.billingPeriod))
-                  .map((plan) => (
-                  <Card
-                    key={plan._id}
+                  <Button
+                    size="small"
+                    variant={formData.billingPeriod === 'monthly' ? 'contained' : 'text'}
+                    onClick={() => {
+                      const newBillingPeriod = 'monthly';
+                      // Check if current selected plan supports the new billing period
+                      const currentPlan = plans.find((p) => p._id === formData.planId);
+                      const supportsNewPeriod = currentPlan
+                        ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
+                        : false;
+
+                      setFormData({
+                        ...formData,
+                        billingPeriod: newBillingPeriod,
+                        planId: supportsNewPeriod ? formData.planId : ''
+                      });
+                      if (!supportsNewPeriod) {
+                        setErrors({ ...errors, planId: '' });
+                      }
+                    }}
                     sx={{
-                      border: formData.planId === plan._id ? '2px solid' : '1px solid',
-                      borderColor:
-                        formData.planId === plan._id ? 'primary.main' : 'divider',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                      '&:hover': {
-                        borderColor: 'primary.main',
-                        boxShadow: 2,
+                      textTransform: "none",
+                      borderRadius: "50px",
+                      minWidth: 90,
+                      boxShadow: "none",
+                      fontWeight: 600,
+                      color: formData.billingPeriod === "monthly" ? "#000" : "text.secondary",
+                      backgroundColor:
+                        formData.billingPeriod === "monthly" ? "#88dbff" : "transparent",
+
+                      "&:hover": {
+                        backgroundColor:
+                          formData.billingPeriod === "monthly"
+                            ? "#88dbff"
+                            : "rgba(136,219,255,0.25)",
                       },
                     }}
+                  >
+                    Monthly
+                  </Button>
+                  <Button
+                    size="small"
+                    variant={formData.billingPeriod === 'yearly' ? 'contained' : 'text'}
                     onClick={() => {
-                      setFormData({ ...formData, planId: plan._id });
-                      setErrors({ ...errors, planId: '' });
+                      const newBillingPeriod = 'yearly';
+                      // Check if current selected plan supports the new billing period
+                      const currentPlan = plans.find((p) => p._id === formData.planId);
+                      const supportsNewPeriod = currentPlan
+                        ? planSupportsBillingPeriod(currentPlan, newBillingPeriod)
+                        : false;
+
+                      setFormData({
+                        ...formData,
+                        billingPeriod: newBillingPeriod,
+                        planId: supportsNewPeriod ? formData.planId : ''
+                      });
+                      if (!supportsNewPeriod) {
+                        setErrors({ ...errors, planId: '' });
+                      }
+                    }}
+                    sx={{
+                      textTransform: "none",
+                      borderRadius: "50px",
+                      minWidth: 90,
+                      boxShadow: "none",
+                      fontWeight: 600,
+                      color: formData.billingPeriod === "yearly" ? "#000" : "text.secondary",
+                      backgroundColor:
+                        formData.billingPeriod === "yearly" ? "#88dbff" : "transparent",
+
+                      "&:hover": {
+                        backgroundColor:
+                          formData.billingPeriod === "yearly"
+                            ? "#88dbff"
+                            : "rgba(136,219,255,0.25)",
+                      },
                     }}
                   >
-                    <CardContent>
-                      <FormControlLabel
-                        value={plan._id}
-                        control={<Radio />}
-                        label={
-                          <Box>
-                            <Box display="flex" alignItems="center" gap={1} mb={1}>
-                              <Typography variant="h6" component="span">
-                                {plan.plan_name}
-                              </Typography>
-                              {plan.mark_as_popular && (
+                    Yearly
+                  </Button>
+                </Box>
+              </Box>
+              {loadingPlans ? (
+                <Box display="flex" justifyContent="center" py={3}>
+                  <CircularProgress size={24} />
+                </Box>
+              ) : plans.length === 0 ? (
+                <Typography color="error" variant="body2">
+                  No plans available. Please contact support.
+                </Typography>
+              ) : (
+                <RadioGroup
+                  name="planId"
+                  value={formData.planId}
+                  onChange={handlePlanChange}
+                  sx={{ gap: 2 }}
+                >
+                  {plans
+                    .filter((plan) => planSupportsBillingPeriod(plan, formData.billingPeriod))
+                    .map((plan) => (
+                      <Card
+                        key={plan._id}
+                        sx={{
+                          border: formData.planId === plan._id ? '2px solid' : '1px solid',
+                          borderColor:
+                            formData.planId === plan._id ? '#88dbff' : 'divider',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          '&:hover': {
+                            borderColor: '#88dbff',
+                            boxShadow: 2,
+                          },
+                        }}
+                        onClick={() => {
+                          setFormData({ ...formData, planId: plan._id });
+                          setErrors({ ...errors, planId: '' });
+                        }}
+                      >
+                        <CardContent>
+                          <FormControlLabel
+                            value={plan._id}
+                            control={<Radio />}
+                            label={
+                              <Box>
+                                <Box display="flex" alignItems="center" gap={1} mb={1}>
+                                  <Typography variant="h6" component="span">
+                                    {plan.plan_name}
+                                  </Typography>
+                                  {plan.mark_as_popular && (
+                                    <Chip
+                                      label="Popular"
+                                      color="primary"
+                                      sx={{ minWidth: 'fit-content', background: '#88dbff', color: '#000', borderRadius: '50px' }}
+                                    />
+                                  )}
+                                </Box>
+                                {plan.description && (
+                                  <Typography variant="body2" color="text.secondary" mb={1}>
+                                    {plan.description}
+                                  </Typography>
+                                )}
+                                <Box display="flex" gap={2} alignItems="center">
+                                  {formData.billingPeriod === 'monthly' && plan.price.monthly !== null && (
+                                    <Typography variant="body1" fontWeight="bold">
+                                      ${plan.price.monthly}/month
+                                    </Typography>
+                                  )}
+                                  {formData.billingPeriod === 'yearly' && plan.price.yearly !== null && (
+                                    <Typography variant="body1" fontWeight="bold">
+                                      ${plan.price.yearly}/year
+                                    </Typography>
+                                  )}
+                                  {/* Show the other price as secondary info if desired, or hide it */}
+                                  {formData.billingPeriod === 'monthly' && plan.price.yearly !== null && (
+                                    <Typography variant="caption" color="text.secondary">
+                                      (or ${plan.price.yearly}/year)
+                                    </Typography>
+                                  )}
+                                  {formData.billingPeriod === 'yearly' && plan.price.monthly !== null && (
+                                    <Typography variant="caption" color="text.secondary">
+                                      (or ${plan.price.monthly}/month)
+                                    </Typography>
+                                  )}
+                                </Box>
                                 <Chip
-                                  label="Popular"
-                                  color="primary"
+                                  label="15 days free trial"
+                                  color="success"
                                   size="small"
-                                  sx={{ height: 20 }}
+                                  sx={{ mt: 1 }}
                                 />
-                              )}
-                            </Box>
-                            {plan.description && (
-                              <Typography variant="body2" color="text.secondary" mb={1}>
-                                {plan.description}
-                              </Typography>
-                            )}
-                            <Box display="flex" gap={2} alignItems="center">
-                              {formData.billingPeriod === 'monthly' && plan.price.monthly !== null && (
-                                <Typography variant="body1" fontWeight="bold">
-                                  ${plan.price.monthly}/month
-                                </Typography>
-                              )}
-                              {formData.billingPeriod === 'yearly' && plan.price.yearly !== null && (
-                                <Typography variant="body1" fontWeight="bold">
-                                  ${plan.price.yearly}/year
-                                </Typography>
-                              )}
-                              {/* Show the other price as secondary info if desired, or hide it */}
-                              {formData.billingPeriod === 'monthly' && plan.price.yearly !== null && (
-                                <Typography variant="caption" color="text.secondary">
-                                  (or ${plan.price.yearly}/year)
-                                </Typography>
-                              )}
-                               {formData.billingPeriod === 'yearly' && plan.price.monthly !== null && (
-                                <Typography variant="caption" color="text.secondary">
-                                  (or ${plan.price.monthly}/month)
-                                </Typography>
-                              )}
-                            </Box>
-                            <Chip
-                              label="15 days free trial"
-                              color="success"
-                              size="small"
-                              sx={{ mt: 1 }}
-                            />
-                          </Box>
-                        }
-                        sx={{ width: '100%', m: 0 }}
-                      />
-                    </CardContent>
-                  </Card>
-                ))}
-              </RadioGroup>
-            )}
-            {errors.planId && (
-              <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-                {errors.planId}
-              </Typography>
-            )}
-          </FormControl>
-        </Box>
+                              </Box>
+                            }
+                            sx={{ width: '100%', m: 0 }}
+                          />
+                        </CardContent>
+                      </Card>
+                    ))}
+                </RadioGroup>
+              )}
+              {errors.planId && (
+                <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
+                  {errors.planId}
+                </Typography>
+              )}
+            </FormControl>
+          </Box>
 
           <Button
             type="submit"
@@ -577,11 +601,9 @@ const SignupPage: React.FC = () => {
               fontSize: 15,
               fontWeight: 600,
               textTransform: "none",
-              background: "linear-gradient(90deg,#005B8E,#03D7FE)",
+              background: "#88dbff",
+              color: '#000',
               boxShadow: "0 6px 18px rgba(3,215,254,0.25)",
-              "&:hover": {
-                background: "linear-gradient(90deg,#00476f,#02c6e7)",
-              },
             }}
             startIcon={loading && <CircularProgress size={15} color="inherit" />}
             disabled={loading || loadingPlans}

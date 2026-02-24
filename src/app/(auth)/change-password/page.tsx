@@ -1,7 +1,7 @@
 import ChangePasswordPage from '.';
 
 export const metadata = {
-  title: 'Change Password - OpsDeck',
+  title: 'Change Password - NexTask',
   description: 'Change your account password securely.',
 };
 

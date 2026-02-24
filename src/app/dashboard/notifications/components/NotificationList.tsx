@@ -235,7 +235,7 @@ const Notifications: React.FC = () => {
               >
                 {/* Notification Icon */}
                 <NotificationAvatar>
-                  <NotificationIcon sx={{ bgcolor: getNotificationColor(notificationType) }}>
+                  <NotificationIcon sx={{ bgcolor: '#88dbff' , borderColor: '#88dbff', borderRadius: "50px",}}>
                     {getNotificationIcon(notificationType)}
                   </NotificationIcon>
                 </NotificationAvatar>

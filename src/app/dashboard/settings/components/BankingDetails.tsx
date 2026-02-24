@@ -199,6 +199,7 @@ const BankingDetails: React.FC = () => {
               onClick={handleSave}
               disabled={saving}
               startIcon={saving && <CircularProgress size={20} color="inherit" />}
+              sx={{ borderRadius: '50px' , backgroundColor: '#88dbff', color: '#000', '&:hover': { backgroundColor: '#88dbff' } }}
             >
               {saving ? 'Saving...' : 'Save Banking Details'}
             </Button>

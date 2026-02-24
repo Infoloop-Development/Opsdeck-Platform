@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { TextField, Button, Box, Grid2, CircularProgress, Typography, Card, Avatar, Chip, Dialog, IconButton, Select, MenuItem, FormControl, Menu, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment } from '@mui/material';
-import { MailOutline, AttachFile, MoreVert, Edit, Delete, Visibility } from '@mui/icons-material';
+import { MailOutline, AttachFile, MoreVert, Edit, Delete, Visibility, CloseOutlined } from '@mui/icons-material';
 import { enqueueSnackbar } from 'notistack';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
@@ -284,7 +284,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
             {/* Header */}
             <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
               <Box display="flex" gap={1.5} alignItems="center">
-                <Avatar src={avatar} sx={{ width: 44, height: 44, borderRadius: 1 }} />
+                <Avatar src={avatar} sx={{ width: 44, height: 44, borderRadius: '50px' }} />
                 <Typography
                   fontWeight={600}
                   sx={{
@@ -383,7 +383,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
 
           {/* User Info */}
           <Box display="flex" alignItems="center" gap={2} mt={3}>
-            <Avatar src={avatar} sx={{ width: 44, height: 44, borderRadius: 1 }} />
+            <Avatar src={avatar} sx={{ width: 44, height: 44, borderRadius: '50px' }} />
             <Box>
               <Typography fontWeight={600}>{name}</Typography>
               <Typography variant="caption" color="text.secondary">
@@ -446,12 +446,19 @@ const FeedbackForm = (props: FeedbackFormProps) => {
           onClose={() => setEditMode(false)}
           maxWidth="sm"
           fullWidth
-          PaperProps={{
-            sx: { borderRadius: 2, p: 3 },
-          }}
         >
-          <DialogTitle>Edit Support Ticket</DialogTitle>
-          <DialogContent>
+          <DialogTitle
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >Edit Support Ticket
+            <IconButton onClick={() => setEditMode(false)} size="small">
+              <CloseOutlined />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent style={{ paddingTop: 24 }} dividers>
             <Box sx={{ mb: 2 }}>
               <Typography variant="subtitle2" color="text.secondary">Subject</Typography>
               <Typography>{editValues.subject}</Typography>
@@ -483,14 +490,66 @@ const FeedbackForm = (props: FeedbackFormProps) => {
                 <MenuItem value="closed">Closed</MenuItem>
               </Select>
             </FormControl>
-            <Box sx={{ mb: 2 }}>
+            <Box sx={{ my: 2 }}>
               <Typography variant="subtitle2" color="text.secondary">Category</Typography>
               <Typography>{editValues.category}</Typography>
             </Box>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setEditMode(false)}>Cancel</Button>
-            <Button onClick={handleEditSubmit} variant="contained">Save</Button>
+          <DialogActions
+            sx={{
+              px: 3,
+              py: 2,
+              borderColor: 'divider',
+            }}
+          >
+            <Button onClick={() => setEditMode(false)}
+              variant="outlined"
+              sx={{
+                textTransform: 'none',
+                borderRadius: '50px',
+                px: 3,
+                py: 1.25,
+                fontWeight: 500,
+
+                color: (theme) => theme.palette.text.primary,
+                borderColor: (theme) => theme.palette.divider,
+
+                backgroundColor: 'transparent',
+
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.action.hover,
+                  borderColor: (theme) => theme.palette.text.secondary,
+                },
+              }}
+            >Cancel</Button>
+            <Button onClick={handleEditSubmit} variant="contained"
+              sx={{
+                textTransform: 'none',
+                borderRadius: '50px',
+                px: 3,
+                py: 1.25,
+                fontWeight: 500,
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'dark'
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
+
+                color: (theme) =>
+                  theme.palette.mode === 'dark'
+                    ? theme.palette.grey[900]
+                    : '#ffffff',
+
+                boxShadow: 'none',
+
+                '&:hover': {
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === 'dark'
+                      ? theme.palette.grey[200]
+                      : '#000000',
+                  boxShadow: 'none',
+                },
+              }}
+            >Save</Button>
           </DialogActions>
         </Dialog>
 
@@ -498,19 +557,61 @@ const FeedbackForm = (props: FeedbackFormProps) => {
         <Dialog
           open={deleteDialogOpen}
           onClose={() => setDeleteDialogOpen(false)}
-          PaperProps={{
-            sx: { borderRadius: 2, p: 3 },
-          }}
         >
-          <DialogTitle>Delete Support Ticket</DialogTitle>
-          <DialogContent>
+          <DialogTitle
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >Delete Support Ticket
+            <IconButton onClick={() => setDeleteDialogOpen(false)} size="small">
+              <CloseOutlined />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent style={{ paddingTop: 24 }} dividers>
             <DialogContentText>
               Are you sure you want to delete this support ticket? This action cannot be undone.
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
-            <Button onClick={handleDelete} color="error" variant="contained">Delete</Button>
+          <DialogActions sx={{
+            px: 3,
+            py: 2,
+            borderColor: 'divider',
+          }}>
+            <Button onClick={() => setDeleteDialogOpen(false)}
+              variant="outlined"
+              sx={{
+                textTransform: 'none',
+                borderRadius: '50px',
+                px: 3,
+                py: 1.25,
+                fontWeight: 500,
+
+                color: (theme) => theme.palette.text.primary,
+                borderColor: (theme) => theme.palette.divider,
+
+                backgroundColor: 'transparent',
+
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.action.hover,
+                  borderColor: (theme) => theme.palette.text.secondary,
+                },
+              }}
+            >Cancel</Button>
+            <Button onClick={handleDelete} color="error" variant="contained"
+              sx={{
+                textTransform: 'none',
+                borderRadius: '50px',
+                px: 3,
+                py: 1.25,
+                fontWeight: 500,
+                boxShadow: 'none',
+                '&:hover': {
+                  boxShadow: 'none',
+                },
+              }}
+            >Delete</Button>
           </DialogActions>
         </Dialog>
       </>

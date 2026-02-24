@@ -1,4 +1,4 @@
-const supportEmail = 'support@OpsDeck.com';
+const supportEmail = 'support@nextask.com';
 const mailToSubject = 'Support Request';
 const mailToBody = 'Hello, I need assistance with...';
 

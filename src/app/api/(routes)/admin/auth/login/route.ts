@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // SECURITY: Reject system admins - they cannot login through OpsDeck panel
+    // SECURITY: Reject system admins - they cannot login through NexTask panel
     if (user.isSystemAdmin === true) {
       return NextResponse.json(
         { error: 'Access denied' },

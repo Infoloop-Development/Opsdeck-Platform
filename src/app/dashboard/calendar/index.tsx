@@ -67,13 +67,13 @@ const isDueToday = (date?: Date): boolean => {
   try {
     const today = new Date();
     const dueDate = new Date(date);
-    
+
     if (isNaN(dueDate.getTime())) return false;
-    
+
     // Normalize both dates to start of day for accurate comparison
     today.setHours(0, 0, 0, 0);
     dueDate.setHours(0, 0, 0, 0);
-    
+
     return (
       today.getFullYear() === dueDate.getFullYear() &&
       today.getMonth() === dueDate.getMonth() &&
@@ -178,7 +178,7 @@ const Calendar = () => {
         const calendarEvents: CalendarEvent[] = response.data.events.map((event: any) => {
           const startDate = new Date(event.startDate || event.start);
           const endDate = event.endDate ? new Date(event.endDate) : new Date(event.end || startDate);
-          
+
           // Ensure all-day events span the full day
           if (event.allDay !== false) {
             startDate.setHours(0, 0, 0, 0);
@@ -408,7 +408,7 @@ const Calendar = () => {
     if (event.eventType === 'task') {
       const priorityColor = getPriorityColor(event.priority || 'Medium');
       const statusColor = getStatusColor(event.status || 'Todo');
-      
+
       // Check if task is due today and not completed
       const taskDueToday = isDueToday(event.start);
       const isCompleted = isTaskCompleted(event.status);
@@ -476,8 +476,8 @@ const Calendar = () => {
       const defaultStatus = statusOptions.length > 0 ? statusOptions[0].value : 'Todo';
 
       // Ensure projectId is a string
-      const defaultProjectId = projects.length > 0 
-        ? String(projects[0].id || '') 
+      const defaultProjectId = projects.length > 0
+        ? String(projects[0].id || '')
         : '';
 
       return {
@@ -529,6 +529,7 @@ const Calendar = () => {
                 color="success"
                 onClick={() => handleNavigate('today')}
                 disabled={loading}
+                sx={{ borderRadius: '50px' }}
               >
                 Today
               </Button>
@@ -537,22 +538,63 @@ const Calendar = () => {
                 <NavigateNext fontSize="small" color="secondary" />
               </IconButton>
 
-              <ButtonGroup variant="outlined" size="small" sx={{ ml: 2 }}>
+              <ButtonGroup
+                variant="outlined"
+                sx={{
+                  ml: 2,
+                  borderRadius: "50px",
+                  overflow: "hidden",
+                  "& .MuiButtonGroup-grouped": {
+                    borderColor: "#88dbff",
+                  },
+                }}
+              >
+                {/* Month */}
                 <Button
-                  onClick={() => setView('month')}
-                  variant={view === 'month' ? 'contained' : 'outlined'}
+                  onClick={() => setView("month")}
+                  sx={{
+                    borderRadius: "50px",
+                    borderColor: "#88dbff",
+                    color: view === "month" ? "#000" : "#555",
+                    backgroundColor: view === "month" ? "#88dbff" : "transparent",
+                    "&:hover": {
+                      backgroundColor: view === "month" ? "#88dbff" : "rgba(136,219,255,0.25)",
+                      borderColor: "#88dbff",
+                    },
+                  }}
                 >
                   Month
                 </Button>
+
+                {/* Week */}
                 <Button
-                  onClick={() => setView('week')}
-                  variant={view === 'week' ? 'contained' : 'outlined'}
+                  onClick={() => setView("week")}
+                  sx={{
+                    borderColor: "#88dbff",
+                    color: view === "week" ? "#000" : "#555",
+                    backgroundColor: view === "week" ? "#88dbff" : "transparent",
+                    "&:hover": {
+                      backgroundColor: view === "week" ? "#88dbff" : "rgba(136,219,255,0.25)",
+                      borderColor: "#88dbff",
+                    },
+                  }}
                 >
                   Week
                 </Button>
+
+                {/* Day */}
                 <Button
-                  onClick={() => setView('day')}
-                  variant={view === 'day' ? 'contained' : 'outlined'}
+                  onClick={() => setView("day")}
+                  sx={{
+                    borderRadius: "50px",
+                    borderColor: "#88dbff",
+                    color: view === "day" ? "#000" : "#555",
+                    backgroundColor: view === "day" ? "#88dbff" : "transparent",
+                    "&:hover": {
+                      backgroundColor: view === "day" ? "#88dbff" : "rgba(136,219,255,0.25)",
+                      borderColor: "#88dbff",
+                    },
+                  }}
                 >
                   Day
                 </Button>
@@ -560,14 +602,13 @@ const Calendar = () => {
 
               <Button
                 variant="contained"
-                size="small"
                 startIcon={<Add />}
                 onClick={() => {
                   setSelectedSlot({ start: new Date(), end: new Date() });
                   setEditingTask(null);
                   setTaskDialogOpen(true);
                 }}
-                sx={{ ml: 2 }}
+                sx={{ ml: 2, borderRadius: '50px', backgroundColor: '#88dbff!important', color: '#000', '&:hover': { backgroundColor: '#88dbff!important', opacity: 0.9 } }}
               >
                 Add Task
               </Button>

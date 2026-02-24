@@ -121,7 +121,7 @@ const DashboardAppbar: React.FC<DashboardAppbarProps> = ({
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: {xs: "15px", md: "32px"},
+              gap: { xs: "15px", md: "32px" },
               // width: isSmallScreen
               //   ? 'auto'
               //   : collapsed
@@ -261,6 +261,12 @@ const DashboardAppbar: React.FC<DashboardAppbarProps> = ({
                   label={isSuperUser ? 'Super Admin' : userInfo?.role}
                   color="success"
                   variant="outlined"
+                  sx={{
+                    fontWeight: 500,
+                    minWidth: "fit-content",
+                    borderRadius: "50px",
+                    fontSize: "12px",
+                  }}
                 />
               </Box>
             }
@@ -331,6 +337,7 @@ const DashboardAppbar: React.FC<DashboardAppbarProps> = ({
             variant="outlined"
             startIcon={<Logout />}
             onClick={handleLogout}
+            sx={{ borderRadius: '50px' }}
           >
             Logout
           </Button>

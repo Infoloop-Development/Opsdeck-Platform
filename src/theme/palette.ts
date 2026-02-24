@@ -20,8 +20,8 @@ export const getDarkPalette = (primaryColor) => ({
     main: primaryColor,
   },
   background: {
-    default: '#0c1524',
-    paper: '#1a1a26',
+    default: '#011a25',
+    paper: '#001e2b',
   },
   text: {
     primary: grey[300],

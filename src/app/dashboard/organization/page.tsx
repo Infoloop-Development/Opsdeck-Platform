@@ -1,7 +1,7 @@
 import Organization from '.';
 
 export const metadata = {
-  title: 'Organization - OpsDeck',
+  title: 'Organization - NexTask',
   description: 'View your organization details and statistics.',
 };
 

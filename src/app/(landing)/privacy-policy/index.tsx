@@ -9,7 +9,7 @@ const PrivacyPolicy = () => (
       </Typography>
 
       <Typography variant="body2">
-        Welcome to OpsDeck! This Privacy Policy explains how we collect, use, and share your
+        Welcome to NexTask! This Privacy Policy explains how we collect, use, and share your
         personal information when you use our project and task management application built using
         Next.js and Material-UI (MUI).
       </Typography>
@@ -145,7 +145,7 @@ const PrivacyPolicy = () => (
         <Typography variant="body2">
           If you have any questions about this Privacy Policy, please contact us at{' '}
           <Link href="mailto:husnainakhtar06@gmail.com" underline="none">
-            <Button>support@OpsDeck.com</Button>
+            <Button>support@nextask.com</Button>
           </Link>
         </Typography>
       </Box>

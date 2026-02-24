@@ -24,16 +24,20 @@ const DynamicBreadcrumbs = ({ inDashboard = true, mb = 2, omitLabels = [] }: Dyn
   const [projectName, setProjectName] = useState<string | null>(null);
   const isAdminPath = pathname?.startsWith('/dashboard/admin');
 
-  // Check if we're on a project tasks page and fetch project name
+  // Check if we're on a project tasks or full-details page and fetch project name
   useEffect(() => {
     const pathSegments = pathname.split('/').filter(Boolean);
-    // Check if path is /projects/[id]/tasks or /dashboard/projects/[id]/tasks
+    // Check if path is /projects/[id]/tasks, /projects/[id]/full-details, or their dashboard equivalents
     const isProjectTasksPath = 
       (pathSegments.length >= 3 && pathSegments[0] === 'projects' && pathSegments[2] === 'tasks') ||
       (pathSegments.length >= 4 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'projects' && pathSegments[3] === 'tasks');
     
-    if (isProjectTasksPath) {
-      // Get project ID - it's at index 1 for /projects/[id]/tasks or index 2 for /dashboard/projects/[id]/tasks
+    const isProjectFullDetailsPath =
+      (pathSegments.length >= 3 && pathSegments[0] === 'projects' && pathSegments[2] === 'full-details') ||
+      (pathSegments.length >= 4 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'projects' && pathSegments[3] === 'full-details');
+    
+    if (isProjectTasksPath || isProjectFullDetailsPath) {
+      // Get project ID - it's at index 1 for /projects/[id]/... or index 2 for /dashboard/projects/[id]/...
       const projectIdIndex = pathSegments[0] === 'dashboard' ? 2 : 1;
       const projectId = pathSegments[projectIdIndex];
       
@@ -71,14 +75,18 @@ const DynamicBreadcrumbs = ({ inDashboard = true, mb = 2, omitLabels = [] }: Dyn
   const generateBreadcrumbs = useCallback(() => {
     const pathSegments = pathname.split('/').filter(Boolean);
 
-    // Detect project tasks paths so we can optionally hide breadcrumbs
+    // Detect project tasks and full-details paths so we can optionally hide breadcrumbs
     const isProjectTasksPath =
       (pathSegments.length >= 3 && pathSegments[0] === 'projects' && pathSegments[2] === 'tasks') ||
       (pathSegments.length >= 4 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'projects' && pathSegments[3] === 'tasks');
 
-    // If we're on a project tasks page and the project name is not yet loaded,
+    const isProjectFullDetailsPath =
+      (pathSegments.length >= 3 && pathSegments[0] === 'projects' && pathSegments[2] === 'full-details') ||
+      (pathSegments.length >= 4 && pathSegments[0] === 'dashboard' && pathSegments[1] === 'projects' && pathSegments[3] === 'full-details');
+
+    // If we're on a project tasks or full-details page and the project name is not yet loaded,
     // avoid showing an ugly MongoDB ObjectId in the breadcrumb.
-    if (isProjectTasksPath && !projectName) {
+    if ((isProjectTasksPath || isProjectFullDetailsPath) && !projectName) {
       setBreadcrumbs([]);
       return;
     }
@@ -107,7 +115,7 @@ const DynamicBreadcrumbs = ({ inDashboard = true, mb = 2, omitLabels = [] }: Dyn
       const href = '/' + hrefSegments.join('/');
 
       // Replace project ID with project name if available
-      // Handle both /projects/[id]/tasks and /dashboard/projects/[id]/tasks
+      // Handle both /projects/[id]/tasks, /projects/[id]/full-details and their dashboard equivalents
       let label = segment;
       const isDashboardProjectsPath = filteredSegments[0] === 'dashboard' && filteredSegments[1] === 'projects';
       const isProjectsPath = filteredSegments[0] === 'projects';
@@ -119,7 +127,11 @@ const DynamicBreadcrumbs = ({ inDashboard = true, mb = 2, omitLabels = [] }: Dyn
           // /projects/[id]/tasks case
           (isProjectsPath && filteredSegments.length >= 3 && filteredSegments[2] === 'tasks' && index === 1) ||
           // /dashboard/projects/[id]/tasks case
-          (isDashboardProjectsPath && filteredSegments.length >= 4 && filteredSegments[3] === 'tasks' && index === 2)
+          (isDashboardProjectsPath && filteredSegments.length >= 4 && filteredSegments[3] === 'tasks' && index === 2) ||
+          // /projects/[id]/full-details case
+          (isProjectsPath && filteredSegments.length >= 3 && filteredSegments[2] === 'full-details' && index === 1) ||
+          // /dashboard/projects/[id]/full-details case
+          (isDashboardProjectsPath && filteredSegments.length >= 4 && filteredSegments[3] === 'full-details' && index === 2)
         )
       ) {
         label = projectName;

@@ -433,7 +433,7 @@ const DepartmentsPage: React.FC = () => {
                 sx={{
                   width: { xs: "unset", lg: "520px" },
                   maxWidth: "100%",
-                  borderRadius: "6px",
+                  borderRadius: "50px",
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === "dark"
@@ -446,6 +446,7 @@ const DepartmentsPage: React.FC = () => {
 
                     "& fieldset": {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     "&:hover fieldset": {
@@ -465,7 +466,7 @@ const DepartmentsPage: React.FC = () => {
                   startIcon={<AddOutlined />}
                   onClick={handleOpenCreate}
                   sx={{
-                    borderRadius: "6px",
+                    borderRadius: "50px",
                     fontWeight: 500,
                     color: (theme) =>
                       theme.palette.mode === "dark" ? "#fff" : "#000",
@@ -641,7 +642,7 @@ const DepartmentsPage: React.FC = () => {
                                 sx={{
                                   fontWeight: 500,
                                   minWidth: 'fit-content',
-                                  borderRadius: '4px',
+                                  borderRadius: '50px',
                                   fontSize: '12px',
                                   backgroundColor: style.bg,
                                   color: style.color,
@@ -790,7 +791,7 @@ const DepartmentsPage: React.FC = () => {
                 onClick={handleAddPosition}
                 variant="outlined"
                 size="small"
-                sx={{ mt: 2 }}
+                sx={{ mt: 2, borderRadius: '50px' }}
               >
                 Add Option
               </Button>
@@ -810,7 +811,7 @@ const DepartmentsPage: React.FC = () => {
             variant="outlined"
             sx={{
               textTransform: 'none',
-              borderRadius: '8px',
+              borderRadius: '50px',
               px: 3,
               py: 1.25,
               fontWeight: 500,
@@ -841,7 +842,7 @@ const DepartmentsPage: React.FC = () => {
             }
             sx={{
               textTransform: 'none',
-              borderRadius: '8px',
+              borderRadius: '50px',
               px: 3,
               py: 1.25,
               fontWeight: 500,
@@ -874,19 +875,65 @@ const DepartmentsPage: React.FC = () => {
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
-        <DialogTitle>Delete Department</DialogTitle>
-        <DialogContent>
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >Delete Department
+          <IconButton onClick={() => setDeleteDialogOpen(false)} size="small">
+            <CloseOutlined />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent style={{ paddingTop: 24 }} dividers>
           <DialogContentText>
             Are you sure you want to delete the department <strong>{selectedDepartment?.name}</strong>? This action cannot be undone.
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+        <DialogActions
+          sx={{
+            px: 3,
+            py: 2,
+            borderColor: 'divider',
+          }}
+        >
+          <Button onClick={() => setDeleteDialogOpen(false)}
+            variant="outlined"
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+
+              color: (theme) => theme.palette.text.primary,
+              borderColor: (theme) => theme.palette.divider,
+
+              backgroundColor: 'transparent',
+
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.action.hover,
+                borderColor: (theme) => theme.palette.text.secondary,
+              },
+            }}
+          >Cancel</Button>
           <Button
             onClick={handleDelete}
             color="error"
             variant="contained"
             disabled={saving}
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+              boxShadow: 'none',
+              '&:hover': {
+                boxShadow: 'none',
+              },
+            }}
           >
             {saving ? <CircularProgress size={20} /> : 'Delete'}
           </Button>

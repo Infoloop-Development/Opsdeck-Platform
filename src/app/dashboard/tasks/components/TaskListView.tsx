@@ -583,7 +583,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
                                 sx={{
                                   fontWeight: 500,
                                   minWidth: 'fit-content',
-                                  borderRadius: '4px',
+                                  borderRadius: '50px',
                                   fontSize: '12px',
                                   bgcolor: priorityColor.bg,
                                   color: priorityColor.text,
@@ -598,7 +598,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
                                 sx={{
                                   fontWeight: 500,
                                   minWidth: 'fit-content',
-                                  borderRadius: '4px',
+                                  borderRadius: '50px',
                                   fontSize: '12px',
                                   bgcolor: statusColor.bg,
                                   color: statusColor.text,

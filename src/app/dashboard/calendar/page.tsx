@@ -1,7 +1,7 @@
 import CalendarPage from '.';
 
 export const metadata = {
-  title: 'Calendar - OpsDeck',
+  title: 'Calendar - NexTask',
   description: 'Manage your events and tasks with the calendar.',
 };
 

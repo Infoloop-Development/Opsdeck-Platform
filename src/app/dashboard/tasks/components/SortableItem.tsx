@@ -346,7 +346,7 @@ export const SortableItem: React.FC<SortableItemProps> = ({
                 sx={{
                   fontWeight: 500,
                   minWidth: 'fit-content',
-                  borderRadius: '4px',
+                  borderRadius: '50px',
                   fontSize: '12px',
                   bgcolor: getStatusColor(task.status || 'Todo', task.projectId).bg,
                   color: getStatusColor(task.status || 'Todo', task.projectId).text,
@@ -363,7 +363,7 @@ export const SortableItem: React.FC<SortableItemProps> = ({
                 sx={{
                   fontWeight: 500,
                   minWidth: 'fit-content',
-                  borderRadius: '4px',
+                  borderRadius: '50px',
                   fontSize: '12px',
                   bgcolor: getPriorityColor(task.priority || 'Medium').bg,
                   color: getPriorityColor(task.priority || 'Medium').text,

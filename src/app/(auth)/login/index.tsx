@@ -108,8 +108,11 @@ const SignInPage: React.FC = () => {
           width: "100%",
           p: { xs: 3, sm: 5 },
           borderRadius: "14px",
-          backgroundColor: "#fff",
-          border: "1px solid #e6eaf0",
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark"
+              ? theme.palette.background.paper
+              : "#ffffff",
+          border: "none !important",
           boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
         }}
       >
@@ -216,11 +219,10 @@ const SignInPage: React.FC = () => {
               fontSize: 15,
               fontWeight: 600,
               textTransform: "none",
-              background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
+              // background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
+              background: "#88dbff",
+              color: '#000',
               boxShadow: "0 6px 18px rgba(3,215,254,0.25)",
-              "&:hover": {
-                background: "linear-gradient(90deg,#00476f,#02c6e7)",
-              },
             }}
           >
             Sign In

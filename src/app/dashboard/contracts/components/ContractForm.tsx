@@ -7,9 +7,12 @@ import {
   DialogContent,
   DialogTitle,
   MenuItem,
+  IconButton,
+  Grid2,
 } from '@mui/material';
 import { enqueueSnackbar } from 'notistack';
 import { Contract, ContractFormProps } from '../types';
+import { CloseOutlined } from '@mui/icons-material';
 
 const ContractForm: React.FC<ContractFormProps> = ({ open, onClose, onSave, initialContract, saving = false }) => {
   const [contract, setContract] = useState<Partial<Contract>>({
@@ -68,10 +71,10 @@ const ContractForm: React.FC<ContractFormProps> = ({ open, onClose, onSave, init
   const isValidDateFormat = (dateString: string): boolean => {
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(dateString)) return false;
-    
+
     const [year, month, day] = dateString.split('-').map(Number);
     const date = new Date(year, month - 1, day);
-    
+
     // Check if date is valid (handles invalid dates like Feb 30)
     return (
       date.getFullYear() === year &&
@@ -82,7 +85,7 @@ const ContractForm: React.FC<ContractFormProps> = ({ open, onClose, onSave, init
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
+
     // Validate end date - must be a future date
     if (name === 'endDate') {
       // ALWAYS update the form state first to prevent date/month from disappearing
@@ -109,11 +112,11 @@ const ContractForm: React.FC<ContractFormProps> = ({ open, onClose, onSave, init
         const [year, month, day] = value.split('-').map(Number);
         const selectedDate = new Date(year, month - 1, day);
         const today = new Date();
-        
+
         // Normalize both dates to start of day for accurate comparison
         today.setHours(0, 0, 0, 0);
         selectedDate.setHours(0, 0, 0, 0);
-        
+
         if (selectedDate < today) {
           setEndDateError('End date cannot be in the past. Please select a future date.');
           setIsPastDate(true);
@@ -151,132 +154,220 @@ const ContractForm: React.FC<ContractFormProps> = ({ open, onClose, onSave, init
 
   const handleSubmit = () => {
     if (!isPastDate) {
-    onSave(contract);
+      onSave(contract);
     }
   };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle>{initialContract ? 'Edit Contract' : 'Add Contract'}</DialogTitle>
-      <DialogContent dividers>
-        <TextField
-          label="Contract Number"
-          name="contractNumber"
-          value={contract.contractNumber || ''}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextField
-          label="Title"
-          name="title"
-          value={contract.title || ''}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-        />
-        <TextField
-          label="Client Name"
-          name="clientName"
-          value={contract.clientName || contract.client || ''}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-        />
-        <TextField
-          label="Client Email"
-          name="clientEmail"
-          type="email"
-          value={contract.clientEmail || ''}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Start Date"
-          name="startDate"
-          type="date"
-          value={contract.startDate || ''}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <TextField
-          label="End Date"
-          name="endDate"
-          type="date"
-          value={contract.endDate || ''}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          inputProps={{
-            min: new Date().toISOString().split('T')[0], // Set minimum date to today
-          }}
-          error={!!endDateError}
-          helperText={endDateError || ''}
-        />
-        <TextField
-          label="Status"
-          name="status"
-          select
-          value={contract.status || 'draft'}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        >
-          <MenuItem value="draft">Draft</MenuItem>
-          <MenuItem value="Pending">Pending</MenuItem>
-          <MenuItem value="Active">Active</MenuItem>
-          <MenuItem value="Completed">Completed</MenuItem>
-        </TextField>
-        <TextField
-          label="Value"
-          name="value"
-          type="number"
-          value={contract.value || contract.budget || 0}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          inputProps={{ min: 0, step: 0.01 }}
-        />
-        <TextField
-          label="Description"
-          name="description"
-          value={contract.description || ''}
-          onChange={handleChange}
-          fullWidth
-          multiline
-          rows={3}
-          margin="normal"
-        />
-        <TextField
-          label="Terms"
-          name="terms"
-          value={contract.terms || ''}
-          onChange={handleChange}
-          fullWidth
-          multiline
-          rows={3}
-          margin="normal"
-        />
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >{initialContract ? 'Edit Contract' : 'Add Contract'}
+        <IconButton onClick={onClose} size="small">
+          <CloseOutlined />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent style={{ paddingTop: 24 }} dividers>
+        <Grid2 container spacing={2}>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <TextField
+              label="Contract Number"
+              name="contractNumber"
+              value={contract.contractNumber || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              sx={{ mt: 0 }}
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <TextField
+              label="Title"
+              name="title"
+              value={contract.title || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+              sx={{ mt: 0 }}
+            />
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <TextField
+              label="Client Name"
+              name="clientName"
+              value={contract.clientName || contract.client || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+              sx={{ mt: 0 }}
+            />
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <TextField
+              label="Client Email"
+              name="clientEmail"
+              type="email"
+              value={contract.clientEmail || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              sx={{ mt: 0 }}
+            />
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <TextField
+              label="Start Date"
+              name="startDate"
+              type="date"
+              value={contract.startDate || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              sx={{ mt: 0 }}
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <TextField
+              label="End Date"
+              name="endDate"
+              type="date"
+              value={contract.endDate || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              sx={{ mt: 0 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                min: new Date().toISOString().split('T')[0], // Set minimum date to today
+              }}
+              error={!!endDateError}
+              helperText={endDateError || ''}
+            />
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <TextField
+              label="Status"
+              name="status"
+              select
+              value={contract.status || 'draft'}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              sx={{ mt: 0 }}
+            >
+              <MenuItem value="draft">Draft</MenuItem>
+              <MenuItem value="Pending">Pending</MenuItem>
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Completed">Completed</MenuItem>
+            </TextField>
+          </Grid2>
+          <Grid2 size={{ xs: 12, md: 6 }}>
+            <TextField
+              label="Value"
+              name="value"
+              type="number"
+              value={contract.value || contract.budget || 0}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              inputProps={{ min: 0, step: 0.01 }}
+              sx={{ mt: 0 }}
+            />
+          </Grid2>
+          <TextField
+            label="Description"
+            name="description"
+            value={contract.description || ''}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            rows={3}
+            margin="normal"
+            sx={{ mt: 0 }}
+          />
+          <TextField
+            label="Terms"
+            name="terms"
+            value={contract.terms || ''}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            rows={3}
+            margin="normal"
+            sx={{ mt: 0 }}
+          />
+        </Grid2>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} disabled={saving}>
+      <DialogActions sx={{
+        px: 3,
+        py: 2,
+        borderColor: 'divider',
+      }}>
+        <Button onClick={onClose} disabled={saving}
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+
+            color: (theme) => theme.palette.text.primary,
+            borderColor: (theme) => theme.palette.divider,
+
+            backgroundColor: 'transparent',
+
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.action.hover,
+              borderColor: (theme) => theme.palette.text.secondary,
+            },
+          }}
+        >
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary" variant="contained" disabled={saving || isPastDate}>
+        <Button onClick={handleSubmit} color="primary" variant="contained" disabled={saving || isPastDate}
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+
+            color: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[900]
+                : '#ffffff',
+
+            boxShadow: 'none',
+
+            '&:hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.grey[200]
+                  : '#000000',
+              boxShadow: 'none',
+            },
+          }}
+        >
           {saving ? 'Saving...' : 'Save'}
         </Button>
       </DialogActions>

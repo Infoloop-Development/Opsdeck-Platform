@@ -286,7 +286,7 @@ const FileAttachmentDialog: React.FC<FileAttachmentDialogProps> = ({
           variant="outlined"
           sx={{
             textTransform: 'none',
-            borderRadius: '8px',
+            borderRadius: '50px',
             px: 3,
             py: 1.25,
             fontWeight: 500,
@@ -312,7 +312,7 @@ const FileAttachmentDialog: React.FC<FileAttachmentDialogProps> = ({
           disabled={!canSubmit() || uploading}
           sx={{
             textTransform: 'none',
-            borderRadius: '8px',
+            borderRadius: '50px',
             px: 3,
             py: 1.25,
             fontWeight: 500,

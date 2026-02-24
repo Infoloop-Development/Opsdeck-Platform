@@ -134,7 +134,7 @@ function ProjectModalWithFields({ content, mode, visible, onClose }) {
           variant="outlined"
           sx={{
             textTransform: 'none',
-            borderRadius: '8px',
+            borderRadius: '50px',
             px: 3,
             py: 1.25,
             fontWeight: 500,
@@ -160,7 +160,7 @@ function ProjectModalWithFields({ content, mode, visible, onClose }) {
           variant="contained"
           sx={{
             textTransform: 'none',
-            borderRadius: '8px',
+            borderRadius: '50px',
             px: 3,
             py: 1.25,
             fontWeight: 500,
@@ -451,6 +451,7 @@ export default function ProjectModal({
                         fullWidth
                         error={touched.name && errors.name}
                         helperText={<ErrorMessage name="name" />}
+                        sx={{borderRadius: '50px'}}
                       />
                     </Grid2>
                     <Grid2 size={{ xs: 12, md: 6 }}>
@@ -611,6 +612,7 @@ export default function ProjectModal({
                           onClick={() => setAttachmentDialogOpen(true)}
                           size="small"
                           variant="outlined"
+                          sx={{ borderRadius: '50px', px: 2, py: 0.5 }}
                         >
                           Attach
                         </Button>

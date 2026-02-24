@@ -96,7 +96,7 @@ const PrioritySelect: React.FC<PrioritySelectProps> = ({
               sx={{
                 fontSize: '12px',
                 fontWeight: 500,
-                borderRadius: '4px',
+                borderRadius: '50px',
                 minWidth: 'fit-content',
                 bgcolor: selectedColors.bg,
                 color: selectedColors.text,
@@ -166,7 +166,7 @@ const PrioritySelect: React.FC<PrioritySelectProps> = ({
                     sx={{
                       fontSize: '12px',
                       fontWeight: 500,
-                      borderRadius: '4px',
+                      borderRadius: '50px',
                       minWidth: 'fit-content',
                       bgcolor: priorityColors.bg,
                       color: priorityColors.text,
