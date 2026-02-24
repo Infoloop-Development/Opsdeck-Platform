@@ -1,15 +1,23 @@
-import HomePage from './home';
+'use client';
 
-export const metadata = {
-  title: 'NexTask - Streamline Your Projects with Our SaaS Dev Platform',
-  description:
-    'Boost productivity with NexTask SaaS-Dev, the all-in-one cloud platform for seamless project organization, team collaboration, and progress tracking.',
-};
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { accessTokenKey } from '@/utils/constants';
 
-export default function Home() {
-  return (
-    <>
-      <HomePage />
-    </>
-  );
+export default function RootRedirectPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const token = localStorage.getItem(accessTokenKey);
+
+    if (token) {
+      router.replace('/dashboard/projects');
+    } else {
+      router.replace('/login');
+    }
+  }, [router]);
+
+  return null;
 }
