@@ -165,7 +165,7 @@ const loginSlice: any = createSlice({
     },
     loginSuccess(state: AppState, action: PayloadAction<any>) {
       state.auth.loading = false;
-      state.auth.currentUser.user.role = action.payload;
+      state.auth.currentUser = action.payload;
     },
     loginFailure(state: AppState, action: PayloadAction<string>) {
       state.auth.loading = false;

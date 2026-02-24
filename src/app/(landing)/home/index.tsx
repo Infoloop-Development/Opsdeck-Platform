@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { appbarHeight } from '@/utils/constants';
 import { FollowTheSignsOutlined, PhoneOutlined } from '@mui/icons-material';
@@ -24,10 +24,16 @@ import KeyFeatures from './components/Features';
 import FAQs from './components/FAQs';
 import ContactForm from './components/ContactForm';
 import AnimatedComponent from '@/components/Animated';
+import { useRouter } from 'next/navigation';
 
 const HomePage: React.FC = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/dashboard/organization');
+  }, []);
 
   return (
     <>

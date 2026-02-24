@@ -13,7 +13,7 @@ import {
   Autocomplete,
   CircularProgress,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import Link from 'next/link';
 import { selectCurrentUser, selectUsers } from '@/redux/selectors';
 import { useSelector } from 'react-redux';
@@ -39,6 +39,7 @@ const ProfileSettings: React.FC = ({ }) => {
 
   const handleSaveChanges = (e) => {
     e.preventDefault();
+    console.log('Saving changes with data:', { ...formData, photo: photoUrl });
     dispatch(addUser({ formData: { ...formData, photo: photoUrl } }));
   };
   const { data: currentUserInfo, loading } = useSelector(selectCurrentUser);

@@ -141,15 +141,17 @@ function* userLogin({ payload }: any) {
     });
 
     if (router) {
-      router.push('/organization'); // Redirect to projects instead of dashboard
+      router.push('/dashboard/organization'); // Redirect to projects instead of dashboard
     } else {
-      navigateTo('/organization');
+      navigateTo('/dashboard/organization');
     }
-
-    yield put(loginSuccess(response.data));
+    console.log('Login successful, user data:', response.data);
+    console.log('Login successful, user data2:', userData);
+    yield put(loginSuccess(userData));
     // yield put(fetchUserInfo());
 
   } catch (error: any) {
+    console.log('Login error:', error);
     yield put(loginFailure(error.message));
     handleErrorMessage(error);
   }
@@ -271,7 +273,7 @@ function* saveUserSaga({ payload }) {
   try {
     const { formData, setOpenDialog } = payload;
     const method = formData?._id ? 'put' : 'post';
-    yield call(axios[method], '/api/users', formData);
+    yield call(api[method], '/api/users', formData);
     yield put(addUserSuccess());
     if (setOpenDialog) {
       setOpenDialog(false);
@@ -659,7 +661,7 @@ export default function* watchFetchData() {
   yield takeLatest(loadBilling.type, getBillingData);
   yield takeLatest(loadDashboard.type, getDashboardData);
   yield takeLatest(loadPlans.type, getPlansData);
- // yield takeLatest(loadNotifications.type, loadNotificationsSaga);
+  // yield takeLatest(loadNotifications.type, loadNotificationsSaga);
   yield takeLatest(submitMarkAsRead.type, submitMarkAsReadSaga);
   yield takeLatest(addUser.type, saveUserSaga);
   yield takeLatest(loadClients.type, getClients);
