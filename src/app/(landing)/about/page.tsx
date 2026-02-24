@@ -2,8 +2,8 @@ import React from 'react';
 import About from '.';
 
 export const metadata = {
-  title: 'About - NexTask',
-  description: 'Learn more about NexTask',
+  title: 'About - OpsDeck',
+  description: 'Learn more about OpsDeck',
 };
 
 export default function AboutPage() {

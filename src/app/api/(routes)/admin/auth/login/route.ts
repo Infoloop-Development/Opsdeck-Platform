@@ -17,10 +17,7 @@ export async function POST(request: Request) {
     const { email, password } = body;
 
     if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email and password are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Email and password are required' }, { status: 400 });
     }
 
     const client = await clientPromise;
@@ -30,27 +27,18 @@ export async function POST(request: Request) {
     // Find the user by email
     const user = await usersCollection.findOne({ email });
     if (!user) {
-      return NextResponse.json(
-        { error: 'Invalid email or password' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
-    // SECURITY: Reject system admins - they cannot login through NexTask panel
+    // SECURITY: Reject system admins - they cannot login through OpsDeck panel
     if (user.isSystemAdmin === true) {
-      return NextResponse.json(
-        { error: 'Access denied' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return NextResponse.json(
-        { error: 'Invalid email or password' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid email or password' }, { status: 401 });
     }
 
     // Ensure user belongs to an organization
@@ -63,16 +51,11 @@ export async function POST(request: Request) {
 
     // Ensure user has admin role
     if (user.role !== 'Admin') {
-      return NextResponse.json(
-        { error: 'Access denied. Admin role required.' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Access denied. Admin role required.' }, { status: 403 });
     }
 
     // Convert org_id to ObjectId if it's a string
-    const org_id = user.org_id instanceof ObjectId 
-      ? user.org_id 
-      : new ObjectId(user.org_id);
+    const org_id = user.org_id instanceof ObjectId ? user.org_id : new ObjectId(user.org_id);
 
     // Generate JWT token with organization admin payload
     // Contains: user_id, org_id, role

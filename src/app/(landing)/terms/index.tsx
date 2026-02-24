@@ -13,10 +13,10 @@ const TermsAndConditions = () => (
           1. Introduction
         </Typography>
         <Typography variant="body2" gutterBottom>
-          {` Welcome to NexTask, a project and task management application built
+          {` Welcome to OpsDeck, a project and task management application built
           using Next.js and Material-UI (MUI). These Terms and Conditions
           ("Terms") govern your use of our services ("Service"). By accessing or
-          using NexTask, you agree to be bound by these Terms.`}
+          using OpsDeck, you agree to be bound by these Terms.`}
         </Typography>
       </Box>
       <Box py={2}>
@@ -25,7 +25,7 @@ const TermsAndConditions = () => (
         </Typography>
         <Typography variant="subtitle1">a. Eligibility</Typography>
         <Typography variant="body2" gutterBottom>
-          You must be at least 18 years old to use our Service. By using NexTask, you represent and
+          You must be at least 18 years old to use our Service. By using OpsDeck, you represent and
           warrant that you meet this age requirement.
         </Typography>
         <Typography variant="subtitle1">b. Account Registration</Typography>
@@ -93,7 +93,7 @@ const TermsAndConditions = () => (
         </Typography>
         <Typography variant="body2" gutterBottom>
           The Service and its original content, features, and functionality are and will remain the
-          exclusive property of NexTask and its licensors. The Service is protected by copyright,
+          exclusive property of OpsDeck and its licensors. The Service is protected by copyright,
           trademark, and other laws of both the United States and foreign countries.
         </Typography>
       </Box>
@@ -112,7 +112,7 @@ const TermsAndConditions = () => (
           7. Limitation of Liability
         </Typography>
         <Typography variant="body2" gutterBottom>
-          In no event shall NexTask, nor its directors, employees, partners, agents, suppliers, or
+          In no event shall OpsDeck, nor its directors, employees, partners, agents, suppliers, or
           affiliates, be liable for any indirect, incidental, special, consequential or punitive
           damages, including without limitation, loss of profits, data, use, goodwill, or other
           intangible losses, resulting from (i) your use or inability to use the Service; (ii) any
@@ -151,7 +151,7 @@ const TermsAndConditions = () => (
         <Typography variant="body2" gutterBottom>
           If you have any questions about these Terms, please contact us at{' '}
           <Link href="mailto:husnainakhtar06@gmail.com" underline="none">
-            <Button>supprt@nextask.com</Button>
+            <Button>supprt@OpsDeck.com</Button>
           </Link>
           .
         </Typography>

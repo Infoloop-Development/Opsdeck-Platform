@@ -1,7 +1,7 @@
 import SignupPage from '.';
 
 export const metadata = {
-  title: 'Sign Up - NexTask',
+  title: 'Sign Up - OpsDeck',
   description: 'Create a new account to start managing your projects.',
 };
 

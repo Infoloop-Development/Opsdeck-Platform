@@ -25,8 +25,8 @@ export async function POST(request: Request) {
     // Send test email
     await sendEmail(
       email,
-      'Test Email from NexTask',
-      '<h1>Email Working</h1><p>This is a test email from NexTask. If you received this, your email configuration is working correctly!</p>'
+      'Test Email from OpsDeck',
+      '<h1>Email Working</h1><p>This is a test email from OpsDeck. If you received this, your email configuration is working correctly!</p>'
     );
 
     return NextResponse.json(

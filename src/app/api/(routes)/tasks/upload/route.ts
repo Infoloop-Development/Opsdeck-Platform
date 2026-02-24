@@ -46,9 +46,9 @@ export async function POST(request: Request) {
     }
 
     // Determine the correct project root (handles monorepo setups)
-    // If the NexTask app lives in a subfolder, prefer that as the base
+    // If the OpsDeck app lives in a subfolder, prefer that as the base
     let projectRoot = process.cwd();
-    const nestedAppRoot = join(projectRoot, 'NexTask-A-Complete-Project-Management-Solution');
+    const nestedAppRoot = join(projectRoot, 'OpsDeck-A-Complete-Project-Management-Solution');
     if (existsSync(join(nestedAppRoot, 'next.config.mjs'))) {
       projectRoot = nestedAppRoot;
     }
