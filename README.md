@@ -1,6 +1,6 @@
-# NexTask | A Complete Project Management Solution
+# OpsDeck | A Complete Project Management Solution
 
-NexTask is a robust and user-friendly project management application built with [Next.js](https://nextjs.org/) and [Material-UI (MUI)](https://mui.com/). Designed to help teams streamline workflows, manage tasks effectively, and boost productivity.
+OpsDeck is a robust and user-friendly project management application built with [Next.js](https://nextjs.org/) and [Material-UI (MUI)](https://mui.com/). Designed to help teams streamline workflows, manage tasks effectively, and boost productivity.
 
 ---
 

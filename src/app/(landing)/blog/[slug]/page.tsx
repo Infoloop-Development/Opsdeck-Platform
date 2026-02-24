@@ -2,7 +2,7 @@ import React from 'react';
 import BlogPost from '.';
 
 export const metadata = {
-  title: 'Blog - NexTask',
+  title: 'Blog - OpsDeck',
   description: 'Read our blog posts',
 };
 
