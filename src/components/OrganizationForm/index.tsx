@@ -15,8 +15,10 @@ import {
   Stack,
   CircularProgress,
   Typography,
+  IconButton,
 } from '@mui/material';
 import { plansAPI } from '@/lib/api/org_client';
+import { CloseOutlined } from '@mui/icons-material';
 interface Organization {
   _id?: string;
   name?: string;
@@ -222,14 +224,19 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
       disableEscapeKeyDown
       maxWidth="sm"
       fullWidth
-      sx={{
-        '& .MuiDialog-paper': {
-          minHeight: '70vh',
-        },
-      }}
     >
-      <DialogTitle>{isEditing ? 'Edit Organization' : 'Add Organization'}</DialogTitle>
-      <DialogContent sx={{ p: 4 }}>
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >{isEditing ? 'Edit Organization' : 'Add Organization'}
+        <IconButton onClick={onCancel} size="small">
+          <CloseOutlined />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent style={{ paddingTop: 24 }} dividers>
         <Stack spacing={3}>
           {/* Company Name */}
           <TextField
@@ -237,7 +244,7 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
             value={formData.name}
             onChange={handleFieldChange('name')}
             error={!!errors.name}
-            helperText={errors.name || 'No numbers allowed'}
+            // helperText={errors.name || 'No numbers allowed'}
             required
             fullWidth
           />
@@ -248,7 +255,7 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
             value={formData.slug}
             onChange={handleFieldChange('slug')}
             error={!!errors.slug}
-            helperText={errors.slug || 'lowercase letters, numbers, hyphens only'}
+            // helperText={errors.slug || 'lowercase letters, numbers, hyphens only'}
             required
             fullWidth
           />
@@ -260,7 +267,7 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
               value={formData.firstName}
               onChange={handleFieldChange('firstName')}
               error={!!errors.firstName}
-              helperText={errors.firstName || 'No numbers allowed'}
+              // helperText={errors.firstName || 'No numbers allowed'}
               required
               sx={{ flex: 1 }}
             />
@@ -269,7 +276,7 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
               value={formData.lastName}
               onChange={handleFieldChange('lastName')}
               error={!!errors.lastName}
-              helperText={errors.lastName || 'No numbers allowed'}
+              // helperText={errors.lastName || 'No numbers allowed'}
               required
               sx={{ flex: 1 }}
             />
@@ -282,7 +289,7 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
             value={formData.email}
             onChange={handleFieldChange('email')}
             error={!!errors.email}
-            helperText={errors.email || 'example@company.com'}
+            // helperText={errors.email || 'example@company.com'}
             required
             fullWidth
           />
@@ -295,22 +302,31 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
               value={formData.ownerPassword}
               onChange={handleFieldChange('ownerPassword')}
               error={!!errors.ownerPassword}
-              helperText={errors.ownerPassword || 'Minimum 8 characters recommended'}
+              // helperText={errors.ownerPassword || 'Minimum 8 characters recommended'}
               required
               fullWidth
             />
           )}
 
           {/* Select Plan */}
-          <FormControl fullWidth error={!!errors.planId}>
+          <FormControl fullWidth error={!!errors.planId} className='select_control'>
             <InputLabel>Select Plan</InputLabel>
             <Select
+              name="Select Plan"
+              labelId="select-plan-label"
+              label="Select Plan"
+              value={formData.planId || ''}
+              onChange={handleSelectChange('planId')}
+              // onBlur={handleBlur}
+              // disabled={loadingClients}
+            >
+            {/* <Select
               value={formData.planId}
               onChange={handleSelectChange('planId')}
               label="Select Plan"
               disabled={plansLoading}
               displayEmpty
-            >
+            > */}
               {plansLoading ? (
                 <MenuItem disabled>
                   <CircularProgress size={20} sx={{ mr: 1 }} />
@@ -334,8 +350,31 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
           </FormControl>
         </Stack>
       </DialogContent>
-      <DialogActions sx={{ p: 3, pt: 0 }}>
-        <Button onClick={onCancel} disabled={loading}>
+      <DialogActions sx={{
+        px: 3,
+        py: 2,
+        borderColor: 'divider',
+      }}>
+        <Button onClick={onCancel} disabled={loading}
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+
+            color: (theme) => theme.palette.text.primary,
+            borderColor: (theme) => theme.palette.divider,
+
+            backgroundColor: 'transparent',
+
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.action.hover,
+              borderColor: (theme) => theme.palette.text.secondary,
+            },
+          }}
+        >
           Cancel
         </Button>
         <Button
@@ -343,6 +382,32 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
           variant="contained"
           disabled={isSubmitDisabled}
           startIcon={loading && <CircularProgress size={15} color="inherit" />}
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+
+            color: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[900]
+                : '#ffffff',
+
+            boxShadow: 'none',
+
+            '&:hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.grey[200]
+                  : '#000000',
+              boxShadow: 'none',
+            },
+          }}
         >
           {loading
             ? isEditing
@@ -353,7 +418,7 @@ const OrganizationFormModal: React.FC<OrganizationFormModalProps> = ({
               : 'Add Organization'}
         </Button>
       </DialogActions>
-    </Dialog>
+    </Dialog >
   );
 };
 

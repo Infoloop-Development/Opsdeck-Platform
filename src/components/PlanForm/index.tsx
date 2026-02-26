@@ -19,8 +19,9 @@ import {
   CircularProgress,
   Box,
   Typography,
+  Grid2,
 } from '@mui/material';
-import { Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
+import { Delete as DeleteIcon, Add as AddIcon, CloseOutlined } from '@mui/icons-material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { InputAdornment } from '@mui/material';
 
@@ -194,63 +195,75 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
 
   return (
     <Dialog open={open} onClose={onCancel} maxWidth="md" fullWidth>
-      <DialogTitle>{initialValues ? 'Edit Plan' : 'Create Plan'}</DialogTitle>
-      <DialogContent sx={{ p: 4 }}>
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >{initialValues ? 'Edit Plan' : 'Create Plan'}
+        <IconButton onClick={onCancel} size="small">
+          <CloseOutlined />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent style={{ paddingTop: 24 }} dividers>
         <Stack spacing={3}>
-          {/* Plan Name */}
-          <TextField
-            label="Plan Name"
-            value={formData.plan_name}
-            onChange={(e) => setFormData((prev) => ({ ...prev, plan_name: e.target.value }))}
-            error={!!errors.plan_name}
-            helperText={errors.plan_name}
-            required
-            fullWidth
-          />
+          <Grid2 container spacing={2}>
+            <Grid2 size={{ xs: 12, md: 12 }}>
+              {/* Plan Name */}
+              <TextField
+                label="Plan Name"
+                value={formData.plan_name}
+                onChange={(e) => setFormData((prev) => ({ ...prev, plan_name: e.target.value }))}
+                error={!!errors.plan_name}
+                helperText={errors.plan_name}
+                required
+                fullWidth
+              />
+            </Grid2>
 
-          {/* Description */}
-          <TextField
-            label="Description"
-            value={formData.description}
-            onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-            multiline
-            rows={3}
-            fullWidth
-            inputProps={{ maxLength: 200 }}
-          />
+            <Grid2 size={{ xs: 12, md: 12 }}>
+              {/* Description */}
+              <TextField
+                label="Description"
+                value={formData.description}
+                onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
+                multiline
+                rows={3}
+                fullWidth
+                inputProps={{ maxLength: 200 }}
+              />
+            </Grid2>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 6 }}>
+              {/* Plan Type & Trial Type */}
+              <FormControl fullWidth error={!!errors.plan_type} className='select_control'>
+                <InputLabel>Plan Type</InputLabel>
+                <Select
+                  value={formData.plan_type}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, plan_type: e.target.value }))}
+                  label="Plan Type"
+                >
+                  <MenuItem value="basic">Basic</MenuItem>
+                  <MenuItem value="pro">Pro</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid2>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 6 }}>
+              <FormControl fullWidth error={!!errors.trial_type} className='select_control'>
+                <InputLabel>Trial Type</InputLabel>
+                <Select
+                  value={formData.trial_type}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, trial_type: e.target.value }))}
+                  label="Trial Type"
+                >
+                  <MenuItem value="free">Free</MenuItem>
+                  <MenuItem value="paid">Paid</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid2>
 
-          {/* Plan Type & Trial Type */}
-          <Stack direction="row" spacing={2}>
-            <FormControl fullWidth error={!!errors.plan_type}>
-              <InputLabel>Plan Type</InputLabel>
-              <Select
-                value={formData.plan_type}
-                onChange={(e) => setFormData((prev) => ({ ...prev, plan_type: e.target.value }))}
-                label="Plan Type"
-              >
-                <MenuItem value="basic">Basic</MenuItem>
-                <MenuItem value="pro">Pro</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl fullWidth error={!!errors.trial_type}>
-              <InputLabel>Trial Type</InputLabel>
-              <Select
-                value={formData.trial_type}
-                onChange={(e) => setFormData((prev) => ({ ...prev, trial_type: e.target.value }))}
-                label="Trial Type"
-              >
-                <MenuItem value="free">Free</MenuItem>
-                <MenuItem value="paid">Paid</MenuItem>
-              </Select>
-            </FormControl>
-          </Stack>
-
-          {/* Price Section */}
-          <Box>
-            <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600 }}>
-              Price
-            </Typography>
-            <Stack direction="row" spacing={2}>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 6 }}>
+              {/* Price Section */}
               <TextField
                 label="Monthly Price"
                 type="number"
@@ -264,7 +277,7 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
                 error={!!errors.price_monthly}
                 helperText={errors.price_monthly}
                 required
-                sx={{ flex: 1 }}
+                sx={{ flex: 1, width: '100%' }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -278,6 +291,8 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
                   },
                 }}
               />
+            </Grid2>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 6 }}>
               <TextField
                 label="Yearly Price"
                 type="number"
@@ -291,7 +306,7 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
                 error={!!errors.price_yearly}
                 helperText={errors.price_yearly}
                 required
-                sx={{ flex: 1 }}
+                sx={{ flex: 1, width: '100%' }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -305,135 +320,142 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
                   },
                 }}
               />
-            </Stack>
-          </Box>
+            </Grid2>
 
-          {/* Billing Period & Users */}
-          <Stack direction="row" spacing={2}>
-            <FormControl fullWidth error={!!errors.billing_period} sx={{ flex: 2 }}>
-              <InputLabel>Billing Period</InputLabel>
-              <Select
-                value={formData.billing_period}
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 4 }}>
+              {/* Billing Period & Users */}
+              <FormControl fullWidth error={!!errors.billing_period} sx={{ flex: 2 }} className='select_control'>
+                <InputLabel>Billing Period</InputLabel>
+                <Select
+                  value={formData.billing_period}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, billing_period: e.target.value }))
+                  }
+                  label="Billing Period"
+                >
+                  <MenuItem value="monthly">Monthly</MenuItem>
+                  <MenuItem value="yearly">Yearly</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid2>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 4 }}>
+              <TextField
+                label="Users Allowed"
+                type="number"
+                value={formData.users_allowed}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, billing_period: e.target.value }))
+                  setFormData((prev) => ({ ...prev, users_allowed: Number(e.target.value) || 1 }))
                 }
-                label="Billing Period"
-              >
-                <MenuItem value="monthly">Monthly</MenuItem>
-                <MenuItem value="yearly">Yearly</MenuItem>
-                <MenuItem value="both">Both (Monthly &amp; Yearly)</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label="Users Allowed"
-              type="number"
-              value={formData.users_allowed}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, users_allowed: Number(e.target.value) || 1 }))
-              }
-              error={!!errors.users_allowed}
-              helperText={errors.users_allowed}
-              inputProps={{ min: 1, step: 1 }}
-              required
-              sx={{ flex: 1 }}
-            />
-            <TextField
-              label="Organizations Allowed"
-              type="number"
-              value={formData.organizations_allowed}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  organizations_allowed: Number(e.target.value) || 1,
-                }))
-              }
-              error={!!errors.organizations_allowed}
-              helperText={errors.organizations_allowed}
-              inputProps={{ min: 1, step: 1 }}
-              required
-              sx={{ flex: 1 }}
-            />
-          </Stack>
+                error={!!errors.users_allowed}
+                helperText={errors.users_allowed}
+                inputProps={{ min: 1, step: 1 }}
+                required
+                sx={{ flex: 1, width: '100%' }}
+              />
+            </Grid2>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 4 }}>
+              <TextField
+                label="Organizations Allowed"
+                type="number"
+                value={formData.organizations_allowed}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    organizations_allowed: Number(e.target.value) || 1,
+                  }))
+                }
+                error={!!errors.organizations_allowed}
+                helperText={errors.organizations_allowed}
+                inputProps={{ min: 1, step: 1 }}
+                required
+                sx={{ flex: 1, width: '100%' }}
+              />
+            </Grid2>
 
-          {/* Best For & Access Level */}
-          <Stack direction="row" spacing={2}>
-            <TextField
-              label="Best For"
-              value={formData.best_for}
-              onChange={(e) => setFormData((prev) => ({ ...prev, best_for: e.target.value }))}
-              placeholder="e.g. Startups / Teams / 10 users"
-              error={!!errors.best_for}
-              helperText={errors.best_for}
-              required
-              sx={{ flex: 2 }}
-            />
-            <FormControl fullWidth error={!!errors.access_level} sx={{ flex: 1 }}>
-              <InputLabel>Access Level</InputLabel>
-              <Select
-                value={formData.access_level}
-                onChange={(e) => setFormData((prev) => ({ ...prev, access_level: e.target.value }))}
-                label="Access Level"
-              >
-                <MenuItem value="basic">Basic</MenuItem>
-                <MenuItem value="core">Core</MenuItem>
-              </Select>
-            </FormControl>
-          </Stack>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 6 }}>
+              {/* Best For & Access Level */}
+              <TextField
+                label="Best For"
+                value={formData.best_for}
+                onChange={(e) => setFormData((prev) => ({ ...prev, best_for: e.target.value }))}
+                placeholder="e.g. Startups / Teams / 10 users"
+                error={!!errors.best_for}
+                helperText={errors.best_for}
+                required
+                sx={{ flex: 1, width: '100%' }}
+              />
+            </Grid2>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 6 }}>
+              <FormControl fullWidth error={!!errors.access_level} sx={{ flex: 1 }} className='select_control'>
+                <InputLabel>Access Level</InputLabel>
+                <Select
+                  value={formData.access_level}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, access_level: e.target.value }))}
+                  label="Access Level"
+                >
+                  <MenuItem value="basic">Basic</MenuItem>
+                  <MenuItem value="core">Core</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid2>
 
-          {/* Features */}
-          <Box>
-            <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600 }}>
-              Features <span style={{ color: 'red' }}>*</span>
-            </Typography>
-            {formData.features.map((feature, index) => (
-              <Stack key={index} direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
-                <TextField
-                  fullWidth
-                  value={feature}
-                  onChange={(e) => updateFeature(index, e.target.value)}
-                  placeholder="Enter feature"
-                  error={!!errors[`feature_${index}`]}
-                  helperText={errors[`feature_${index}`]}
-                  sx={{ flex: 1 }}
-                />
-                <IconButton size="small" onClick={() => removeFeature(index)} color="error">
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </Stack>
-            ))}
-            {errors.features && !formData.features.length && (
-              <Typography
-                variant="caption"
-                color="error.main"
-                sx={{ display: 'block', mt: -1, mb: 1 }}
-              >
-                {errors.features}
-              </Typography>
-            )}
-            <Button
-              variant="outlined"
-              startIcon={<AddIcon />}
-              onClick={addFeature}
-              size="small"
-              sx={{ mt: 1, borderRadius: '6px' }}
-            >
-              Add Feature
-            </Button>
-          </Box>
+            {/* Features */}
+            <Grid2  size={{ xs: 12, md: 12 }}>
+              <Box>
+                <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600 }}>
+                  Features <span style={{ color: 'red' }}>*</span>
+                </Typography>
+                {formData.features.map((feature, index) => (
+                  <Stack key={index} direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                    <TextField
+                      fullWidth
+                      value={feature}
+                      onChange={(e) => updateFeature(index, e.target.value)}
+                      placeholder="Enter feature"
+                      error={!!errors[`feature_${index}`]}
+                      helperText={errors[`feature_${index}`]}
+                      sx={{ flex: 1 }}
+                    />
+                    <IconButton size="small" onClick={() => removeFeature(index)} color="error">
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Stack>
+                ))}
+                {errors.features && !formData.features.length && (
+                  <Typography
+                    variant="caption"
+                    color="error.main"
+                    sx={{ display: 'block', mt: -1, mb: 1 }}
+                  >
+                    {errors.features}
+                  </Typography>
+                )}
+                <Button
+                  variant="outlined"
+                  startIcon={<AddIcon />}
+                  onClick={addFeature}
+                  size="small"
+                  sx={{ mt: 1, borderRadius: '50px' }}
+                >
+                  Add Feature
+                </Button>
+              </Box>
+            </Grid2>
 
-          {/* Status & Popular */}
-          <Stack direction="row" spacing={2} alignItems="center">
-            <FormControl fullWidth error={!!errors.status} sx={{ flex: 1 }}>
-              <InputLabel>Status</InputLabel>
-              <Select
-                value={formData.status}
-                onChange={(e) => setFormData((prev) => ({ ...prev, status: e.target.value }))}
-                label="Status"
-              >
-                <MenuItem value="active">Active</MenuItem>
-                <MenuItem value="inactive">Inactive</MenuItem>
-              </Select>
-            </FormControl>
+            <Grid2 sx={{mt: 2}} size={{ xs: 12, md: 6 }}>
+              {/* Status & Popular */}
+              <FormControl fullWidth error={!!errors.status} sx={{ flex: 1 }} className='select_control'>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  value={formData.status}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, status: e.target.value }))}
+                  label="Status"
+                >
+                  <MenuItem value="active">Active</MenuItem>
+                  <MenuItem value="inactive">Inactive</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid2>
             <FormControlLabel
               control={
                 <Switch
@@ -446,11 +468,35 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
               label="Mark as Popular"
               sx={{ minWidth: 0 }}
             />
-          </Stack>
+          </Grid2>
         </Stack>
+
       </DialogContent>
-      <DialogActions sx={{ p: 3, pt: 0 }}>
-        <Button onClick={onCancel} disabled={loading}>
+      <DialogActions sx={{
+        px: 3,
+        py: 2,
+        borderColor: 'divider',
+      }}>
+        <Button onClick={onCancel} disabled={loading}
+          variant="outlined"
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+
+            color: (theme) => theme.palette.text.primary,
+            borderColor: (theme) => theme.palette.divider,
+
+            backgroundColor: 'transparent',
+
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.action.hover,
+              borderColor: (theme) => theme.palette.text.secondary,
+            },
+          }}
+        >
           Cancel
         </Button>
         <Button
@@ -458,6 +504,32 @@ const PlansFormModal: React.FC<PlansFormModalProps> = ({
           variant="contained"
           disabled={isSubmitDisabled}
           startIcon={loading && <CircularProgress size={15} color="inherit" />}
+          sx={{
+            textTransform: 'none',
+            borderRadius: '50px',
+            px: 3,
+            py: 1.25,
+            fontWeight: 500,
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+
+            color: (theme) =>
+              theme.palette.mode === 'dark'
+                ? theme.palette.grey[900]
+                : '#ffffff',
+
+            boxShadow: 'none',
+
+            '&:hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'dark'
+                  ? theme.palette.grey[200]
+                  : '#000000',
+              boxShadow: 'none',
+            },
+          }}
         >
           {initialValues ? 'Update Plan' : 'Create Plan'}
         </Button>

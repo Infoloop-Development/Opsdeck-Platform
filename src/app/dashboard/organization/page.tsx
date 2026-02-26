@@ -25,9 +25,10 @@ import {
   Menu,
   Chip,
   Avatar,
+  DialogContent,
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import { AddOutlined, MoreVert, Search } from '@mui/icons-material';
+import { AddOutlined, CloseOutlined, MoreVert, Search } from '@mui/icons-material';
 import { enqueueSnackbar } from 'notistack';
 import api from '@/lib/api/org_client';
 import OrganizationFormModal from '../../../components/OrganizationForm';
@@ -291,8 +292,7 @@ const OrganizationManagementPage: React.FC = () => {
           mb: 3,
           borderRadius: '16px',
           border: (theme) =>
-            `1px solid ${
-              theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : theme.palette.divider
+            `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : theme.palette.divider
             }`,
           background: (theme) =>
             theme.palette.mode === 'dark'
@@ -300,22 +300,22 @@ const OrganizationManagementPage: React.FC = () => {
               : theme.palette.background.paper,
         }}
       >
-        <Stack
-          direction={{ xs: 'column', lg: 'row' }}
-          spacing={2}
-          alignItems={{ xs: 'stretch', lg: 'center' }}
+        <Box
+          display="flex"
+          gap='10px'
+          alignItems="center"
+          flexWrap="wrap"
           justifyContent="space-between"
         >
           {/* LEFT SIDE */}
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            spacing={2}
-            flex={1}
+          <Box
+            display="flex"
+            gap='10px'
             alignItems="center"
-            flexWrap="wrap"
+            flexWrap={{xs: 'wrap', md: 'nowrap'}}
           >
             {/* SEARCH */}
-            <Box sx={{ flex: 1, minWidth: { xs: '100%', sm: 280 } }}>
+            <Box>
               <TextField
                 fullWidth
                 size="small"
@@ -363,12 +363,15 @@ const OrganizationManagementPage: React.FC = () => {
                   ) : null,
                 }}
                 sx={{
+                  width: { xs: "unset", lg: "520px" },
+                  maxWidth: "100%",
                   '& .MuiOutlinedInput-root': {
-                    borderRadius: '14px',
+                    borderRadius: '50px',
                     height: 42,
                     color: (theme) => theme.palette.text.primary,
                     '& fieldset': {
                       borderColor: (theme) => theme.palette.divider,
+                      borderRadius: '50px',
                     },
                     '&:hover fieldset': {
                       borderColor: (theme) =>
@@ -395,11 +398,12 @@ const OrganizationManagementPage: React.FC = () => {
               onChange={(e) => handlePlanFilter(e.target.value || null)}
               sx={{
                 minWidth: 180,
-                borderRadius: '12px',
+                borderRadius: '50px',
                 backgroundColor: (theme) =>
                   theme.palette.mode === 'dark' ? theme.palette.background.default : '#F9FAFC',
                 '& .MuiOutlinedInput-root': {
                   color: (theme) => theme.palette.text.primary,
+                  borderRadius: '50px',
                 },
               }}
             >
@@ -420,11 +424,12 @@ const OrganizationManagementPage: React.FC = () => {
               onChange={(e) => handleStatusFilter(e.target.value || null)}
               sx={{
                 minWidth: 150,
-                borderRadius: '12px',
+                borderRadius: '50px',
                 backgroundColor: (theme) =>
                   theme.palette.mode === 'dark' ? theme.palette.background.default : '#F9FAFC',
                 '& .MuiOutlinedInput-root': {
                   color: (theme) => theme.palette.text.primary,
+                  borderRadius: '50px',
                 },
               }}
             >
@@ -432,14 +437,14 @@ const OrganizationManagementPage: React.FC = () => {
               <MenuItem value="active">Active</MenuItem>
               <MenuItem value="inactive">Inactive</MenuItem>
             </TextField>
-          </Stack>
+          </Box>
 
           {/* RIGHT BUTTON */}
           <Button
             onClick={openCreateModal}
             startIcon={<AddOutlined />}
             sx={{
-              borderRadius: '12px',
+              borderRadius: '50px',
               px: 3,
               height: 42,
               textTransform: 'none',
@@ -448,8 +453,7 @@ const OrganizationManagementPage: React.FC = () => {
               alignSelf: { xs: 'stretch', lg: 'center' },
               color: (theme) => theme.palette.text.primary,
               border: (theme) =>
-                `1px solid ${
-                  theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : theme.palette.divider
+                `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : theme.palette.divider
                 }`,
               '&:hover': {
                 backgroundColor: (theme) =>
@@ -460,11 +464,11 @@ const OrganizationManagementPage: React.FC = () => {
           >
             Add Organization
           </Button>
-        </Stack>
+        </Box>
       </Paper>
       {/* ================= TABLE ================= */}
-      <Paper elevation={0} sx={{ border: '1px solid #e0e0e0', borderRadius: '8px' }}>
-        <TableContainer>
+      <Paper elevation={0} sx={{ borderRadius: '10px' }}>
+        <TableContainer sx={{ borderRadius: '10px' }}>
           <Table stickyHeader>
             <TableHead>
               <TableRow>
@@ -473,7 +477,7 @@ const OrganizationManagementPage: React.FC = () => {
                     Organization
                   </Stack>
                 </TableCell>
-                <TableCell>Owner</TableCell>
+                <TableCell sx={{ minWidth: 150 }}>Owner</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell align="center">Status</TableCell>
                 <TableCell>Plan</TableCell>
@@ -622,16 +626,54 @@ const OrganizationManagementPage: React.FC = () => {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle sx={{ fontWeight: 600 }}>Delete Organization</DialogTitle>
-        <Box sx={{ px: 3, pb: 2 }}>
+        <DialogTitle sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>Delete Organization<IconButton onClick={() => setDeleteDialogOpen(false)} size="small">
+            <CloseOutlined />
+          </IconButton></DialogTitle>
+        <DialogContent style={{ paddingTop: 24 }} dividers>
           <Typography>
             Are you sure you want to delete <strong>{selectedOrganization?.name}</strong>? This
             action cannot be undone.
           </Typography>
-        </Box>
-        <DialogActions sx={{ px: 3, pb: 3 }}>
-          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
-          <Button variant="contained" color="error" onClick={handleDelete}>
+        </DialogContent>
+        <DialogActions sx={{
+          px: 3,
+          py: 2,
+          borderColor: 'divider',
+        }}>
+          <Button onClick={() => setDeleteDialogOpen(false)}
+            variant="outlined"
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+
+              color: (theme) => theme.palette.text.primary,
+              borderColor: (theme) => theme.palette.divider,
+
+              backgroundColor: 'transparent',
+
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.action.hover,
+                borderColor: (theme) => theme.palette.text.secondary,
+              },
+            }}
+          >Cancel</Button>
+          <Button variant="contained" color="error" onClick={handleDelete}
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+              boxShadow: 'none',
+            }}
+          >
             Delete
           </Button>
         </DialogActions>

@@ -25,9 +25,10 @@ import {
   Dialog,
   DialogTitle,
   DialogActions,
+  DialogContent,
 } from '@mui/material';
 
-import { AddOutlined, MoreVert, Search } from '@mui/icons-material';
+import { AddOutlined, CloseOutlined, MoreVert, Search } from '@mui/icons-material';
 
 import PageHeader from '@/components/PageHeader';
 import PlansFormModal from '@/components/PlanForm';
@@ -222,7 +223,10 @@ const PlansManagementPage: React.FC = () => {
         <PageHeader
           title="Plans"
           action={
-            <Stack direction="row" spacing={2} sx={{ width: '100%', alignItems: 'center' }}>
+            <Stack direction="row" spacing={2} sx={{
+              width: '100%', alignItems: 'center', justifyContent: 'space-between', flexWrap: "wrap",
+              gap: 2,
+            }}>
               <TextField
                 size="small"
                 placeholder="Search Plans.."
@@ -233,7 +237,7 @@ const PlansManagementPage: React.FC = () => {
                 sx={{
                   width: { xs: 'unset', lg: '520px' },
                   maxWidth: '100%',
-                  borderRadius: '6px',
+                  borderRadius: '50px',
 
                   backgroundColor: (theme) =>
                     theme.palette.mode === 'dark' ? theme.palette.background.default : '#F9FAFC',
@@ -244,6 +248,7 @@ const PlansManagementPage: React.FC = () => {
 
                     '& fieldset': {
                       border: (theme) => `1px solid ${theme.palette.divider}`,
+                      borderRadius: "50px",
                     },
 
                     '&:hover fieldset': {
@@ -258,7 +263,7 @@ const PlansManagementPage: React.FC = () => {
                 startIcon={<AddOutlined />}
                 onClick={handleOpenCreate}
                 sx={{
-                  borderRadius: '6px',
+                  borderRadius: '50px',
                   fontWeight: 500,
                   color: (theme) => (theme.palette.mode === 'dark' ? '#fff' : '#000'),
 
@@ -285,11 +290,12 @@ const PlansManagementPage: React.FC = () => {
       <Paper
         elevation={0}
         sx={{
-          borderRadius: '8px',
-          border: '1px solid #EDEFF3',
+          borderRadius: '10px',
         }}
       >
-        <TableContainer>
+        <TableContainer sx={{
+          borderRadius: '10px',
+        }}>
           <Table stickyHeader>
             <TableHead>
               <TableRow>
@@ -334,65 +340,63 @@ const PlansManagementPage: React.FC = () => {
                     <TableCell align="center">
                       {Array.isArray(plan.plan_type) && plan.plan_type.length > 0
                         ? plan.plan_type.map((t) => (
-                            <Chip key={t} label={t} size="small" sx={{ mr: 0.5, mb: 0.5 }} />
-                          ))
+                          <Chip key={t} label={t} size="small" sx={{
+                            fontWeight: 500,
+                            minWidth: "fit-content",
+                            borderRadius: "50px",
+                            fontSize: "12px",
+                          }} />
+                        ))
                         : '-'}
                     </TableCell>
 
                     <TableCell align="center">
                       {Array.isArray(plan.trial_type) && plan.trial_type.length > 0
                         ? plan.trial_type.map((t) => (
-                            <Chip
-                              key={t}
-                              label={t}
-                              size="small"
-                              color={t === 'free' ? 'success' : 'warning'}
-                              sx={{ mr: 0.5, mb: 0.5 }}
-                            />
-                          ))
+                          <Chip
+                            key={t}
+                            label={t}
+                            size="small"
+                            color={t === 'free' ? 'success' : 'warning'}
+                            sx={{
+                              fontWeight: 500,
+                              minWidth: "fit-content",
+                              borderRadius: "50px",
+                              fontSize: "12px",
+                            }}
+                          />
+                        ))
                         : '-'}
                     </TableCell>
 
-                    {/* ✅ FIXED: Safe price display with support for 'both' billing period */}
+                    {/* ✅ FIXED: Safe price display */}
                     <TableCell align="center">
                       {plan.price && plan.billing_period
-                        ? (() => {
-                            const bpArray = Array.isArray(plan.billing_period)
-                              ? plan.billing_period
-                              : [plan.billing_period];
-
-                            // If billing period is 'both', show monthly and yearly
-                            if (bpArray.includes('both')) {
-                              const monthly =
-                                plan.price?.monthly ?? plan.price?.Monthly ?? null;
-                              const yearly =
-                                plan.price?.yearly ?? plan.price?.Yearly ?? null;
-
-                              if (monthly != null && yearly != null) {
-                                return `${monthly} / ${yearly}`;
-                              }
-                              if (monthly != null) return monthly;
-                              if (yearly != null) return yearly;
-                              return '-';
-                            }
-
-                            const key = bpArray[0];
-                            return key && plan.price
-                              ? plan.price[key] ?? '-'
-                              : '-';
-                          })()
+                        ? Array.isArray(plan.billing_period)
+                          ? (plan.price[plan.billing_period[0]] ?? '-')
+                          : (plan.price[plan.billing_period] ?? '-')
                         : '-'}
                     </TableCell>
 
                     <TableCell align="center">
-                      <Chip label={plan.users_allowed || 0} size="small" />
+                      <Chip label={plan.users_allowed || 0} size="small" sx={{
+                        fontWeight: 500,
+                        minWidth: "fit-content",
+                        borderRadius: "50px",
+                        fontSize: "12px",
+                      }} />
                     </TableCell>
 
                     <TableCell align="center">
                       {Array.isArray(plan.access_level) && plan.access_level.length > 0
                         ? plan.access_level.map((a) => (
-                            <Chip key={a} label={a} size="small" sx={{ mr: 0.5, mb: 0.5 }} />
-                          ))
+                          <Chip key={a} label={a} size="small" sx={{
+                            fontWeight: 500,
+                            minWidth: "fit-content",
+                            borderRadius: "50px",
+                            fontSize: "12px",
+                          }} />
+                        ))
                         : '-'}
                     </TableCell>
 
@@ -401,6 +405,12 @@ const PlansManagementPage: React.FC = () => {
                         label={plan.mark_as_popular ? 'YES' : 'NO'}
                         size="small"
                         color={plan.mark_as_popular ? 'warning' : 'default'}
+                        sx={{
+                          fontWeight: 500,
+                          minWidth: "fit-content",
+                          borderRadius: "50px",
+                          fontSize: "12px",
+                        }}
                       />
                     </TableCell>
 
@@ -489,16 +499,58 @@ const PlansManagementPage: React.FC = () => {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle sx={{ fontWeight: 600 }}>Delete Plan</DialogTitle>
-        <Box sx={{ px: 3, pb: 2 }}>
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >Delete Plan
+          <IconButton onClick={() => setDeleteDialogOpen(false)} size="small">
+            <CloseOutlined fontSize="small" />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent style={{ paddingTop: 24 }} dividers>
           <Typography>
             Are you sure you want to delete <strong>{selectedPlan?.plan_name}</strong>? This action
             cannot be undone.
           </Typography>
-        </Box>
-        <DialogActions sx={{ px: 3, pb: 3 }}>
-          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
-          <Button variant="contained" color="error" onClick={handleDeleteConfirm} disabled={saving}>
+        </DialogContent>
+        <DialogActions sx={{
+          px: 3,
+          py: 2,
+          borderColor: 'divider',
+        }}>
+          <Button onClick={() => setDeleteDialogOpen(false)}
+            variant="outlined"
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+
+              color: (theme) => theme.palette.text.primary,
+              borderColor: (theme) => theme.palette.divider,
+
+              backgroundColor: 'transparent',
+
+              '&:hover': {
+                backgroundColor: (theme) => theme.palette.action.hover,
+                borderColor: (theme) => theme.palette.text.secondary,
+              },
+            }}
+          >Cancel</Button>
+          <Button variant="contained" color="error" onClick={handleDeleteConfirm} disabled={saving}
+            sx={{
+              textTransform: 'none',
+              borderRadius: '50px',
+              px: 3,
+              py: 1.25,
+              fontWeight: 500,
+              boxShadow: 'none',
+            }}
+          >
             Delete
           </Button>
         </DialogActions>
