@@ -42,7 +42,7 @@ export default function ResourceModal({
           value={currentMember?.email || ''}
           onChange={(e) => setCurrentMember({ ...currentMember!, email: e.target.value })}
         />
-        <FormControl fullWidth margin="dense">
+        <FormControl fullWidth margin="dense" className='select_control'>
           <InputLabel>Role</InputLabel>
           <Select
             value={currentMember?.role || ''}

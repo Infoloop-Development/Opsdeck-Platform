@@ -799,7 +799,7 @@ const StaffManagementPage: React.FC = () => {
                   helperText={selectedStaff ? 'Password is visible to admin. Enter new password to update.' : 'Password will be visible to admin'}
                 />
               </Grid2>
-              <FormControl fullWidth>
+              <FormControl fullWidth className='select_control'>
                 <InputLabel>Role</InputLabel>
                 <Select
                   value={formData.role}
@@ -817,7 +817,7 @@ const StaffManagementPage: React.FC = () => {
                 fullWidth
               />
               <Grid2 size={{ xs: 12, md: 6 }}>
-                <FormControl fullWidth>
+                <FormControl fullWidth className='select_control'>
                   <InputLabel>Department</InputLabel>
                   <Select
                     value={formData.departmentId}
@@ -836,7 +836,7 @@ const StaffManagementPage: React.FC = () => {
                 </FormControl>
               </Grid2>
               <Grid2 size={{ xs: 12, md: 6 }}>
-                <FormControl fullWidth disabled={!formData.departmentId}>
+                <FormControl fullWidth disabled={!formData.departmentId} className='select_control'>
                   <InputLabel>Position</InputLabel>
                   <Select
                     value={formData.positionId}

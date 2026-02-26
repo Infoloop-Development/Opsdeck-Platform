@@ -50,7 +50,7 @@ const General: React.FC<GeneralProps> = ({ notifications, handleNotificationChan
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
+            <FormControl fullWidth variant="outlined" className='select_control'>
               <InputLabel id="default-view-label">Default Project View</InputLabel>
               <Select
                 labelId="default-view-label"
@@ -75,7 +75,7 @@ const General: React.FC<GeneralProps> = ({ notifications, handleNotificationChan
             />
           </Grid>
           <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
+            <FormControl fullWidth variant="outlined" className='select_control'>
               <InputLabel id="timezone-label">Time Zone</InputLabel>
               <Select labelId="timezone-label" id="timezone" defaultValue="UTC" label="Time Zone">
                 <MenuItem value="UTC">UTC</MenuItem>
@@ -87,7 +87,7 @@ const General: React.FC<GeneralProps> = ({ notifications, handleNotificationChan
             </FormControl>
           </Grid>
           <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
+            <FormControl fullWidth variant="outlined" className='select_control'>
               <InputLabel id="language-label">Language</InputLabel>
               <Select labelId="language-label" id="language" defaultValue="en" label="Language">
                 <MenuItem value="en">English</MenuItem>
@@ -99,7 +99,7 @@ const General: React.FC<GeneralProps> = ({ notifications, handleNotificationChan
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined">
+            <FormControl fullWidth variant="outlined" className='select_control'>
               <InputLabel id="default-priority-label">Default Task Priority</InputLabel>
               <Select
                 labelId="default-priority-label"

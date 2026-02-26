@@ -224,7 +224,7 @@ const CreateProjectPage: React.FC = () => {
                 variant="outlined"
               />
 
-              <FormControl fullWidth>
+              <FormControl fullWidth className='select_control'>
                 <InputLabel>Status</InputLabel>
                 <Select
                   name="status"
@@ -264,5 +264,3 @@ const CreateProjectPage: React.FC = () => {
 };
 
 export default CreateProjectPage;
-
-

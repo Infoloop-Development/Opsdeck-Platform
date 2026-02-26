@@ -2,7 +2,7 @@ import { JWT_SECRET } from '@/app/api/config';
 import { clients, contracts, invoices, projects, roles, tasks, teams } from './data';
 
 export const accessTokenKey = `token.${JWT_SECRET}`;
-export const drawerWidth = 250;
+export const drawerWidth = 275;
 export const appbarHeight = 70;
 
 export const navRoutes = [

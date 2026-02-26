@@ -12,8 +12,8 @@ export default function Logo() {
             ? "/images/logo_white.png"
             : "/images/logo_dark.png"
         }
-        height={28}
-        alt="OpsDeck Logo"
+        height={40}
+        alt="opsdeck Logo"
       />
     </Link>
   );

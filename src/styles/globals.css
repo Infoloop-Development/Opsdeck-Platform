@@ -345,3 +345,7 @@ td.MuiTableCell-root {
 .dark .MuiInputBase-input {
   -webkit-box-shadow: 0 0 0 100px #ffffff00 inset !important;
 }
+
+.select_control .MuiInputLabel-root {
+  top: -6px !important;
+}

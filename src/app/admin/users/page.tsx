@@ -312,7 +312,7 @@ const AdminUsersPage: React.FC = () => {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                 User: {selectedUser.firstName} {selectedUser.lastName} ({selectedUser.email})
               </Typography>
-              <FormControl fullWidth>
+              <FormControl fullWidth className='select_control'>
                 <InputLabel>Role</InputLabel>
                 <Select
                   value={newRole}
@@ -375,5 +375,3 @@ const AdminUsersPage: React.FC = () => {
 };
 
 export default AdminUsersPage;
-
-

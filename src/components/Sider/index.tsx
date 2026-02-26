@@ -106,10 +106,10 @@ const StyledDrawer = styled(Drawer)(({ open, theme }) => ({
 }));
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  margin: "8px 14px",
+  margin: "8px 18px",
   borderRadius: "50px !important",
   outline: "1px solid",
-  paddingLeft: 20,
+  // paddingLeft: 20,
   outlineColor: theme.palette.mode === "dark" ? "#2A2F3A" : "#F5F5F5",
 
   /* Text */
@@ -202,10 +202,25 @@ const Sider: React.FC<SiderProps> = ({ collapsed, setCollapsed, isSuperUser, use
   const router = useRouter();
   const pathname = usePathname();
   const theme = useTheme();
-  // Get the route key from pathname (handle nested routes like admin/departments)
+  // Get the route key from pathname for highlighting the active menu item
   const getRouteKey = (path: string) => {
-    const parts = path.replace('/dashboard/', '').split('/');
-    return parts.length > 1 ? parts.join('/') : parts[0] || '';
+    // Normalize: remove leading/trailing slashes
+    const normalized = path.replace(/^\/|\/$/g, '');
+
+    // Strip optional "dashboard/" prefix so logic works for both
+    // /dashboard/... and non-dashboard layouts like /projects/...
+    const withoutDashboard = normalized.replace(/^dashboard\//, '');
+
+    const segments = withoutDashboard.split('/').filter(Boolean);
+
+    // Handle nested admin routes like /dashboard/admin/departments
+    if (segments[0] === 'admin' && segments[1]) {
+      return `admin/${segments[1]}`;
+    }
+
+    // For all other routes (projects, team, etc.), use the top-level segment
+    // so nested pages like /projects/[id]/tasks keep "Projects" selected
+    return segments[0] || '';
   };
   const [selected, setSelected] = useState(getRouteKey(pathname));
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
