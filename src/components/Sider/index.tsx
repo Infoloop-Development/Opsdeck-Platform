@@ -101,39 +101,50 @@ const StyledDrawer = styled(Drawer)(({ open, theme }) => ({
 }));
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  margin: '8px 14px',
-  borderRadius: '5px !important',
-  outline: '1px solid',
-  outlineColor: theme.palette.mode === 'dark' ? '#2A2F3A' : '#F5F5F5',
-  '& .MuiListItemText-primary': {
-    color: theme.palette.mode === 'dark' ? '#FFFFFF' : '#2A2A2A',
+  margin: "8px 18px",
+  borderRadius: "50px !important",
+  outline: "1px solid",
+  outlineColor: theme.palette.mode === "dark" ? "#2A2F3A" : "#F5F5F5",
+  /* Text */
+  "& .MuiListItemText-primary": {
+    color: theme.palette.mode === "dark"
+      ? "#FFFFFF"
+      : "#1f2937",
     fontWeight: 500,
   },
-  '& .MuiListItemIcon-root': {
-    color: theme.palette.mode === 'dark' ? '#FFFFFF' : '#2A2A2A',
+  /* Icon */
+  "& .MuiListItemIcon-root": {
+    color: theme.palette.mode === "dark"
+      ? "#FFFFFF"
+      : "#1f2937",
   },
-  '&:hover': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#111827' : '#F9FAFC',
-  },
-  '&.Mui-selected': {
-    background: 'linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)',
-    color: '#fff',
-    position: 'relative',
-    outline: 'none',
-    '&::before': {
+  "&.Mui-selected": {
+    background: "#88dbff !important",
+    color: "#1f2937",
+
+    /* Fake gradient border (correct way) */
+    position: "relative",
+    outline: "none",
+    "&::before": {
       content: '""',
-      position: 'absolute',
+      position: "absolute",
       inset: 0,
-      padding: '1px',
-      borderRadius: '5px',
-      background: 'linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)',
-      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-      WebkitMaskComposite: 'xor',
-      maskComposite: 'exclude',
-      pointerEvents: 'none',
+      padding: "1px",
+      borderRadius: "5px",
+      // background: "linear-gradient(90deg, #005B8E 0%, #03D7FE 100%)",
+      WebkitMask:
+        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+      WebkitMaskComposite: "xor",
+      maskComposite: "exclude",
+      pointerEvents: "none",
     },
-    '& .MuiListItemText-primary': { color: '#fff' },
-    '& .MuiListItemIcon-root': { color: '#fff' },
+
+    "& .MuiListItemText-primary": {
+      color: "#000",
+    },
+    "& .MuiListItemIcon-root": {
+      color: "#000",
+    },
   },
 }));
 
@@ -141,9 +152,17 @@ const StyledNestedListItemButton = styled(ListItemButton)(({ theme }) => ({
   margin: '2px 15px 2px 40px',
   paddingLeft: theme.spacing(3),
   '&.Mui-selected': {
-    '& .MuiListItemText-primary': { color: theme.palette.primary.main },
-    '& .MuiListItemIcon-root': { color: theme.palette.primary.main },
-    '&:hover': { backgroundColor: theme.palette.action.selected },
+    // outline: `1px solid ${theme.palette.primary.main}`,
+    // backgroundColor: theme.palette.action.selected,
+    '& .MuiListItemText-primary': {
+      color: theme.palette.primary.main,
+    },
+    '& .MuiListItemIcon-root': {
+      color: theme.palette.primary.main,
+    },
+    '&:hover': {
+      backgroundColor: 'theme.palette.action.selected',
+    },
   },
 }));
 

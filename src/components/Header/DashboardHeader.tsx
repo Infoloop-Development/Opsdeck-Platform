@@ -121,17 +121,21 @@ const DashboardAppbar: React.FC<DashboardAppbarProps> = ({
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: {xs: "15px", md: "32px"},
-              // width: isSmallScreen
-              //   ? 'auto'
-              //   : collapsed
-              //     ? (theme) => `calc(${theme.spacing(8)} + 20px)`
-              //     : `${drawerWidth}px`,
+              justifyContent: 'center',
+              // gap: {xs: "15px", md: "75px"},
+              width: { xs:'unset' , md: '226px'},
+              minWidth: { xs:'unset' , md: '226px'},
             }}
           >
             <Box>
               <Logo />
             </Box>
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            marginLeft: { xs: 2, md: '24px' },
+            }}>
             <Tooltip title={collapsed ? 'Open Menu' : 'Collapse Menu'}>
               <IconButton onClick={() => setCollapsed(!collapsed)}
                 sx={{
@@ -159,37 +163,37 @@ const DashboardAppbar: React.FC<DashboardAppbarProps> = ({
                 />
               </IconButton>
             </Tooltip>
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 1,
-              minWidth: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              pl: '24px',
-            }}
-          >
-            {pageTitle && breadcrumbs && breadcrumbsPlacement === 'inline' ? (
-              <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, minWidth: 0 }}>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.1, flexShrink: 0 }}
-                >
-                  {/* {pageTitle} */}
-                </Typography>
-              </Box>
-            ) : (
-              <>
-                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                  {pageTitle && (
-                    <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.1 }}>
-                      {pageTitle}
-                    </Typography>
-                  )}
+            <Box
+              sx={{
+                flexGrow: 1,
+                minWidth: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                pl: '30px',
+              }}
+            >
+              {pageTitle && breadcrumbs && breadcrumbsPlacement === 'inline' ? (
+                <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, minWidth: 0 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 600, color: 'text.primary', lineHeight: 1.1, flexShrink: 0 }}
+                  >
+                    {/* {pageTitle} */}
+                  </Typography>
                 </Box>
-              </>
-            )}
+              ) : (
+                <>
+                  <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                    {pageTitle && (
+                      <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                        {pageTitle}
+                      </Typography>
+                    )}
+                  </Box>
+                </>
+              )}
+            </Box>
           </Box>
           <Box sx={{ marginLeft: 'auto' }}>
             {!isXsScreen && (

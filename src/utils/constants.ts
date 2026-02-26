@@ -2,7 +2,7 @@ import { clients, contracts, invoices, projects, roles, tasks, teams } from './d
 
 const tokenNamespace = process.env.NEXT_PUBLIC_TOKEN_NAMESPACE || 'nexttask';
 export const accessTokenKey = `token.${tokenNamespace}`;
-export const drawerWidth = 250;
+export const drawerWidth = 275;
 export const appbarHeight = 70;
 
 export const navRoutes = [
@@ -46,7 +46,7 @@ export const userRoles = {
   regular: 'Regular',
 } as const;
 
-export type UserRole = typeof userRoles[keyof typeof userRoles]; 
+export type UserRole = typeof userRoles[keyof typeof userRoles];
 export const plans = {
   standard: {
     name: 'Standard',

@@ -117,3 +117,6 @@ td.MuiTableCell-root {
 .MuiTableCell-root {
   border-color: var(--mui-palette-divider) !important;
 }
+.select_control .MuiFormLabel-root {
+  top: -6px !important;
+}
