@@ -63,9 +63,9 @@ const FeedbackForm = (props: FeedbackFormProps) => {
   const [error, setError] = useState(false);
   const [attachment, setAttachment] = useState<File | null>(null);
   const [active, setActive] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [editMode, setEditMode] = useState(false);
+  const [viewMode, setViewMode] = useState(false);
   const [editValues, setEditValues] = useState<any>({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -193,14 +193,18 @@ const FeedbackForm = (props: FeedbackFormProps) => {
     }
   };
 
-  const handleOpen = () => {
+  const handleCardClick = () => {
+    // Open details in read-only "view" mode using the same dialog as edit
     setActive(true);
-    setOpenModal(true);
-  };
-
-  const handleClose = () => {
-    setActive(false);
-    setOpenModal(false);
+    setViewMode(true);
+    setEditMode(false);
+    setEditValues({
+      subject: subject || '',
+      description: message || '',
+      priority: priority?.toLowerCase().replace(' priority', '') || 'medium',
+      status: status?.toLowerCase() || 'open',
+      category: department || 'general',
+    });
   };
 
   const handleEditSubmit = async () => {
@@ -255,7 +259,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
       <>
         {/* ================= CARD ================= */}
         <Card
-          onClick={handleOpen}
+          onClick={handleCardClick}
           sx={(theme) => ({
             borderRadius: 1,
             border: "1.5px solid",
@@ -316,7 +320,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
                   open={Boolean(anchorEl)}
                   onClose={() => setAnchorEl(null)}
                 >
-                  <MenuItem onClick={() => { setAnchorEl(null); setEditMode(true); setEditValues({ subject: subject || '', description: message || '', priority: priority?.toLowerCase().replace(' priority', '') || 'medium', status: status?.toLowerCase() || 'open', category: department || 'general' }); }}>
+                  <MenuItem onClick={() => { setAnchorEl(null); setViewMode(false); setEditMode(true); setEditValues({ subject: subject || '', description: message || '', priority: priority?.toLowerCase().replace(' priority', '') || 'medium', status: status?.toLowerCase() || 'open', category: department || 'general' }); }}>
                     <Edit fontSize="small" sx={{ mr: 1 }} /> Edit
                   </MenuItem>
                   <MenuItem onClick={() => { setAnchorEl(null); setDeleteDialogOpen(true); }}>
@@ -352,98 +356,10 @@ const FeedbackForm = (props: FeedbackFormProps) => {
           </Box>
         </Card>
 
-        {/* ================= MODAL ================= */}
+        {/* ================= VIEW / EDIT MODAL ================= */}
         <Dialog
-          open={openModal}
-          onClose={handleClose}
-          maxWidth="sm"
-          fullWidth
-          PaperProps={{
-            sx: { borderRadius: 2, p: 3 },
-          }}
-        >
-          {/* Modal Header */}
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography fontWeight={600} fontSize={18}>
-              {subject || 'Support Ticket'}
-            </Typography>
-            <IconButton onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-
-          {/* Tags */}
-          <Box display="flex" gap={1} mt={2}>
-            {newticket && <StatusChip label={newticket} bg="rgba(34, 197, 94, 0.2)" color="#22C55E" />}
-            {status && <StatusChip label={status} bg="rgba(59, 130, 246, 0.2)" color="#3B82F6" />}
-            {priority && <StatusChip label={priority} bg="rgba(255, 0, 0, 0.2)" color="#FF0000" />}
-            {mediumpriority && <StatusChip label={mediumpriority} bg="rgba(129, 8, 234, 0.2)" color="#8108EA" />}
-            {lowpriority && <StatusChip label={lowpriority} bg="rgba(67, 185, 178, 0.2)" color="#43B9B2" />}
-          </Box>
-
-          {/* User Info */}
-          <Box display="flex" alignItems="center" gap={2} mt={3}>
-            <Avatar src={avatar} sx={{ width: 44, height: 44, borderRadius: '50px' }} />
-            <Box>
-              <Typography fontWeight={600}>{name}</Typography>
-              <Typography variant="caption" color="text.secondary">
-                {time}
-              </Typography>
-            </Box>
-          </Box>
-
-          {/* Message */}
-          <Typography mt={2} color="text.secondary">
-            {message}
-          </Typography>
-
-          {/* Attachments */}
-          {attachments && attachments.length > 0 && (
-            <Box mt={3}>
-              <Typography fontWeight={600} mb={1}>
-                Attachments
-              </Typography>
-              <Box display="flex" flexDirection="column" gap={1}>
-                {attachments.map((file, index) => (
-                  <TextField
-                    key={file.fileUrl || `${index}`}
-                    value={file.fileName || `Attachment ${index + 1}`}
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    InputProps={{
-                      readOnly: true,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            edge="end"
-                            onClick={() => window.open(file.fileUrl, '_blank', 'noopener,noreferrer')}
-                            size="small"
-                            sx={{ color: 'primary.main' }}
-                          >
-                            <Visibility fontSize="small" />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                          borderColor: 'primary.main',
-                        },
-                      },
-                    }}
-                  />
-                ))}
-              </Box>
-            </Box>
-          )}
-        </Dialog>
-
-        {/* ================= EDIT MODAL ================= */}
-        <Dialog
-          open={editMode}
-          onClose={() => setEditMode(false)}
+          open={editMode || viewMode}
+          onClose={() => { setEditMode(false); setViewMode(false); setActive(false); }}
           maxWidth="sm"
           fullWidth
         >
@@ -453,8 +369,8 @@ const FeedbackForm = (props: FeedbackFormProps) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}
-          >Edit Support Ticket
-            <IconButton onClick={() => setEditMode(false)} size="small">
+          >{viewMode ? 'Support Ticket Details' : 'Edit Support Ticket'}
+            <IconButton onClick={() => { setEditMode(false); setViewMode(false); setActive(false); }} size="small">
               <CloseOutlined />
             </IconButton>
           </DialogTitle>
@@ -472,6 +388,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
               <Select
                 value={editValues.priority}
                 onChange={(e) => setEditValues({ ...editValues, priority: e.target.value })}
+                disabled={viewMode}
               >
                 <MenuItem value="low">Low</MenuItem>
                 <MenuItem value="medium">Medium</MenuItem>
@@ -483,6 +400,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
               <Select
                 value={editValues.status}
                 onChange={(e) => setEditValues({ ...editValues, status: e.target.value })}
+                disabled={viewMode}
               >
                 <MenuItem value="open">Open</MenuItem>
                 <MenuItem value="in progress">In Progress</MenuItem>
@@ -494,6 +412,51 @@ const FeedbackForm = (props: FeedbackFormProps) => {
               <Typography variant="subtitle2" color="text.secondary">Category</Typography>
               <Typography>{editValues.category}</Typography>
             </Box>
+            {attachments && attachments.length > 0 && (
+              <Box sx={{ mt: 2 }}>
+                <Typography
+                  variant="subtitle2"
+                  color="text.secondary"
+                  sx={{ mb: 1 }}
+                >
+                  Attachments
+                </Typography>
+                <Box display="flex" flexDirection="column" gap={1}>
+                  {attachments.map((file, index) => (
+                    <TextField
+                      key={file.fileUrl || `${index}`}
+                      value={file.fileName || `Attachment ${index + 1}`}
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      InputProps={{
+                        readOnly: true,
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              edge="end"
+                              onClick={() => {
+                                if (file.fileUrl) {
+                                  window.open(
+                                    file.fileUrl,
+                                    '_blank',
+                                    'noopener,noreferrer'
+                                  );
+                                }
+                              }}
+                              size="small"
+                              sx={{ color: 'primary.main' }}
+                            >
+                              <Visibility fontSize="small" />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  ))}
+                </Box>
+              </Box>
+            )}
           </DialogContent>
           <DialogActions
             sx={{
@@ -502,7 +465,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
               borderColor: 'divider',
             }}
           >
-            <Button onClick={() => setEditMode(false)}
+            <Button onClick={() => { setEditMode(false); setViewMode(false); setActive(false); }}
               variant="outlined"
               sx={{
                 textTransform: 'none',
@@ -521,7 +484,8 @@ const FeedbackForm = (props: FeedbackFormProps) => {
                   borderColor: (theme) => theme.palette.text.secondary,
                 },
               }}
-            >Cancel</Button>
+            >{viewMode ? 'Close' : 'Cancel'}</Button>
+            {!viewMode && (
             <Button onClick={handleEditSubmit} variant="contained"
               sx={{
                 textTransform: 'none',
@@ -550,6 +514,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
                 },
               }}
             >Save</Button>
+            )}
           </DialogActions>
         </Dialog>
 
