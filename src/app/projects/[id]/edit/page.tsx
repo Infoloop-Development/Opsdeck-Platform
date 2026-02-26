@@ -287,7 +287,7 @@ const EditProjectPage: React.FC = () => {
                 variant="outlined"
               />
 
-              <FormControl fullWidth>
+              <FormControl fullWidth className='select_control'>
                 <InputLabel>Status</InputLabel>
                 <Select
                   name="status"
@@ -327,5 +327,3 @@ const EditProjectPage: React.FC = () => {
 };
 
 export default EditProjectPage;
-
-

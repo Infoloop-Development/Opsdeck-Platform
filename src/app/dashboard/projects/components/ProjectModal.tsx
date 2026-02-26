@@ -455,7 +455,7 @@ export default function ProjectModal({
                       />
                     </Grid2>
                     <Grid2 size={{ xs: 12, md: 6 }}>
-                      <FormControl fullWidth>
+                      <FormControl fullWidth className='select_control'>
                         <InputLabel id="client-name-label">Client Name</InputLabel>
                         <Select
                           name="clientName"

@@ -106,10 +106,10 @@ const StyledDrawer = styled(Drawer)(({ open, theme }) => ({
 }));
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-  margin: "8px 14px",
+  margin: "8px 18px",
   borderRadius: "50px !important",
   outline: "1px solid",
-  paddingLeft: 20,
+  // paddingLeft: 20,
   outlineColor: theme.palette.mode === "dark" ? "#2A2F3A" : "#F5F5F5",
 
   /* Text */

@@ -301,7 +301,7 @@ export default function PlansManagement() {
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth className='select_control'>
                             <InputLabel>Type</InputLabel>
                             <Select
                                 value={formData.type}
@@ -387,7 +387,7 @@ export default function PlansManagement() {
                     )}
 
                     <Grid item xs={12} md={6}>
-                         <FormControl fullWidth>
+                         <FormControl fullWidth className='select_control'>
                             <InputLabel>Status</InputLabel>
                             <Select
                                 value={formData.status}

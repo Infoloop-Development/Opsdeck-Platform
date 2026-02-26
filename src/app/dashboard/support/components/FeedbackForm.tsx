@@ -272,8 +272,8 @@ const FeedbackForm = (props: FeedbackFormProps) => {
                 ? "#0F1A2A" // dark blue tint
                 : "#EFF4FB"
               : theme.palette.mode === "dark"
-                ? "#0B0F1A"
-                : "#fff",
+                ? ""
+                : "",
 
             cursor: "pointer",
             transition: "all 0.25s ease",
@@ -467,7 +467,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
               <Typography variant="subtitle2" color="text.secondary">Description</Typography>
               <Typography>{editValues.description}</Typography>
             </Box>
-            <FormControl fullWidth margin="dense">
+            <FormControl fullWidth margin="dense" className='select_control'>
               <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>Priority</Typography>
               <Select
                 value={editValues.priority}
@@ -478,7 +478,7 @@ const FeedbackForm = (props: FeedbackFormProps) => {
                 <MenuItem value="high">High</MenuItem>
               </Select>
             </FormControl>
-            <FormControl fullWidth margin="dense">
+            <FormControl fullWidth margin="dense" className='select_control'>
               <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>Status</Typography>
               <Select
                 value={editValues.status}
