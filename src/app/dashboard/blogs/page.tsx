@@ -37,7 +37,7 @@ interface Blog {
   _id: string;
   title: string;
   description: string;
-  thumbnail_image?: string;
+  thumbnail?: string;
 }
 
 const BlogManagementPage: React.FC = () => {
@@ -47,29 +47,39 @@ const BlogManagementPage: React.FC = () => {
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [saving, setSaving] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [page, setPage] = useState(1);
-  const [limit] = useState(PAGE_SIZE);
-  const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState('');
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: PAGE_SIZE,
+    total: 0,
+  });
 
   const open = Boolean(anchorEl);
 
   /* ================= FETCH BLOGS ================= */
   const fetchBlogs = useCallback(async () => {
     setLoading(true);
+
     try {
       const params = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
+        page: pagination.current.toString(),
+        limit: pagination.pageSize.toString(),
         ...(search && { search }),
       });
 
       const response = await api.get(`/superadmin/blogs?${params.toString()}`);
 
-      const blogData = response.data?.blogs || [];
-      setBlogs(blogData);
-      setTotalPages(response.data?.pagination?.totalPages || 1);
+      if (response.data?.success) {
+        setBlogs(response.data.blogs || []);
+
+        setPagination((prev) => ({
+          ...prev,
+          current: response.data.pagination?.page || prev.current,
+          pageSize: response.data.pagination?.limit || prev.pageSize,
+          total: response.data.pagination?.total || 0,
+        }));
+      }
     } catch (error: any) {
       enqueueSnackbar({
         message: error.response?.data?.error || 'Failed to fetch blogs',
@@ -79,13 +89,10 @@ const BlogManagementPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, search, limit]);
+  }, [pagination.current, pagination.pageSize, search]);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      fetchBlogs();
-    }, 300);
-    return () => clearTimeout(timeoutId);
+    fetchBlogs();
   }, [fetchBlogs]);
 
   /* ================= MENU ================= */
@@ -96,7 +103,6 @@ const BlogManagementPage: React.FC = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    setSelectedBlog(null);
   };
 
   /* ================= CREATE / EDIT ================= */
@@ -106,19 +112,49 @@ const BlogManagementPage: React.FC = () => {
   }, []);
 
   const handleOpenEdit = useCallback(() => {
+    if (!selectedBlog) return;
+
     setDialogOpen(true);
-    setAnchorEl(null);
-  }, []);
+    handleMenuClose();
+  }, [selectedBlog]);
 
   const handleSubmit = useCallback(
-    async (formData: any) => {
+    async (data: any) => {
       setSaving(true);
+
       try {
+        const formData = new FormData();
+
+        formData.append('title', data.title);
+        formData.append('description', data.description);
+        formData.append('content', data.content);
+
+        data.categories?.forEach((cat: string) => {
+          formData.append('categories', cat);
+        });
+
+        data.tags?.forEach((tag: string) => {
+          formData.append('tags', tag);
+        });
+
+        if (data.thumbnail) {
+          // ✅ New file selected — upload it
+          formData.append('thumbnail', data.thumbnail);
+        } else if (data.existingThumbnail) {
+          // ✅ No new file — keep existing thumbnail URL
+          formData.append('thumbnail', data.existingThumbnail);
+        }
+        // If both are null/empty — thumbnail will be removed (intentional)
+
         if (selectedBlog?._id) {
-          await api.patch(`/superadmin/blogs/${selectedBlog._id}`, formData);
+          await api.put(`/superadmin/blogs/${selectedBlog._id}`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
           enqueueSnackbar({ message: 'Blog updated successfully', variant: 'success' });
         } else {
-          await api.post('/superadmin/blogs', formData);
+          await api.post('/superadmin/blogs', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          });
           enqueueSnackbar({ message: 'Blog created successfully', variant: 'success' });
         }
 
@@ -127,7 +163,7 @@ const BlogManagementPage: React.FC = () => {
         setSelectedBlog(null);
       } catch (error: any) {
         enqueueSnackbar({
-          message: error.response?.data?.error || 'Failed to save blog',
+          message: error.response?.data?.message || 'Failed to save blog',
           variant: 'error',
         });
       } finally {
@@ -146,6 +182,7 @@ const BlogManagementPage: React.FC = () => {
       enqueueSnackbar({ message: 'Blog deleted successfully', variant: 'success' });
 
       setDeleteDialogOpen(false);
+      setSelectedBlog(null);
       fetchBlogs();
     } catch (error: any) {
       enqueueSnackbar({
@@ -166,7 +203,6 @@ const BlogManagementPage: React.FC = () => {
 
   return (
     <>
-      {/* ================= HEADER (Same as Plans) ================= */}
       <Box
         sx={{
           backgroundColor: (theme) => theme.palette.background.paper,
@@ -237,15 +273,9 @@ const BlogManagementPage: React.FC = () => {
           }
         />
       </Box>
-
       {/* ================= TABLE (Same Styling as Plans) ================= */}
-      <Paper
-        elevation={0}
-        sx={{
-          borderRadius: '8px',
-          border: '1px solid #EDEFF3',
-        }}
-      >
+
+      <Paper elevation={0} sx={{ borderRadius: '8px', border: '1px solid #EDEFF3' }}>
         <TableContainer>
           <Table stickyHeader>
             <TableHead>
@@ -295,11 +325,15 @@ const BlogManagementPage: React.FC = () => {
                     </TableCell>
 
                     <TableCell align="center">
-                      {blog.thumbnail_image ? (
-                        <Avatar
-                          src={blog.thumbnail_image}
-                          variant="rounded"
-                          sx={{ width: 50, height: 50 }}
+                      {blog.thumbnail ? (
+                        <img
+                          src={blog.thumbnail}
+                          alt="Blog Thumbnail"
+                          style={{
+                            width: '200px',
+                            height: 'auto',
+                            borderRadius: '8px',
+                          }}
                         />
                       ) : (
                         '-'
@@ -318,12 +352,12 @@ const BlogManagementPage: React.FC = () => {
           </Table>
         </TableContainer>
 
-        {totalPages > 1 && (
+        {pagination.total > 0 && (
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
             <Pagination
-              count={totalPages}
-              page={page}
-              onChange={(_, value) => setPage(value)}
+              count={Math.ceil(pagination.total / pagination.pageSize)}
+              page={pagination.current}
+              onChange={(_, value) => setPagination((prev) => ({ ...prev, current: value }))}
               color="primary"
               showFirstButton
               showLastButton
@@ -332,7 +366,6 @@ const BlogManagementPage: React.FC = () => {
         )}
       </Paper>
 
-      {/* ================= ACTION MENU ================= */}
       <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
         <MenuItem onClick={handleOpenEdit}>Edit</MenuItem>
         <MenuItem
@@ -346,7 +379,6 @@ const BlogManagementPage: React.FC = () => {
         </MenuItem>
       </Menu>
 
-      {/* ================= DELETE DIALOG ================= */}
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
@@ -356,8 +388,7 @@ const BlogManagementPage: React.FC = () => {
         <DialogTitle sx={{ fontWeight: 600 }}>Delete Blog</DialogTitle>
         <Box sx={{ px: 3, pb: 2 }}>
           <Typography>
-            Are you sure you want to delete <strong>{selectedBlog?.title}</strong>? This action
-            cannot be undone.
+            Are you sure you want to delete <strong>{selectedBlog?.title}</strong>?
           </Typography>
         </Box>
         <DialogActions sx={{ px: 3, pb: 3 }}>
@@ -368,7 +399,6 @@ const BlogManagementPage: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      {/* ================= FORM MODAL ================= */}
       <BlogFormModal
         open={dialogOpen}
         initialValues={selectedBlog}
