@@ -5,6 +5,8 @@ import { verifySystemAdmin } from '../../../helpers';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+
 function toSlug(title: string) {
     return title
         .toLowerCase()
@@ -177,14 +179,10 @@ export async function POST(request: Request) {
             const filePath = path.join(uploadDir, uniqueName);
             await writeFile(filePath, buffer);
 
-            thumbnailUrl = `/uploads/blogs/${uniqueName}`;
+            thumbnailUrl = `${BASE_URL}/uploads/blogs/${uniqueName}`;
         }
 
-        /* ===============================
-           Author Auto Injection
-        =============================== */
         const decoded = systemAdminCheck.decoded;
-
         const authorId = decoded?._id ?? decoded?.id ?? null;
         const authorEmail = decoded?.email ?? null;
         const authorName = getAuthorNameFromEmail(authorEmail);
@@ -203,11 +201,9 @@ export async function POST(request: Request) {
                 : [],
             thumbnail: thumbnailUrl,
             slug,
-
             authorId,
             authorEmail,
             authorName,
-
             createdAt: now,
             updatedAt: now,
             deletedAt: null,
@@ -284,7 +280,7 @@ export async function PUT(request: Request) {
         await mkdir(uploadDir, { recursive: true });
         await writeFile(filePath, buffer);
 
-        const fileUrl = `/uploads/blogs/${uniqueName}`;
+        const fileUrl = `${BASE_URL}/uploads/blogs/${uniqueName}`;
 
         return NextResponse.json(
             { success: true, fileUrl },

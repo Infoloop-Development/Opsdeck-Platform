@@ -4,6 +4,8 @@ import { DATABASE_NAME } from '../../../../config';
 import { verifySystemAdmin } from '../../../../helpers';
 import { ObjectId } from 'mongodb';
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+
 function toSlug(title: string) {
   return title
     .toLowerCase()
@@ -66,11 +68,18 @@ export async function GET(
       return NextResponse.json({ message: 'Blog not found' }, { status: 404 });
     }
 
+    // Ensure thumbnail is absolute URL
+    let thumbnail = blog.thumbnail;
+    if (thumbnail && !thumbnail.startsWith('http')) {
+      thumbnail = `${BASE_URL}${thumbnail}`;
+    }
+
     return NextResponse.json(
       {
         success: true,
         blog: {
           ...blog,
+          thumbnail,
           _id: blog._id.toString(),
         },
       },
@@ -115,10 +124,6 @@ export async function PUT(
     const tags = formData.getAll('tags');
     const thumbnail = formData.get('thumbnail') as string | null;
 
-    /* ===============================
-       Author Auto Extraction
-    =============================== */
-
     const decoded = systemAdminCheck.decoded;
 
     const authorId = decoded?._id ?? decoded?.id ?? null;
@@ -145,9 +150,6 @@ export async function PUT(
       authorName,
     };
 
-    /* ===============================
-       Title + Slug
-    =============================== */
     if (title !== null) {
       const slug = toSlug(title);
 
@@ -168,16 +170,10 @@ export async function PUT(
       updateData.slug = slug;
     }
 
-    /* ===============================
-       Description
-    =============================== */
     if (description !== null) {
       updateData.description = description.trim();
     }
 
-    /* ===============================
-       Content
-    =============================== */
     if (content !== null) {
       const htmlContent =
         content.trim().startsWith('<')
@@ -187,25 +183,16 @@ export async function PUT(
       updateData.content = htmlContent;
     }
 
-    /* ===============================
-       Categories
-    =============================== */
     if (categories.length > 0) {
       updateData.categories = categories
         .map((cat) => cat.toString().trim())
         .filter((cat) => cat !== '');
     }
 
-    /* ===============================
-       Tags
-    =============================== */
     if (tags.length > 0) {
       updateData.tags = tags.map((tag) => tag.toString().trim());
     }
 
-    /* ===============================
-       Thumbnail
-    =============================== */
     if (thumbnail !== null) {
       updateData.thumbnail = thumbnail;
     }
@@ -220,11 +207,17 @@ export async function PUT(
       deletedAt: null,
     });
 
+    let updatedThumbnail = updatedBlog?.thumbnail;
+    if (updatedThumbnail && !updatedThumbnail.startsWith('http')) {
+      updatedThumbnail = `${BASE_URL}${updatedThumbnail}`;
+    }
+
     return NextResponse.json(
       {
         success: true,
         blog: {
           ...updatedBlog,
+          thumbnail: updatedThumbnail,
           _id: updatedBlog!._id.toString(),
         },
       },
